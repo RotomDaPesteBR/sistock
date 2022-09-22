@@ -1,16 +1,114 @@
+import { lighten } from 'polished';
 import { createGlobalStyle } from 'styled-components';
+import backgroundImage from '../assets/background.png';
 
 export default createGlobalStyle`
   *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Monserrat', sans-serif;
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: ${({ theme }) => theme.primary};
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: ${({ theme }) => theme.backgroundLight};
+    }
+
   }
 
   body {
-    background: ${props => props.theme.colors.background};
-    color: ${props => props.theme.colors.text};
-    font: 400 16px Inter, sans-serif;
+    background: ${({ theme }) => theme.background};
+    background-image: url("${backgroundImage}"); 
+    color: ${({ theme }) => theme.text};
+    font: 400 1rem 'Monserrat', sans-serif;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
   }
 
+  img{
+    width: 100%;
+    max-width: 100%;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .login {
+    background: ${({ theme }) => theme.backgroundLogin};
+    color: ${({ theme }) => theme.text};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    border-radius: 10px;
+    width: 100%;
+    height: 80vh;
+    margin: 0;
+    max-width: 40rem;
+    padding: 0 1rem;
+    @media(max-width:800px) {
+      max-width: 30rem;
+    }
+    @media(max-width:500px) {
+      max-width: 25rem;
+    }
+    @media(max-width:425px) {
+      max-width: 22.5rem;
+      padding: 0;
+    }
+  }
+
+  .form {
+    color: ${({ theme }) => theme.text};
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .titulo {
+    padding: 2rem;
+    font-size: 3rem;
+  }
+
+  .loginInput {
+    width: 25rem;
+    height: 3rem;
+    border: 0;
+    border-radius: 10px;
+    margin: 0.5rem;
+    text-align: center;
+    @media(max-width:500px) {
+      width: 80%;
+    }
+  }
 `;
