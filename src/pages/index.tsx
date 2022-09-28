@@ -20,9 +20,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home() {
-  // const session = useRequireAuth();
-  // if (!session) return <div>loading...</div>;
-
   return (
     <div>
       <Head>

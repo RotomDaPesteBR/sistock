@@ -25,13 +25,16 @@ export default createGlobalStyle`
   }
 
   body {
-    background: ${({ theme }) => theme.background};
-    background-image: url('/background.png'); 
-    color: ${({ theme }) => theme.text};
+    background: ${({ theme }) => theme.backgroundLight};
+    color: ${({ theme }) => theme.textDark};
     font: 400 1rem 'Monserrat', sans-serif;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+  }
+
+  .loginContainer {
+    background-image: url('/background.png'); 
   }
 
   img{
