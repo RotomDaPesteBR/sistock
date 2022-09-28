@@ -23,7 +23,7 @@ export default function Navbar() {
     <Nav>
       <List>
         <Item>
-          <h3>Bem vindo {session.data?.name}</h3>
+          <p>{session.data?.name}</p>
         </Item>
         <Item>
           <button type="button" onClick={() => signOut()}>
