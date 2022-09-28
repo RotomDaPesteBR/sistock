@@ -1,27 +1,5 @@
-import { useSession, signOut, getSession } from 'next-auth/react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar/Navbar';
-// import useRequireAuth from '../lib/useRequireAuth';
-// import Login from '../components/Login/Login';
-
-/* export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false
-      }
-    };
-  }
-
-  return {
-    props: {
-      session
-    }
-  };
-} */
 
 export default function Home() {
   // const session = useRequireAuth();

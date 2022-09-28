@@ -1,5 +1,6 @@
 {
   "name": "sistock",
+  "homepage": "index.tsx", 
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,6 +11,7 @@
     "@next-auth/prisma-adapter": "^1.0.4",
     "@prisma/client": "^4.3.1",
     "babel-preset-next": "^1.4.0",
+    "babel-preset-react": "^6.24.1",
     "next": "^12.3.1",
     "next-auth": "^4.10.3",
     "next-images": "^1.8.4",

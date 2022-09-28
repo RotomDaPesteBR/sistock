@@ -1,6 +1,5 @@
-import { lighten } from 'polished';
+// import { lighten } from 'polished';
 import { createGlobalStyle } from 'styled-components';
-import backgroundImage from '../assets/background.png';
 
 export default createGlobalStyle`
   *{
@@ -27,7 +26,7 @@ export default createGlobalStyle`
 
   body {
     background: ${({ theme }) => theme.background};
-    background-image: url("${backgroundImage}"); 
+    background-image: url('/background.png'); 
     color: ${({ theme }) => theme.text};
     font: 400 1rem 'Monserrat', sans-serif;
     background-repeat: no-repeat;

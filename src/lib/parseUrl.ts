@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface InternalUrl {
   /** @default "http://localhost:3000" */
   origin: string;
@@ -20,9 +23,9 @@ export default function parseUrl(url?: string): InternalUrl {
   }
 
   const _url = new URL(url ?? defaultUrl);
-  const path = (_url.pathname === '/' ? defaultUrl.pathname : _url.pathname)
-    // Remove trailing slash
-    .replace(/\/$/, '');
+  const path = (
+    _url.pathname === '/' ? defaultUrl.pathname : _url.pathname
+  ).replace(/\/$/, '');
 
   const base = `${_url.origin}${path}`;
 

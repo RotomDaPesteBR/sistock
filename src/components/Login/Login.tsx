@@ -1,14 +1,11 @@
 import { useState } from 'react';
-import { signIn, useSession, getSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import LoginButton from './LoginButton/LoginButton';
 import LoginInput from './LoginInput/LoginInput';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const session = useSession();
-  console.log(session);
-
 
   function handleSubmit(event) {
     event.preventDefault();
