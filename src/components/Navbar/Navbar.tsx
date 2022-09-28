@@ -23,7 +23,7 @@ export default function Navbar() {
     <Nav>
       <List>
         <Item>
-          <p>{session.data?.name}</p>
+          <h3>{`Sim ${session.data?.name}`}</h3>
         </Item>
         <Item>
           <button type="button" onClick={() => signOut()}>
