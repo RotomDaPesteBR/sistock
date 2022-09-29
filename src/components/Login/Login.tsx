@@ -77,7 +77,14 @@ export default function Login() {
         />
         <Link href="/recover">Esqueceu a senha?</Link>
         <LoginButton
-          onClick={() => signIn('credentials', { password: 'password' })}
+          onClick={() =>
+            signIn('credentials', {
+              callbackUrl: 'https://sistock.vercel.app',
+              // eslint-disable-next-line object-shorthand
+              email: email,
+              password: senha
+            })
+          }
           type="submit"
         />
         <Link href="/register">Cadastre-se</Link>
@@ -85,13 +92,13 @@ export default function Login() {
           <LoginMethodsButton
             label="Google"
             onClick={() =>
-              signIn('google', { callbackUrl: 'http://localhost:3000/' })
+              signIn('google', { callbackUrl: 'https://sistock.vercel.app' })
             }
           />
           <LoginMethodsButton
             label="Facebook"
             onClick={() =>
-              signIn('facebook', { callbackUrl: 'http://localhost:3000/' })
+              signIn('facebook', { callbackUrl: 'https://sistock.vercel.app' })
             }
           />
         </LoginMethods>
