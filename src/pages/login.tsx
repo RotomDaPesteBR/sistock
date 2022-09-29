@@ -29,9 +29,7 @@ export default function Home() {
 
       <main>
         <div className="container">
-          <div className="login" id="login">
-            <Login />
-          </div>
+          <Login />
         </div>
       </main>
     </div>

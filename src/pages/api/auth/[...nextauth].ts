@@ -1,25 +1,20 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-// import CredentialsProvider from 'next-auth/providers/credentials';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import FacebookProvider from 'next-auth/providers/facebook';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '../../../lib/prisma';
 
 export const authOptions = {
   providers: [
-    /* CredentialsProvider({
+    CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        mail: { label: 'Mail', type: 'mail' },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
-      async authorize(credentials, req) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-        const res = await fetch('/your/endpoint', {
+      async authorize(credentials) {
+        const res = await fetch('/api/db/login', {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' }
@@ -33,7 +28,7 @@ export const authOptions = {
         // Return null if user data could not be retrieved
         return null;
       }
-    }), */
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -44,6 +39,10 @@ export const authOptions = {
           scope: 'openid profile email'
         }
       }
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,

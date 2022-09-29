@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Button = styled.button`
   font-size: 1.2rem;
   background: ${({ theme }) => theme.primary};
-  width: 25rem;
+  width: 12rem;
   height: 3rem;
   border: 0;
   border-radius: 10px;
@@ -11,10 +11,11 @@ const Button = styled.button`
   text-align: center;
   color: ${({ theme }) => theme.text};
   @media (max-width: 500px) {
-    width: 80%;
+    width: 30%;
   }
 `;
 
-export default function LoginButton(props) {
-  return <Button {...props}>Login</Button>;
+export default function LoginMethodsButton(props) {
+  const { label } = props;
+  return <Button {...props}>{label}</Button>;
 }

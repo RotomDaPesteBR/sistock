@@ -25,8 +25,8 @@ async function handleMiddleware(
 ) {
   const { pathname, search, origin } = req.nextUrl;
 
-  const signInPage = options?.pages?.signIn ?? '/api/auth/signin';
-  const errorPage = options?.pages?.error ?? '/api/auth/error';
+  const signInPage = options?.pages?.signIn ?? '/login';
+  const errorPage = options?.pages?.error ?? '/login';
   const basePath = parseUrl(process.env.NEXTAUTH_URL).path;
   const publicPaths = ['/_next', '/favicon.ico'];
 
