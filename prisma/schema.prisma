@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider             = "prisma-client-js"
-  previewFeatures      = ["referentialIntegrity"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -14,18 +14,18 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -41,13 +41,23 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id             String         @id @default(cuid())
+  name           String?
+  email          String?        @unique
+  emailVerified  DateTime?
+  password       String?
+  image          String?
+  accounts       Account[]
+  sessions       Session[]
+  restaurantName String?        @unique
+  cpf            String?
+  Product        Product[]
+  Expenses       Expenses[]
+  ProductSales   ProductSales[]
+  ExpensesRec    ExpensesRec[]
+  SalesRec       SalesRec[]
+  ProductIn      ProductIn[]
+  ProductOut     ProductOut[]
 }
 
 model VerificationToken {
@@ -56,4 +66,75 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Product {
+  id         String       @id @default(cuid())
+  name       String?
+  brand      String?
+  unit       String?
+  limit      Int?
+  Stock      Int?
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ProductIn  ProductIn[]
+  ProductOut ProductOut[]
+}
+
+model Expenses {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ExpensesRec ExpensesRec[]
+}
+
+model ProductSales {
+  id       String     @id @default(cuid())
+  name     String     @unique
+  userId   String
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  SalesRec SalesRec[]
+}
+
+model ExpensesRec {
+  id         String   @id @default(cuid())
+  date       DateTime
+  value      Int?
+  expensesId String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses   Expenses @relation(fields: [expensesId], references: [id], onDelete: Cascade)
+}
+
+model SalesRec {
+  id         String       @id @default(cuid())
+  date       DateTime
+  Value      Int?
+  prodsaleId String
+  userId     String
+  prodsale   ProductSales @relation(fields: [prodsaleId], references: [id], onDelete: Cascade)
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProductIn {
+  id        String   @id @default(cuid())
+  date      DateTime
+  quantity  Int
+  value     Int?
+  productId String
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProductOut {
+  id        String   @id @default(cuid())
+  date      DateTime
+  quantity  Int
+  motive    String?
+  productId String
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
