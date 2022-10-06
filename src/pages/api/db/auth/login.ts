@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
+import { createSign } from 'crypto';
 
-import prisma from '../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,6 +13,7 @@ export default async function handler(
       const { email } = req.body;
       const { password } = req.body;
       if (email === 'mielsen.gamer2005@gmail.com' && password === '123456') {
+        createSign('');
         res.status(200).json(accounts);
       }
     }

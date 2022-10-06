@@ -11,7 +11,7 @@ const Button = styled.button`
   text-align: center;
   color: ${({ theme }) => theme.text};
   @media (max-width: 500px) {
-    width: 30%;
+    width: 100%;
   }
 `;
 

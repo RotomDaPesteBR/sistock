@@ -45,6 +45,9 @@ const LoginForm = styled.form`
 const LoginMethods = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 500px) {
+    width: 85%;
+  }
 `;
 
 export default function Login() {

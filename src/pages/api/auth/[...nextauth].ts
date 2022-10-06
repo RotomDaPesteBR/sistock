@@ -14,7 +14,7 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        const res = await fetch('/api/db/login', {
+        const res = await fetch('/api/db/auth/login', {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' }
@@ -59,6 +59,12 @@ export const authOptions = {
         username: user.username
       }
     })
+  },
+  pages: {
+    signIn: '/login',
+    signOut: '/login',
+    error: '/login',
+    verifyRequest: '/login'
   }
 };
 
