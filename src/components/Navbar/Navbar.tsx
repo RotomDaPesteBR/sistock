@@ -37,7 +37,9 @@ export default function Navbar() {
 
   async function getRestaurant(email) {
     const data = await axios
-      .get('/api/db/restaurant', { params: { email } })
+      .get('https://sistock.vercel.app/api/db/restaurant', {
+        params: { email }
+      })
       .then(response => response.data)
       .catch(error => {
         console.log(error.response);
