@@ -6,7 +6,7 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Monserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 
     ::-webkit-scrollbar {
       width: 8px;
@@ -27,7 +27,7 @@ export default createGlobalStyle`
   body {
     background: ${({ theme }) => theme.backgroundLight};
     color: ${({ theme }) => theme.textDark};
-    font: 400 1rem 'Monserrat', sans-serif;
+    font: 400 1rem 'Montserrat', sans-serif;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

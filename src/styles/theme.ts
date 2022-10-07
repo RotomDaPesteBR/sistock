@@ -5,7 +5,7 @@ const theme = {
   text: '#ffffff',
   textDark: '#555555',
   primary: '#20aaff',
-  secundary: '#30bbff'
+  secondary: '#30bbff'
 };
 
 export default theme;

@@ -1,10 +1,15 @@
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../Sidebar/Sidebar';
 import SidebarButton from '../Sidebar/SidebarButton';
 
 const Bar = styled.div`
+  width: 100%;
+  height: auto;
   background: #ffffff;
+  position: fixed;
 `;
 
 const Nav = styled.div`
@@ -27,6 +32,25 @@ export default function Navbar() {
   const [timer, setTimer] = useState(undefined);
   const [screenFade, setScreenFade] = useState('screenFadeIn');
   const [sidebarFade, setSidebarFade] = useState('sidebarFadeIn');
+  const [restaurant, setRestaurant] = useState('');
+  const session = useSession();
+
+  async function getRestaurant(email) {
+    const name = await axios
+      .get('/api/db/restaurant', { params: { email } })
+      .then(response => response)
+      .catch(error => {
+        console.log(error.response);
+      });
+
+    const { data } = name;
+    const { restaurantName } = data;
+    setRestaurant(restaurantName);
+  }
+
+  const { email } = session.data.user;
+
+  getRestaurant(email);
 
   function fadein() {
     setScreenFade('screenFadeIn');
@@ -70,6 +94,9 @@ export default function Navbar() {
         <List>
           <Item>
             <SidebarButton onClick={() => handleClick()} />
+          </Item>
+          <Item>
+            <h3>{restaurant}</h3>
           </Item>
         </List>
       </Nav>
