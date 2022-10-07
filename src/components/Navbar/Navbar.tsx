@@ -1,34 +1,51 @@
-import { signOut } from 'next-auth/react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../Sidebar/Sidebar';
 import SidebarButton from '../Sidebar/SidebarButton';
 
+const Bar = styled.div`
+  background: #ffffff;
+`;
+
+const Nav = styled.div`
+  width: 100%;
+  height: 5%;
+`;
+
+const List = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Item = styled.li`
+  padding: 1rem;
+`;
+
 export default function Navbar() {
   const [showSidebar, setShowSidebar] = useState(false);
-
-  const Bar = styled.div`
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  `;
-
-  const Nav = styled.div`
-    width: 100%;
-    height: 5%;
-  `;
-
-  const List = styled.ul`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  `;
-
-  const Item = styled.li`
-    padding: 1rem;
-  `;
 
   function handleClick() {
     setShowSidebar(!showSidebar);
   }
+
+  function handleClickScreen(e) {
+    if (e.target.getAttribute('class') != null) {
+      if (e.target.getAttribute('class').includes('sidebar-screen')) {
+        fadeout();
+        setTimeout(() => setShowSidebar(false), 1000);
+      }
+    }
+  }
+
+  function fadeout() {
+    const screen = document.getElementById('screen');
+    const sidebar = document.getElementById('sidebar');
+    document.getElementById('screen').style.animation="0.5s slideout";
+    document.getElementById('sidebar').style.animation="1s fadeout";
+    document.getElementById('screen').style.animation="0.5s slidein";
+    document.getElementById('sidebar').style.animation="1s fadeout";
+  } 
 
   return (
     <Bar>
@@ -37,14 +54,9 @@ export default function Navbar() {
           <Item>
             <SidebarButton onClick={() => handleClick()} />
           </Item>
-          <Item>
-            <button type="button" onClick={() => signOut()}>
-              Logout
-            </button>
-          </Item>
         </List>
       </Nav>
-      {showSidebar ? <Sidebar /> : null}
+      {showSidebar ? <Sidebar onClick={e => handleClickScreen(e)} /> : null}
     </Bar>
   );
 }

@@ -19,7 +19,7 @@ export default createGlobalStyle`
     }
 
     ::-webkit-scrollbar-track {
-      background: ${({ theme }) => theme.backgroundLight};
+      background: #ffffff;
     }
 
   }
@@ -125,6 +125,54 @@ export default createGlobalStyle`
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     @media(max-width:500px) {
       width: 80%;
+    }
+
+    .fadeout {
+      animation: 1s slideout;
+    }
+
+    .screenfadeout {
+      animation: 1s fadeout;
+    }
+
+    @keyframes slidein {
+      from {
+        transform: translateX(-20rem);
+      }
+    
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadein {
+      from {
+        background: 00000000;
+      }
+    
+      to {
+        background: 00000055;
+      }
+    }
+
+    @keyframes slideout {
+      from {
+        transform: translateX(0);
+      }
+    
+      to {
+        transform: translateX(-20rem);
+      }
+    }
+
+    @keyframes fadeout {
+      from {
+        background: 00000055;
+      }
+    
+      to {
+        background: 00000000;
+      }
     }
   }
 `;
