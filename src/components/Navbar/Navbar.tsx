@@ -36,16 +36,13 @@ export default function Navbar() {
   const session = useSession();
 
   async function getRestaurant(email) {
-    const name = await axios
+    const data = await axios
       .get('/api/db/restaurant', { params: { email } })
-      .then(response => response)
+      .then(response => response.data)
       .catch(error => {
         console.log(error.response);
       });
-
-    const { data } = name;
-    const { restaurantName } = data;
-    setRestaurant(restaurantName);
+    setRestaurant(data.restaurantName);
   }
 
   const { email } = session.data.user;
