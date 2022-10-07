@@ -1,6 +1,6 @@
-import { useSession, signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Screen = styled.div`
@@ -8,8 +8,8 @@ const Screen = styled.div`
   position: absolute;
   height: 100%;
   width: 100%;
-  animation: 1s fadein;
-`
+  display: none;
+`;
 
 const Bar = styled.div`
   background: #ffffff;
@@ -17,7 +17,6 @@ const Bar = styled.div`
   height: 100%;
   width: 100%;
   max-width: 20rem;
-  animation: 0.5s slidein;
 `;
 
 const List = styled.ul`
@@ -48,17 +47,25 @@ const Logout = styled.button`
     background: ${({ theme }) => theme.primary};
     color: ${({ theme }) => theme.text};
   }
-`
+`;
 
-export default function Sidebar(props) {
+export default function Sidebar({ screen, sidebar, ...props }) {
   const session = useSession();
 
+  const [screenFade, setScreenFade] = useState(screen);
+  const [sidebarFade, setSidebarFade] = useState(sidebar);
+
+  useEffect(() => {
+    setScreenFade(screen);
+    setSidebarFade(sidebar);
+  }, [screen, sidebar]);
+
   return (
-    <Screen id="screen" className={`sidebar-screen`} {...props}>
-      <Bar id="sidebar">
+    <Screen id="screen" className={`sidebar-screen ${screenFade}`} {...props}>
+      <Bar id="sidebar" className={sidebarFade}>
         <List>
           <Item>
-          <h3>{`${session.data?.user.name}`}</h3>
+            <h3>{`${session.data?.user.name}`}</h3>
           </Item>
           <Item>
             <Link href="/produtos">Produtos</Link>

@@ -24,28 +24,45 @@ const Item = styled.li`
 
 export default function Navbar() {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [timer, setTimer] = useState(undefined);
+  const [screenFade, setScreenFade] = useState('screenFadeIn');
+  const [sidebarFade, setSidebarFade] = useState('sidebarFadeIn');
+
+  function fadein() {
+    setScreenFade('screenFadeIn');
+    setSidebarFade('sidebarFadeIn');
+  }
+
+  function fadeout() {
+    setScreenFade('screenFadeOut');
+    setSidebarFade('sidebarFadeOut');
+  }
 
   function handleClick() {
-    setShowSidebar(!showSidebar);
+    if (showSidebar) {
+      fadeout();
+      setShowSidebar(!showSidebar);
+      setTimer(
+        setTimeout(() => {
+          document.getElementById('screen').style.display = 'none';
+        }, 1000)
+      );
+    } else {
+      clearTimeout(timer);
+      document.getElementById('screen').style.display = 'flex';
+      fadein();
+      setShowSidebar(!showSidebar);
+    }
   }
 
   function handleClickScreen(e) {
     if (e.target.getAttribute('class') != null) {
       if (e.target.getAttribute('class').includes('sidebar-screen')) {
         fadeout();
-        setTimeout(() => setShowSidebar(false), 1000);
+        setShowSidebar(!showSidebar);
       }
     }
   }
-
-  function fadeout() {
-    const screen = document.getElementById('screen');
-    const sidebar = document.getElementById('sidebar');
-    document.getElementById('screen').style.animation="0.5s slideout";
-    document.getElementById('sidebar').style.animation="1s fadeout";
-    document.getElementById('screen').style.animation="0.5s slidein";
-    document.getElementById('sidebar').style.animation="1s fadeout";
-  } 
 
   return (
     <Bar>
@@ -56,7 +73,12 @@ export default function Navbar() {
           </Item>
         </List>
       </Nav>
-      {showSidebar ? <Sidebar onClick={e => handleClickScreen(e)} /> : null}
+
+      <Sidebar
+        screen={screenFade}
+        sidebar={sidebarFade}
+        onClick={e => handleClickScreen(e)}
+      />
     </Bar>
   );
 }

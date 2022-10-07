@@ -113,6 +113,7 @@ export default createGlobalStyle`
     @media(max-width:500px) {
       width: 80%;
     }
+  }
 
   .loginButton {
     background: ${({ theme }) => theme.primary};
@@ -126,53 +127,61 @@ export default createGlobalStyle`
     @media(max-width:500px) {
       width: 80%;
     }
+  }
 
-    .fadeout {
-      animation: 1s slideout;
+  .sidebarFadeIn {
+    animation: 0.5s forwards slidein;
+  }
+
+  .screenFadeIn {
+    animation: 1s forwards fadein;
+  }
+
+  .sidebarFadeOut {
+    animation: 0.5s forwards slideout;
+  }
+
+  .screenFadeOut {
+    animation: 1s forwards fadeout;
+  }
+
+  @keyframes slidein {
+    0% {
+      transform: translateX(-20rem);
     }
-
-    .screenfadeout {
-      animation: 1s fadeout;
+  
+    100% {
+      transform: translateX(0);
     }
+  }
 
-    @keyframes slidein {
-      from {
-        transform: translateX(-20rem);
-      }
-    
-      to {
-        transform: translateX(0);
-      }
+  @keyframes fadein {
+    0% {
+      background: 00000000;
     }
-
-    @keyframes fadein {
-      from {
-        background: 00000000;
-      }
-    
-      to {
-        background: 00000055;
-      }
+  
+    100% {
+      background: 00000055;
     }
+  }
 
-    @keyframes slideout {
-      from {
-        transform: translateX(0);
-      }
-    
-      to {
-        transform: translateX(-20rem);
-      }
+  @keyframes slideout {
+    0% {
+      transform: translateX(0);
     }
+  
+    100% {
+      transform: translateX(-20rem);
+    }
+  }
 
-    @keyframes fadeout {
-      from {
-        background: 00000055;
-      }
-    
-      to {
-        background: 00000000;
-      }
+  @keyframes fadeout {
+    0% {
+      background: 00000055;
+    }
+  
+    100% {
+      background: 00000000;
     }
   }
 `;
