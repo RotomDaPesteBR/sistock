@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -36,13 +35,14 @@ export default function Navbar() {
   const session = useSession();
 
   async function getRestaurant(user) {
-    const promise = await axios
+    /* const promise = await axios
       .post('api/db/restaurant', { data: user.id })
       .then(response => response.data)
       .catch(error => {
         console.log(error.response);
-      });
+      }); 
     setRestaurant(promise.restaurantName);
+    */
   }
 
   getRestaurant(session.data.user);
