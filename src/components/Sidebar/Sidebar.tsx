@@ -13,11 +13,12 @@ const Screen = styled.div`
 
 const Bar = styled.div`
   background: #ffffff;
-  min-height: 100%;
+  min-height: 10vh;
   height: auto;
-  position: absolute;
-  width: 100%;
+  position: relative;
+  width: 50vh;
   max-width: 20rem;
+  overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
@@ -26,6 +27,7 @@ const Bar = styled.div`
 `;
 
 const List = styled.ul`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -64,6 +66,7 @@ const Logout = styled.button`
   padding: 2rem;
   width: 100%;
   height: 100%;
+  padding-bottom: 88px;
   border: 0;
   font-size: 1.25rem;
   background: ${({ theme }) => theme.secondary};

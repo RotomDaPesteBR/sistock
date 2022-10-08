@@ -27,6 +27,10 @@ const Item = styled.li`
   padding: 1rem;
 `;
 
+const RestaurantName = styled.h3`
+  white-space: nowrap;
+`;
+
 export default function Navbar() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [timer, setTimer] = useState(undefined);
@@ -89,7 +93,7 @@ export default function Navbar() {
             <SidebarButton onClick={() => handleClick()} />
           </Item>
           <Item>
-            <h3>{restaurant}</h3>
+            <RestaurantName>{restaurant}</RestaurantName>
           </Item>
         </List>
       </Nav>
