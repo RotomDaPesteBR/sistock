@@ -66,12 +66,13 @@ export default function Navbar() {
       setTimer(
         setTimeout(() => {
           document.getElementById('screen').style.display = 'none';
+          fadein();
         }, 1000)
       );
     } else {
       clearTimeout(timer);
-      document.getElementById('screen').style.display = 'flex';
       fadein();
+      document.getElementById('screen').style.display = 'flex';
       setShowSidebar(!showSidebar);
     }
   }
