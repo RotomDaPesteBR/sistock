@@ -6,9 +6,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const email = 'mielsen.gamer2005@gmail.com';
+    const { data } = req.body;
     const restaurant = await prisma.user.findUnique({
-      where: { email },
+      where: { id: data },
       select: { restaurantName: true }
     });
     res.status(200).json(restaurant);

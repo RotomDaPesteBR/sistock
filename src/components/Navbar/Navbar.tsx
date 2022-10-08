@@ -35,21 +35,17 @@ export default function Navbar() {
   const [restaurant, setRestaurant] = useState('');
   const session = useSession();
 
-  async function getRestaurant(email) {
-    const data = await axios
-      .get('https://sistock.vercel.app/api/db/restaurant', {
-        params: { email }
-      })
+  async function getRestaurant(user) {
+    const promise = await axios
+      .post('api/db/restaurant', { data: user.id })
       .then(response => response.data)
       .catch(error => {
         console.log(error.response);
       });
-    setRestaurant(data.restaurantName);
+    setRestaurant(promise.restaurantName);
   }
 
-  const { email } = session.data.user;
-
-  getRestaurant(email);
+  getRestaurant(session.data.user);
 
   function fadein() {
     setScreenFade('screenFadeIn');
