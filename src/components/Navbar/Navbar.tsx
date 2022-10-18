@@ -83,7 +83,6 @@ export default function Navbar() {
   function handleClickScreen(e) {
     if (e.target.getAttribute('class') != null) {
       if (e.target.getAttribute('class').includes('sidebar-screen')) {
-        clearTimeout(timer);
         fadeout();
         setShowSidebar(!showSidebar);
         setTimer(
