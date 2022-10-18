@@ -1,5 +1,5 @@
-import Head from 'next/head';
 import { getSession } from 'next-auth/react';
+import Head from 'next/head';
 import Login from '../components/Login/Login';
 
 export async function getServerSideProps(context) {
@@ -7,7 +7,7 @@ export async function getServerSideProps(context) {
   if (session) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/dashboard',
         permanent: false
       }
     };

@@ -25,7 +25,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: ${({ theme }) => theme.backgroundLight};
+    background: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.textDark};
     font: 400 1rem 'Montserrat', sans-serif;
     background-repeat: no-repeat;
@@ -54,12 +54,22 @@ export default createGlobalStyle`
     text-decoration: none;
   }
 
+  html {
+  }
+
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100vh;
+  }
+
+  #content {
+    padding: 3.4375rem;
+    @media (max-width:800px) {
+      padding: 0;
+    }
   }
 
   .login {
@@ -183,5 +193,12 @@ export default createGlobalStyle`
     100% {
       background: 00000000;
     }
+  }
+
+  .active {
+    background: white;
+    border: solid;
+    border-width: 2px 0 0;
+    border-color: ${({ theme }) => theme.primary};
   }
 `;

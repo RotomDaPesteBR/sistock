@@ -24,10 +24,13 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  padding: 1rem;
+  height: 100%;
+  width: auto;
+  padding: 0;
 `;
 
 const RestaurantName = styled.h3`
+  padding: 1rem;
   white-space: nowrap;
 `;
 

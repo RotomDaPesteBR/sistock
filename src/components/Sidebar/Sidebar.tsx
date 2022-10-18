@@ -66,7 +66,7 @@ const Logout = styled.button`
   padding: 2rem;
   width: 100%;
   height: 100%;
-  padding-bottom: 88px;
+  padding-bottom: 5.5rem;
   border: 0;
   font-size: 1.25rem;
   background: ${({ theme }) => theme.secondary};
