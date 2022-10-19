@@ -13,7 +13,7 @@ export default async function handler(
         brand: data.marca,
         unit: data.unidade,
         limit: data.limite,
-        Stock: 0,
+        stock: 0,
         userId: data.user
       }
     });
