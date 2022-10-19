@@ -20,7 +20,7 @@ const Lista = styled.div`
 `;
 
 export default function Produtos(props) {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState('');
   const session = useSession();
 
   async function getProducts(user) {
@@ -28,7 +28,10 @@ export default function Produtos(props) {
       .post('api/db/products', { data: user.id })
       .then(response => response.data)
       .catch(error => error.response);
-    setProducts(promise);
+    const result = promise.map(product => (
+      <Produto key={product.id} product={product} />
+    ));
+    setProducts(result);
   }
 
   useEffect(() => {
@@ -36,11 +39,5 @@ export default function Produtos(props) {
   }, []);
 
   console.log(products);
-  return (
-    <Lista {...props}>
-      {products.map(product => (
-        <Produto key={product.id} product={product} />
-      ))}
-    </Lista>
-  );
+  return <Lista {...props}>{products}</Lista>;
 }
