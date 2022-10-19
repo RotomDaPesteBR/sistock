@@ -21,7 +21,7 @@ export default function Produto({ product }, ...props) {
     <Item {...props}>
       <Label>
         <div>{`${product.name || ''} - ${product.brand || ''}`}</div>
-        <div>{`${product.Stock || ''}`}</div>
+        <div>{`${product.stock || ''}`}</div>
       </Label>
     </Item>
   );

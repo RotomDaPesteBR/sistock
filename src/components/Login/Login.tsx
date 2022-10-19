@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import Image from 'next/image'
 import styled from 'styled-components';
 import Link from 'next/link';
 import LoginButton from './LoginButton/LoginButton';
@@ -61,7 +62,7 @@ export default function Login() {
   return (
     <LoginDiv>
       <LoginForm onSubmit={e => handleSubmit(e)}>
-        <h1 className="titulo">SISTOCK</h1>
+        <img className="logo" src="/logo.png"/>
         <LoginInput
           id="email"
           name="email"

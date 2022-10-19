@@ -38,6 +38,5 @@ export default function Produtos(props) {
     getProducts(session.data.user);
   }, []);
 
-  console.log(products);
   return <Lista {...props}>{products}</Lista>;
 }

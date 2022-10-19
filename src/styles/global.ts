@@ -107,9 +107,10 @@ export default createGlobalStyle`
     flex-direction: column;
   }
   
-  .titulo {
-    padding: 2rem;
-    font-size: 3rem;
+  .logo {
+    margin: -1.5rem;
+    width: auto;
+    height:20rem;
   }
 
   .loginInput {
