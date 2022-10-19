@@ -15,7 +15,7 @@ export default async function handler(
         brand: true,
         unit: true,
         limit: true,
-        Stock: true
+        stock: true
       }
     });
     res.status(200).json(products);
