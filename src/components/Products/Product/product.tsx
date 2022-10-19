@@ -1,4 +1,5 @@
 import { darken } from 'polished';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Item = styled.div`
@@ -16,13 +17,30 @@ const Label = styled.div`
   width: 100%;
 `;
 
+const Info = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 export default function Produto({ product }, ...props) {
+  const [info,showInfo] = useState(false);
+  function handleClick(){
+    let state = info;
+    showInfo(!state);
+  }
   return (
     <Item {...props}>
-      <Label>
+      <div>
+      <Label onClick={()=>handleClick()}>
         <div>{`${product.name || ''} - ${product.brand || ''}`}</div>
         <div>{`${product.stock || ''}`}</div>
       </Label>
+      {info ? (<Info>
+        <div>{`Limite: ${product.limit || ''}`}</div>
+        <div>{`${product.unit || ''}`}</div>
+      </Info>) : null}
+      </div>
     </Item>
   );
 }
