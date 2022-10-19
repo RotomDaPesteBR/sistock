@@ -50,6 +50,14 @@ export default class MyDocument extends Document {
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <link rel="icon" href="/box.png" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://sistock.vercel.app/" />
+          <meta property="og:title" content="Sistock" />
+          <meta property="og:description" content="" />
+          <meta
+            property="og:image"
+            content="https://sistock.vercel.app/logo.png"
+          />
         </Head>
         <body>
           <Main />
