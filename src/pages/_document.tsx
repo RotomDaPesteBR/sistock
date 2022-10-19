@@ -49,6 +49,7 @@ export default class MyDocument extends Document {
           />
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <link rel="icon" href="/box.png" />
         </Head>
         <body>
           <Main />

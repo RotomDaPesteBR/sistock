@@ -1,6 +1,7 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar/Navbar';
+import CadastrarProdutos from '../components/Register/Product/product';
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -33,6 +34,7 @@ export default function Home() {
       <main>
         <div className="container">
           <h1>{/* `${session?.user?.name}`' */}</h1>
+          <CadastrarProdutos />
         </div>
       </main>
       <footer>

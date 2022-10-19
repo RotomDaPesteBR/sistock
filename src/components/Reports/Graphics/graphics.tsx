@@ -185,8 +185,8 @@ export default function graphics() {
               data={relatorioData}
               ref={chartRef}
               width={400}
-              height={200}
               options={{
+                responsive: true,
                 maintainAspectRatio: false
               }}
             />
@@ -197,8 +197,8 @@ export default function graphics() {
               data={faturamentoData}
               ref={chartRef}
               width={400}
-              height={200}
               options={{
+                responsive: true,
                 maintainAspectRatio: false
               }}
             />

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import prisma from '../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,15 +7,14 @@ export default async function handler(
 ) {
   try {
     const { data } = req.body;
-    const products = await prisma.Product.findMany({
-      where: { userId: data },
-      select: {
-        id: true,
-        name: true,
-        brand: true,
-        unit: true,
-        limit: true,
-        Stock: true
+    const products = await prisma.Product.create({
+      data: {
+        name: data.nome,
+        brand: data.marca,
+        unit: data.unidade,
+        limit: data.limite,
+        Stock: 0,
+        userId: data.user
       }
     });
     res.status(200).json(products);

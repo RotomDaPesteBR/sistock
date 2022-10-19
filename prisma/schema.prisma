@@ -70,7 +70,7 @@ model Product {
   brand      String?
   unit       String?
   limit      Int?
-  Stock      Int?
+  stock      Int?
   userId     String
   user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   ProductIn  ProductIn[]

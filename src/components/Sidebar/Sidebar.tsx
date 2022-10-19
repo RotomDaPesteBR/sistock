@@ -103,16 +103,16 @@ export default function Sidebar({ screen, sidebar, ...props }) {
             <Link href="/produtos">
               <Item>Produtos</Item>
             </Link>
-            <Link href="/">
+            <Link href="/cadastro">
               <Item>Cadastro</Item>
             </Link>
-            <Link href="/">
+            <Link href="/relatorios">
               <Item>Relatórios</Item>
             </Link>
-            <Link href="/">
+            <Link href="/historico">
               <Item>Histórico</Item>
             </Link>
-            <Link href="/">
+            <Link href="/configuracao">
               <Item>Configuração</Item>
             </Link>
           </Group>
