@@ -32,7 +32,6 @@ export default function Home() {
       </header>
       <main>
         <div className="container">
-          <h1>{/* `${session?.user?.name}`' */}</h1>
           <Produtos />
         </div>
       </main>

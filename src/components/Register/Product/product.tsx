@@ -18,6 +18,7 @@ const Input = styled.input`
   margin: 0.25rem;
   border-radius: 10px;
   border: 1px solid;
+  border-color: #999999;
 `;
 
 const Button = styled.button`
@@ -27,13 +28,14 @@ const Button = styled.button`
   margin: 0.25rem;
   border-radius: 10px;
   border: 1px solid;
+  border-color: #999999;
 `;
 
 export default function CadastrarProdutos() {
   const [nome, setNome] = useState('');
   const [marca, setMarca] = useState('');
   const [unidade, setUnidade] = useState('');
-  const [limite, setLimite] = useState(0);
+  const [limite, setLimite] = useState(undefined);
   const session = useSession();
 
   async function getProducts(data, user) {
@@ -77,8 +79,8 @@ export default function CadastrarProdutos() {
       <Input
         type="number"
         placeholder="Limite"
-        value={limite}
-        onChange={e => setLimite(parseInt(e.target.value, 10))}
+        value={limite === undefined ? '' : limite}
+        onChange={e => setLimite(e.target.value)}
       />
       <Button type="button" onClick={() => handleClick()}>
         Cadastrar

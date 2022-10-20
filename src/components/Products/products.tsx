@@ -11,9 +11,10 @@ const Lista = styled.div`
   width: 90%;
   max-width: 70rem;
   height: auto;
-  padding: 5%;
+  padding: 4rem;
   flex-direction: column;
   font-size: 1rem;
+  margin-top: 3.4375rem;
   @media (max-width: 800px) {
     font-size: 0.75rem;
   }
@@ -38,5 +39,5 @@ export default function Produtos(props) {
     getProducts(session.data.user);
   }, []);
 
-  return <Lista {...props}>{products}</Lista>;
+  return <Lista {...props}><div className="0" id="SafeArea" />{products}</Lista>;
 }

@@ -18,6 +18,7 @@ const Input = styled.input`
   margin: 0.25rem;
   border-radius: 10px;
   border: 1px solid;
+  border-color: #999999;
 `;
 
 const Button = styled.button`
@@ -27,6 +28,7 @@ const Button = styled.button`
   margin: 0.25rem;
   border-radius: 10px;
   border: 1px solid;
+  border-color: #999999;
 `;
 
 export default function Configuracao() {

@@ -7,16 +7,8 @@ export default async function handler(
 ) {
   try {
     const { data } = req.body;
-    const user = await prisma.User.update({
-      where: { id: data.user },
-      data: {
-        name: data.nome,
-        email: data.email,
-        password: data.senha,
-        image: data.imagem,
-        restaurantName: data.restaurantName,
-        cpf: data.CPF
-      }
+    const user = await prisma.Product.delete({
+      where: { id: data }
     });
     res.status(200).json(user);
   } catch (err) {

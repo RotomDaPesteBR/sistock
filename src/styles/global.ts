@@ -1,4 +1,5 @@
 // import { lighten } from 'polished';
+import { darken } from 'polished';
 import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
@@ -201,5 +202,24 @@ export default createGlobalStyle`
     border: solid;
     border-width: 2px 0 0;
     border-color: ${({ theme }) => theme.primary};
+  }
+
+  .selected-item {
+    background: ${({ theme }) => darken(0.05, theme.background)};
+    border-radius: 10px;
+  }
+
+  #content-safearea {
+    padding-top: 3.4375rem;
+  }
+
+  .pencil {
+    height: 1rem;
+    filter: invert(100%) sepia(100%) saturate(100%) hue-rotate(100deg) brightness(100%) contrast(100%);
+  }
+
+  .trash {
+    height: 1rem;
+    filter: invert(100%) sepia(100%) saturate(100%) hue-rotate(100deg) brightness(100%) contrast(100%);
   }
 `;
