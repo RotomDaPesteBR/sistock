@@ -30,7 +30,6 @@ const Button = styled.button`
 `;
 
 export default function CadastrarProdutos() {
-  // const [products, setProducts] = useState([]);
   const [nome, setNome] = useState('');
   const [marca, setMarca] = useState('');
   const [unidade, setUnidade] = useState('');

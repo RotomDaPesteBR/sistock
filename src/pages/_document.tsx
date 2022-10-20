@@ -53,10 +53,13 @@ export default class MyDocument extends Document {
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://sistock.vercel.app/" />
           <meta property="og:title" content="Sistock" />
-          <meta property="og:description" content="" />
+          <meta
+            property="og:description"
+            content="Sistema de gerenciamento de estoque"
+          />
           <meta
             property="og:image"
-            content="https://sistock.vercel.app/logo.png"
+            content="https://sistock.vercel.app/box.png"
           />
         </Head>
         <body>
