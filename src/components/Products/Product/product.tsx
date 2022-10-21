@@ -179,6 +179,7 @@ const Title = styled.h1`
   width: 90%;
   text-align: center;
   font-size: 2rem;
+  padding-top: 0;
 `;
 
 const ButtonsDelete = styled.div`
@@ -336,7 +337,7 @@ export default function Produto(
           }`}</div>
           <div id="product-control" className={disponibilidade}>
             <Disponíveis>{`${
-              product.stock ?? (product.stock || '')
+              product.stock ?? (product.stock || '0')
             } Disponíveis`}</Disponíveis>
             <Buttons>
               <Adicionar onClick={e => handleAdicionar(e)}>+</Adicionar>

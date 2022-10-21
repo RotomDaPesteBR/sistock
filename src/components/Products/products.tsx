@@ -54,6 +54,7 @@ const Form = styled.div`
 
 const Title = styled.h1`
   padding: 1rem;
+  padding-top: 0;
   font-size: 2.5rem;
 `;
 
@@ -66,6 +67,15 @@ const Input = styled.input`
   border: 1px solid;
   border-color: #999999;
 `;
+
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  @media (max-width: 500px) {
+    flex-wrap: wrap;
+  }
+`
 
 const Button = styled.button`
   padding: 1rem;
@@ -192,14 +202,26 @@ export default function Produtos(props) {
                 value={value === undefined ? '' : value}
                 onChange={e => setValue(e.target.value)}
               />
-              <Button
-                type="button"
-                onClick={() =>
-                  handleAdicionar(selectedProduct, session.data.user)
-                }
-              >
-                Adicionar
-              </Button>
+              <Buttons>
+                <Button
+                  type="button"
+                  id="cancelar"
+                  onClick={() =>
+                    handleClickScreen()
+                  }
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="button"
+                  id="confirmar"
+                  onClick={() =>
+                    handleAdicionar(selectedProduct, session.data.user)
+                  }
+                >
+                  Adicionar
+                </Button>
+              </Buttons>
             </Form>
           </Modal>
         </ModalScreen>
@@ -221,14 +243,26 @@ export default function Produtos(props) {
                 value={motivo}
                 onChange={e => setMotivo(e.target.value)}
               />
-              <Button
-                type="button"
-                onClick={() =>
-                  handleRemover(selectedProduct, session.data.user)
-                }
-              >
-                Remover
-              </Button>
+              <Buttons>
+                <Button
+                  type="button"
+                  id="cancelar"
+                  onClick={() =>
+                    handleClickScreen()
+                  }
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="button"
+                  id="confirmar"
+                  onClick={() =>
+                    handleRemover(selectedProduct, session.data.user)
+                  }
+                >
+                  Remover
+                </Button>
+              </Buttons>
             </Form>
           </Modal>
         </ModalScreen>

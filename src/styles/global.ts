@@ -276,4 +276,12 @@ export default createGlobalStyle`
       margin-left: 0.25rem;
     }
   }
+
+  #cancelar {
+    margin-left: 0;
+  }
+
+  #confirmar {
+    margin-right: 0;
+  }
 `;
