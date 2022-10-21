@@ -238,6 +238,10 @@ export default createGlobalStyle`
     color: ${({ theme }) => theme.textDark};
   }
 
+  .sobrando {
+    color: #00ff00;
+  }
+
   #product-control{
     display: flex;
     flex-direction: row;

@@ -286,6 +286,8 @@ export default function Produto(
       setDisponibilidade('indisponível');
     } else if (product.stock < product.limit) {
       setDisponibilidade('falta');
+    } else if (product.stock >= product.limit * 2) {
+        setDisponibilidade('sobrando');
     } else {
       setDisponibilidade('disponivel');
     }
