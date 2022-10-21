@@ -267,7 +267,8 @@ export default function Produto(
       .post('api/db/product/update', { data: dados })
       .then(response => response.data)
       .catch(error => error.response);
-      getProducts();
+    getProducts();
+    disponivel();
   }
 
   async function deleteProduct(id) {
@@ -277,6 +278,7 @@ export default function Produto(
       .then(response => response.data)
       .catch(error => error.response);
     getProducts();
+    disponivel();
   }
 
   function disponivel() {
@@ -313,7 +315,7 @@ export default function Produto(
 
   useEffect(() => {
     disponivel();
-  }, []);
+  }, [product]);
 
   return (
     <Item {...props}>
