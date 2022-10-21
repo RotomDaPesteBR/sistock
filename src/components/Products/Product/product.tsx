@@ -202,7 +202,7 @@ const Button = styled.button`
 `;
 
 export default function Produto(
-  { product, insertModal, withdrawModal },
+  { product, insertModal, withdrawModal, getProducts },
   ...props
 ) {
   const [info, showInfo] = useState(false);
@@ -267,7 +267,7 @@ export default function Produto(
       .post('api/db/product/update', { data: dados })
       .then(response => response.data)
       .catch(error => error.response);
-    router.reload();
+      getProducts();
   }
 
   async function deleteProduct(id) {
@@ -276,7 +276,7 @@ export default function Produto(
       .post('api/db/product/delete', { data: id })
       .then(response => response.data)
       .catch(error => error.response);
-    router.reload();
+    getProducts();
   }
 
   function disponivel() {
@@ -337,7 +337,7 @@ export default function Produto(
           }`}</div>
           <div id="product-control" className={disponibilidade}>
             <Disponíveis>{`${
-              product.stock ?? (product.stock || '0')
+              product.stock ?? (product.stock || 0)
             } Disponíveis`}</Disponíveis>
             <Buttons>
               <Adicionar onClick={e => handleAdicionar(e)}>+</Adicionar>
