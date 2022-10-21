@@ -39,8 +39,8 @@ const Modal = styled.div`
   align-items: center;
   background: white;
   width: 90%;
-  height: 60%;
-  max-width: 40rem;
+  height: 40%;
+  max-width: 30rem;
   border-radius: 10px;
 `;
 
@@ -49,7 +49,7 @@ const Form = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 80%;
 `;
 
 const Title = styled.h1`

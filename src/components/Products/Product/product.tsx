@@ -139,6 +139,67 @@ const Salvar = styled.button`
   }
 `;
 
+const ModalScreen = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #00000055;
+`;
+
+const Modal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: white;
+  width: 90%;
+  height: 40%;
+  max-width: 30rem;
+  border-radius: 10px;
+`;
+
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+`;
+
+const Title = styled.h1`
+  padding: 1rem;
+  width: 90%;
+  text-align: center;
+  font-size: 2rem;
+`;
+
+const ButtonsDelete = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  @media (max-width: 500px) {
+    flex-wrap: wrap;
+  }
+`
+
+const Button = styled.button`
+  padding: 1rem;
+  width: 100%;
+  max-width: 35rem;
+  margin: 0.25rem;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color: #999999;
+`;
+
 export default function Produto(
   { product, insertModal, withdrawModal },
   ...props
@@ -147,6 +208,7 @@ export default function Produto(
   const [selected, selectedItem] = useState('');
   const [edit, showEdit] = useState(false);
   const [disponibilidade, setDisponibilidade] = useState('');
+  const [modalDelete, showModalDelete] = useState(false);
 
   const [editNome, setEditNome] = useState('');
   const [editMarca, setEditMarca] = useState('');
@@ -198,6 +260,7 @@ export default function Produto(
       unidade: editUnidade,
       limite: parseInt(editLimite, 10)
     };
+
     // eslint-disable-next-line no-unused-vars
     const promise = await axios
       .post('api/db/product/update', { data: dados })
@@ -225,6 +288,10 @@ export default function Produto(
     }
   }
 
+  function handleDelete() {
+    showModalDelete(true);
+  }
+
   function handleAdicionar(e) {
     e.stopPropagation();
     insertModal();
@@ -235,12 +302,33 @@ export default function Produto(
     withdrawModal();
   }
 
+  function handleClickScreen() {
+    showModalDelete(false);
+  }
+
+  function handleClickModal(e) {
+    e.stopPropagation();
+  }
+
   useEffect(() => {
     disponivel();
   }, []);
 
   return (
     <Item {...props}>
+      {modalDelete ? 
+        <ModalScreen onClick={() => handleClickScreen()}>
+          <Modal onClick={e => handleClickModal(e)}>
+            <Form>
+              <Title>Tem certeza que deseja deletar o produto?</Title>
+              <ButtonsDelete>
+                <Button type="button" onClick={()=>showModalDelete(false)}>Cancelar</Button>
+                <Button type="button" onClick={()=>deleteProduct(product.id)}>Deletar</Button>
+              </ButtonsDelete>
+            </Form>
+          </Modal>
+        </ModalScreen> 
+      : null}
       <div>
         <Label className={selected} onClick={() => handleClick()}>
           <div>{`${product.name || ''} ${product.brand || ''} - ${
@@ -268,7 +356,7 @@ export default function Produto(
                     <Editar onClick={() => handleEdit()}>
                       <img className="pencil" src="/pencil.svg" alt="" />
                     </Editar>
-                    <Excluir onClick={() => deleteProduct(product.id)}>
+                    <Excluir onClick={() => handleDelete()}>
                       <img className="trash" src="/trash.svg" alt="" />
                     </Excluir>
                   </div>
