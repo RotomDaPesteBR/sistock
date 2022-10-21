@@ -83,6 +83,10 @@ export default function Sidebar({ screen, sidebar, ...props }) {
   const [screenFade, setScreenFade] = useState(screen);
   const [sidebarFade, setSidebarFade] = useState(sidebar);
 
+  function handleClickSidebar(e) {
+    e.stopPropagation();
+  }
+
   useEffect(() => {
     setScreenFade(screen);
     setSidebarFade(sidebar);
@@ -90,7 +94,7 @@ export default function Sidebar({ screen, sidebar, ...props }) {
 
   return (
     <Screen id="screen" className={`sidebar-screen ${screenFade}`} {...props}>
-      <Bar id="sidebar" className={sidebarFade}>
+      <Bar id="sidebar" className={sidebarFade} onClick={e => handleClickSidebar(e)}>
         <List>
           <Group>
             <Profile>

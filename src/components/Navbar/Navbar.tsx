@@ -81,18 +81,14 @@ export default function Navbar() {
   }
 
   function handleClickScreen(e) {
-    if (e.target.getAttribute('class') != null) {
-      if (e.target.getAttribute('class').includes('sidebar-screen')) {
-        fadeout();
-        setShowSidebar(!showSidebar);
-        setTimer(
-          setTimeout(() => {
-            document.getElementById('screen').style.display = 'none';
-            fadein();
-          }, 1000)
-        );
-      }
-    }
+    fadeout();
+    setShowSidebar(!showSidebar);
+    setTimer(
+      setTimeout(() => {
+        document.getElementById('screen').style.display = 'none';
+        fadein();
+      }, 1000)
+    );
   }
 
   return (
