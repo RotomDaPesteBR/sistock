@@ -227,7 +227,7 @@ export default createGlobalStyle`
   }
 
   .falta{
-    color: ${({ theme }) => theme.textDark};
+    color: #ff0000;
   }
 
   .indisponível{
@@ -235,7 +235,7 @@ export default createGlobalStyle`
   }
 
   .disponivel{
-    color: #00ff00;
+    color: ${({ theme }) => theme.textDark};
   }
 
   #product-control{

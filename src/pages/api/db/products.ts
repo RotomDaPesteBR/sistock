@@ -16,6 +16,9 @@ export default async function handler(
         unit: true,
         limit: true,
         stock: true
+      },
+      orderBy: {
+        stock: 'asc'
       }
     });
     res.status(200).json(products);
