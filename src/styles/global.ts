@@ -246,4 +246,36 @@ export default createGlobalStyle`
     align-items: center;
     line-height: 2rem;
   }
+
+  #edit-line {
+    flex-wrap: wrap;
+  }
+
+  #edit-top-left{
+    @media (max-width: 500px) {
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  #edit-top-right{
+    @media (max-width: 500px) {
+      margin-left: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  #edit-bottom-left{
+    @media (max-width: 500px) {
+      margin-top: 0.25rem;
+      margin-right: 0.25rem;
+    }
+  }
+
+  #edit-bottom-right{
+    @media (max-width: 500px) {
+      margin-top: 0.25rem;
+      margin-left: 0.25rem;
+    }
+  }
 `;

@@ -104,9 +104,21 @@ const Excluir = styled.button`
 
 const InfoEdit = styled.input`
   padding: 0.5rem;
+  width: 22.5%;
   border: 1px solid;
   border-color: #999999;
   border-radius: 10px;
+  @media (max-width: 500px) {
+    width: calc(50% - 0.25rem);
+  }
+`;
+
+const EditButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const Cancelar = styled.button`
@@ -118,9 +130,7 @@ const Cancelar = styled.button`
   margin-right: 0.25rem;
   color: ${({ theme }) => theme.text};
   @media (max-width: 500px) {
-    margin-right: 0;
-    margin-bottom: 0.25rem;
-    width: 100%;
+    width: 50%;
   }
 `;
 
@@ -133,9 +143,7 @@ const Salvar = styled.button`
   margin-left: 0.25rem;
   color: ${({ theme }) => theme.text};
   @media (max-width: 500px) {
-    margin-left: 0;
-    margin-top: 0.25rem;
-    width: 100%;
+    width: 50%;
   }
 `;
 
@@ -277,23 +285,27 @@ export default function Produto(
             ) : null}
             {edit ? (
               <Info>
-                <InfoLine>
+                <InfoLine id="edit-line">
                   <InfoEdit
+                    id="edit-top-left"
                     type="text"
                     value={editNome}
                     onChange={e => setEditNome(e.target.value)}
                   />
                   <InfoEdit
+                    id="edit-top-right"
                     type="text"
                     value={editMarca}
                     onChange={e => setEditMarca(e.target.value)}
                   />
                   <InfoEdit
+                    id="edit-bottom-left"
                     type="text"
                     value={editUnidade}
                     onChange={e => setEditUnidade(e.target.value)}
                   />
                   <InfoEdit
+                    id="edit-bottom-right"
                     type="number"
                     value={editLimite}
                     onChange={e => setEditLimite(e.target.value)}
@@ -302,10 +314,10 @@ export default function Produto(
                 <br />
                 <InfoLine>
                   <div />
-                  <div>
+                  <EditButtons>
                     <Cancelar onClick={() => handleEdit()}>Cancelar</Cancelar>
                     <Salvar onClick={() => handleSave()}>Salvar</Salvar>
-                  </div>
+                  </EditButtons>
                 </InfoLine>
               </Info>
             ) : null}
