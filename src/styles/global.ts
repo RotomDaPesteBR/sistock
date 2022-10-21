@@ -215,12 +215,10 @@ export default createGlobalStyle`
 
   .pencil {
     height: 1rem;
-    filter: invert(100%) sepia(100%) saturate(100%) hue-rotate(100deg) brightness(100%) contrast(100%);
   }
 
   .trash {
     height: 1rem;
-    filter: invert(100%) sepia(100%) saturate(100%) hue-rotate(100deg) brightness(100%) contrast(100%);
   }
 
   #SafeArea h1{

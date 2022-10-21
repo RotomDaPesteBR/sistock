@@ -44,10 +44,6 @@ const Adicionar = styled.button`
   border-radius: 5px;
   margin-right: 0.25rem;
   color: ${({ theme }) => theme.text};
-  @media (max-width: 500px) {
-    position: relative;
-    right: 0;
-  }
 `;
 
 const Remover = styled.button`
@@ -59,10 +55,6 @@ const Remover = styled.button`
   border-radius: 5px;
   margin-left: 0.25rem;
   color: ${({ theme }) => theme.text};
-  @media (max-width: 500px) {
-    position: relative;
-    right: 0;
-  }
 `;
 
 const Info = styled.div`
