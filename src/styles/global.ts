@@ -283,9 +283,15 @@ export default createGlobalStyle`
 
   #cancelar {
     margin-left: 0;
+    @media (max-width: 500px) {
+      margin-right: 0;
+    }
   }
 
   #confirmar {
     margin-right: 0;
+    @media (max-width: 500px) {
+      margin-left: 0;
+    }
   }
 `;

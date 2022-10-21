@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { darken, lighten } from 'polished';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -189,7 +188,7 @@ const ButtonsDelete = styled.div`
   @media (max-width: 500px) {
     flex-wrap: wrap;
   }
-`
+`;
 
 const Button = styled.button`
   padding: 1rem;
@@ -215,8 +214,6 @@ export default function Produto(
   const [editMarca, setEditMarca] = useState('');
   const [editUnidade, setEditUnidade] = useState('');
   const [editLimite, setEditLimite] = useState('');
-
-  const router = useRouter();
 
   function handleClick() {
     const state = info;
@@ -253,6 +250,18 @@ export default function Produto(
     setEditLimite(product.limit);
   }
 
+  function disponivel() {
+    if (product.stock === 0) {
+      setDisponibilidade('indisponível');
+    } else if (product.stock < product.limit) {
+      setDisponibilidade('falta');
+    } else if (product.stock >= product.limit * 2) {
+      setDisponibilidade('sobrando');
+    } else {
+      setDisponibilidade('disponivel');
+    }
+  }
+
   async function handleSave() {
     const dados = {
       produto: product.id,
@@ -279,18 +288,6 @@ export default function Produto(
       .catch(error => error.response);
     getProducts();
     disponivel();
-  }
-
-  function disponivel() {
-    if (product.stock === 0) {
-      setDisponibilidade('indisponível');
-    } else if (product.stock < product.limit) {
-      setDisponibilidade('falta');
-    } else if (product.stock >= product.limit * 2) {
-        setDisponibilidade('sobrando');
-    } else {
-      setDisponibilidade('disponivel');
-    }
   }
 
   function handleDelete() {
@@ -321,24 +318,26 @@ export default function Produto(
 
   return (
     <Item {...props}>
-      {modalDelete ? 
+      {modalDelete ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
             <Form>
               <Title>Tem certeza que deseja deletar o produto?</Title>
               <ButtonsDelete>
-                <Button type="button" onClick={()=>showModalDelete(false)}>Cancelar</Button>
-                <Button type="button" onClick={()=>deleteProduct(product.id)}>Deletar</Button>
+                <Button type="button" onClick={() => showModalDelete(false)}>
+                  Cancelar
+                </Button>
+                <Button type="button" onClick={() => deleteProduct(product.id)}>
+                  Deletar
+                </Button>
               </ButtonsDelete>
             </Form>
           </Modal>
-        </ModalScreen> 
-      : null}
+        </ModalScreen>
+      ) : null}
       <div>
         <Label className={selected} onClick={() => handleClick()}>
-          <div>{`${product.name || ''} ${product.brand || ''} - ${
-            product.unit || ''
-          }`}</div>
+          <div>{`${product.name || ''} ${product.brand || ''}`}</div>
           <div id="product-control" className={disponibilidade}>
             <Disponíveis>{`${
               product.stock ?? (product.stock || 0)
@@ -354,8 +353,8 @@ export default function Produto(
             {!edit ? (
               <Info>
                 <InfoLine>
-                  <div style={{ lineHeight: '2rem' }}>{`Limite: ${
-                    product.limit || ''
+                  <div style={{ lineHeight: '2rem' }}>{`Unidade: ${
+                    product.unit || ''
                   }`}</div>
                   <div>
                     <Editar onClick={() => handleEdit()}>

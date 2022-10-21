@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Produto from './Product/product';
@@ -43,6 +42,9 @@ const Modal = styled.div`
   height: 40%;
   max-width: 30rem;
   border-radius: 10px;
+  @media (max-width: 500px) {
+    height: 50%;
+  }
 `;
 
 const Form = styled.div`
@@ -76,7 +78,7 @@ const Buttons = styled.div`
   @media (max-width: 500px) {
     flex-wrap: wrap;
   }
-`
+`;
 
 const Button = styled.button`
   padding: 1rem;
@@ -97,7 +99,6 @@ export default function Produtos(props) {
   const [value, setValue] = useState(undefined);
   const [motivo, setMotivo] = useState('');
 
-  const router = useRouter();
   const session = useSession();
 
   function insertModal(product) {
@@ -211,16 +212,14 @@ export default function Produtos(props) {
                 <Button
                   type="button"
                   id="cancelar"
-                  onClick={() =>
-                    handleClickScreen()
-                  }
+                  onClick={() => handleClickScreen()}
                 >
                   Cancelar
                 </Button>
                 <Button
                   type="button"
                   id="confirmar"
-                  onClick={() => 
+                  onClick={() =>
                     handleAdicionar(selectedProduct, session.data.user)
                   }
                 >
@@ -252,9 +251,7 @@ export default function Produtos(props) {
                 <Button
                   type="button"
                   id="cancelar"
-                  onClick={() =>
-                    handleClickScreen()
-                  }
+                  onClick={() => handleClickScreen()}
                 >
                   Cancelar
                 </Button>
