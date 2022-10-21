@@ -16,16 +16,16 @@ export default async function handler(
       }
     });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const historic = await prisma.ProductIn.create({
+    const historic = await prisma.ProductOut.create({
       data: {
         date: data.date,
-        quantity: data.addedQuantity,
-        value: data.value,
+        quantity: data.withdrawQuantity,
+        motive: data.motive,
         productId: data.product,
         userId: data.user
       }
     });
-    res.status(200).json('Inserido com sucesso');
+    res.status(200).json('Removido com sucesso');
   } catch (err) {
     res.status(500).json({ error: 'Erro' });
   }

@@ -51,7 +51,7 @@ export default function CadastrarProdutos() {
       nome,
       marca,
       unidade,
-      limite
+      limite: parseInt(limite, 10)
     };
     getProducts(dados, session.data.user);
   }

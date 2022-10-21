@@ -7,18 +7,16 @@ export default async function handler(
 ) {
   try {
     const { data } = req.body;
-    const user = await prisma.User.update({
-      where: { id: data.user },
+    const Product = await prisma.Product.update({
+      where: { id: data.produto },
       data: {
         name: data.nome,
-        email: data.email,
-        password: data.senha,
-        image: data.imagem,
-        restaurantName: data.restaurantName,
-        cpf: data.CPF
+        brand: data.marca,
+        unit: data.unidade,
+        limit: data.limite
       }
     });
-    res.status(200).json(user);
+    res.status(200).json(Product);
   } catch (err) {
     res.status(500).json({ error: 'failed to load data' });
   }

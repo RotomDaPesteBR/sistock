@@ -222,4 +222,28 @@ export default createGlobalStyle`
     height: 1rem;
     filter: invert(100%) sepia(100%) saturate(100%) hue-rotate(100deg) brightness(100%) contrast(100%);
   }
+
+  #SafeArea h1{
+    padding: 2.5rem;
+    margin-top: -5rem;
+  }
+
+  .falta{
+    color: ${({ theme }) => theme.textDark};
+  }
+
+  .indisponível{
+    color: #ff0000;
+  }
+
+  .disponivel{
+    color: #00ff00;
+  }
+
+  #product-control{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 2rem;
+  }
 `;

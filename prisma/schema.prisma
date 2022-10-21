@@ -96,7 +96,7 @@ model ProductSales {
 model ExpensesRec {
   id         String   @id @default(cuid())
   date       DateTime
-  value      Int?
+  value      Float?
   expensesId String
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -106,7 +106,7 @@ model ExpensesRec {
 model SalesRec {
   id         String       @id @default(cuid())
   date       DateTime
-  Value      Int?
+  Value      Float?
   prodsaleId String
   userId     String
   prodsale   ProductSales @relation(fields: [prodsaleId], references: [id], onDelete: Cascade)
@@ -117,7 +117,7 @@ model ProductIn {
   id        String   @id @default(cuid())
   date      DateTime
   quantity  Int
-  value     Int?
+  value     Float?
   productId String
   userId    String
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
