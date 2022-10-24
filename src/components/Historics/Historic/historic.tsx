@@ -34,7 +34,7 @@ export default function Historic({ historic, type, stripe }, ...props) {
     <Item {...props}>
       {type === 'in' ? (
         <div>
-          <Label className={stripe ? 'selected-item' : ''}>
+          <Label className={stripe ? 'striped' : ''}>
             <LabelItem>{`${historic.quantity || ''}`}</LabelItem>
             <LabelItem>{`${historic.date.slice(0, 10) || ''}`}</LabelItem>
             <LabelItem>{`${historic.product.name || ''} ${
@@ -48,7 +48,7 @@ export default function Historic({ historic, type, stripe }, ...props) {
       ) : null}
       {type === 'out' ? (
         <div>
-          <Label className={stripe ? 'selected-item' : ''}>
+          <Label className={stripe ? 'striped' : ''}>
             <LabelItem>{`${historic.quantity || ''}`}</LabelItem>
             <LabelItem>{`${historic.date.slice(0, 10) || ''}`}</LabelItem>
             <LabelItem>{`${historic.product.name || ''} ${

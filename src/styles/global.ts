@@ -306,4 +306,41 @@ export default createGlobalStyle`
     background: ${({ theme }) => theme.primary};
     color: ${({ theme }) => theme.text};
   }
+
+  .striped {
+    background: ${({ theme }) => darken(0.05, theme.background)};
+  }
+
+  .notifier{
+    padding: 1rem;
+  }
+
+
+  .notifierIn{
+    animation: 2s forwards notificationIn;
+  }
+
+  .notifierOut{
+    animation: 2s forwards notificationOut;
+  }
+
+  @keyframes notificationIn {
+    0% {
+      top: -160px
+    }
+  
+    100% {
+      top: 80px;
+    }
+  }
+
+  @keyframes notificationOut {
+    0% {
+      top: 80px;
+    }
+  
+    100% {
+      top: -160px;
+    }
+  }
 `;

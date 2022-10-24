@@ -1,6 +1,8 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
+import { useState } from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import Notifier from '../components/Notifier/notifier';
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -20,6 +22,12 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home() {
+  const [notifier,showNotifier] = useState(false);
+
+  function handleClick() {
+    showNotifier(!notifier);
+  }
+
   return (
     <div>
       <Head>
@@ -31,7 +39,8 @@ export default function Home() {
       </header>
       <main>
         <div className="container">
-          <h1>{/* `${session?.user?.name}`' */}</h1>
+          <button type="button" onClick={() => handleClick()}>Notifier</button>
+          <Notifier text="Produto Adicionado" delay={3000} visibility={notifier} />
         </div>
       </main>
       <footer>
