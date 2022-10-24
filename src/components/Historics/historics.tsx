@@ -19,76 +19,6 @@ const Lista = styled.div`
   }
 `;
 
-const ModalScreen = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-  top: 0;
-  bottom: 0;
-  background: #00000055;
-`;
-
-const Modal = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white;
-  width: 90%;
-  height: 40%;
-  max-width: 30rem;
-  border-radius: 10px;
-  @media (max-width: 500px) {
-    height: 50%;
-  }
-`;
-
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-`;
-
-const Title = styled.h1`
-  padding: 1rem;
-  padding-top: 0;
-  font-size: 2.5rem;
-`;
-
-const Input = styled.input`
-  padding: 1rem;
-  width: 100%;
-  max-width: 35rem;
-  margin: 0.25rem;
-  border-radius: 10px;
-  border: 1px solid;
-  border-color: #999999;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  @media (max-width: 500px) {
-    flex-wrap: wrap;
-  }
-`;
-
-const Button = styled.button`
-  padding: 1rem;
-  width: 100%;
-  max-width: 35rem;
-  margin: 0.25rem;
-  border-radius: 10px;
-  border: 1px solid;
-  border-color: #999999;
-`;
-
 const HeaderLista = styled.div`
   width: 90%;
   border: 1px solid;
@@ -111,11 +41,6 @@ export default function Historicos(props) {
   const [historicProductIn, setHistoricProductIn] = useState('');
   const [historicProductOut, setHistoricProductOut] = useState('');
   const [historico, toggleHistorico] = useState(false);
-  const [withdraw, showWithdraw] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState([]);
-  const [quantity, setQuantity] = useState(undefined);
-  const [value, setValue] = useState(undefined);
-  const [motivo, setMotivo] = useState('');
 
   const session = useSession();
 
@@ -162,15 +87,6 @@ export default function Historicos(props) {
 
   function handleClick(e) {
     toggleHistorico(e);
-  }
-
-  function handleClickScreen() {
-    showInsert(false);
-    showWithdraw(false);
-  }
-
-  function handleClickModal(e) {
-    e.stopPropagation();
   }
 
   useEffect(() => {
