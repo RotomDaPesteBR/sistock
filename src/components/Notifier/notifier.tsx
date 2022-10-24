@@ -30,7 +30,6 @@ export default function Notifier( props ) {
 
     const text = props.text ? props.text : 'Sucesso';
     const delay = props.delay ? props.delay : 3000;
-    const visibility = props.visibility ? props.visibility : false;
 
     function expire(){
         clearTimeout(animationTimeout);
@@ -55,13 +54,10 @@ export default function Notifier( props ) {
 
     return (
         <>
-        
-        {visibility ? (<>
-            {valid ? (
+        {valid ? (
         <Popup className={`notifier ${animation}`}>
             { props.text }
         </Popup>
-        ) : null}</>
         ) : null}
         </>
     );

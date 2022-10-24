@@ -19,6 +19,7 @@ const LoginDiv = styled.div`
   height: 80vh;
   margin: 0;
   max-width: 40rem;
+  max-height: 50rem;
   padding: 0 1rem;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   @media (max-width: 800px) {
