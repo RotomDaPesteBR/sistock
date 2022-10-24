@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Item = styled.div`
-  margin: 0.25rem;
   width: 90%;
-  border: 1px solid;
-  border-radius: 10px;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
   border-color: #999999;
   background: ${({ theme }) => darken(0.01, theme.background)};
 `;
@@ -19,7 +19,16 @@ const Label = styled.div`
   align-items: center;
   flex-direction: row;
   width: 100%;
-  padding: 1rem;
+`;
+
+const LabelItem = styled.div`
+  width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
 `;
 
 const Disponíveis = styled.div`
@@ -200,10 +209,7 @@ const Button = styled.button`
   border-color: #999999;
 `;
 
-export default function Produto(
-  { product, insertModal, withdrawModal, getProducts },
-  ...props
-) {
+export default function Historic({ historic, type, stripe }, ...props) {
   const [info, showInfo] = useState(false);
   const [selected, selectedItem] = useState('');
   const [edit, showEdit] = useState(false);
@@ -295,102 +301,42 @@ export default function Produto(
     e.stopPropagation();
   }
 
-  useEffect(() => {
-    disponivel();
-  }, [product]);
+  useEffect(() => {}, []);
 
   return (
     <Item {...props}>
-      {modalDelete ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Tem certeza que deseja deletar o produto?</Title>
-              <ButtonsDelete>
-                <Button type="button" onClick={() => showModalDelete(false)}>
-                  Cancelar
-                </Button>
-                <Button type="button" onClick={() => deleteProduct(product.id)}>
-                  Deletar
-                </Button>
-              </ButtonsDelete>
-            </Form>
-          </Modal>
-        </ModalScreen>
+      {type === 'in' ? (
+        <div>
+          <Label
+            className={stripe ? 'selected-item' : ''}
+            onClick={() => handleClick()}
+          >
+            <LabelItem>{`${historic.quantity || ''}`}</LabelItem>
+            <LabelItem>{`${historic.date.slice(0, 10) || ''}`}</LabelItem>
+            <LabelItem>{`${historic.product.name || ''} ${
+              historic.product.brand || ''
+            }`}</LabelItem>
+            <LabelItem>{`R$${
+              historic.value ?? (historic.value || 0)
+            }`}</LabelItem>
+          </Label>
+        </div>
       ) : null}
-      <div>
-        <Label className={selected} onClick={() => handleClick()}>
-          <div>{`${product.name || ''} ${product.brand || ''}`}</div>
-          <div id="product-control" className={disponibilidade}>
-            <Disponíveis>{`${
-              product.stock ?? (product.stock || 0)
-            } Disponíveis`}</Disponíveis>
-            <Buttons>
-              <Adicionar onClick={e => handleAdicionar(e)}>+</Adicionar>
-              <Remover onClick={e => handleRemover(e)}>-</Remover>
-            </Buttons>
-          </div>
-        </Label>
-        {info ? (
-          <div>
-            {!edit ? (
-              <Info>
-                <InfoLine>
-                  <div style={{ lineHeight: '2rem' }}>{`Unidade: ${
-                    product.unit || ''
-                  }`}</div>
-                  <div>
-                    <Editar onClick={() => handleEdit()}>
-                      <img className="pencil" src="/pencil.svg" alt="" />
-                    </Editar>
-                    <Excluir onClick={() => handleDelete()}>
-                      <img className="trash" src="/trash.svg" alt="" />
-                    </Excluir>
-                  </div>
-                </InfoLine>
-              </Info>
-            ) : null}
-            {edit ? (
-              <Info>
-                <InfoLine id="edit-line">
-                  <InfoEdit
-                    id="edit-top-left"
-                    type="text"
-                    value={editNome}
-                    onChange={e => setEditNome(e.target.value)}
-                  />
-                  <InfoEdit
-                    id="edit-top-right"
-                    type="text"
-                    value={editMarca}
-                    onChange={e => setEditMarca(e.target.value)}
-                  />
-                  <InfoEdit
-                    id="edit-bottom-left"
-                    type="text"
-                    value={editUnidade}
-                    onChange={e => setEditUnidade(e.target.value)}
-                  />
-                  <InfoEdit
-                    id="edit-bottom-right"
-                    type="number"
-                    value={editLimite}
-                    onChange={e => setEditLimite(e.target.value)}
-                  />
-                </InfoLine>
-                <br />
-                <InfoLine>
-                  <div />
-                  <EditButtons>
-                    <Cancelar onClick={() => handleEdit()}>Cancelar</Cancelar>
-                    <Salvar onClick={() => handleSave()}>Salvar</Salvar>
-                  </EditButtons>
-                </InfoLine>
-              </Info>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
+      {type === 'out' ? (
+        <div>
+          <Label
+            className={stripe ? 'selected-item' : ''}
+            onClick={() => handleClick()}
+          >
+            <LabelItem>{`${historic.quantity || ''}`}</LabelItem>
+            <LabelItem>{`${historic.date.slice(0, 10) || ''}`}</LabelItem>
+            <LabelItem>{`${historic.product.name || ''} ${
+              historic.product.brand || ''
+            }`}</LabelItem>
+            <LabelItem>{`${historic.motive || ''}`}</LabelItem>
+          </Label>
+        </div>
+      ) : null}
     </Item>
   );
 }

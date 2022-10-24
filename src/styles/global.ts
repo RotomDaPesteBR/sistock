@@ -223,7 +223,6 @@ export default createGlobalStyle`
 
   #SafeArea h1{
     padding: 2.5rem;
-    margin-top: -5rem;
   }
 
   .falta{
@@ -293,5 +292,18 @@ export default createGlobalStyle`
     @media (max-width: 500px) {
       margin-left: 0;
     }
+  }
+
+  #products-container {
+    align-items: start;
+    padding-top: 3.4375rem;
+    padding-bottom: 3.4375rem;
+    height: 100%;
+    min-height: 100vh;
+  }
+
+  .selected {
+    background: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.text};
   }
 `;

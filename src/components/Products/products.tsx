@@ -6,7 +6,7 @@ import Produto from './Product/product';
 
 const Lista = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   width: 100%;
   max-width: 70rem;
@@ -14,7 +14,6 @@ const Lista = styled.div`
   padding: 1rem;
   flex-direction: column;
   font-size: 1rem;
-  margin-top: 3.4375rem;
   @media (max-width: 800px) {
     font-size: 0.75rem;
   }

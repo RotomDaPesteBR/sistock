@@ -1,5 +1,6 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
+import Historicos from '../components/Historics/historics';
 import Navbar from '../components/Navbar/Navbar';
 
 export async function getServerSideProps(context) {
@@ -30,8 +31,8 @@ export default function Home() {
         <Navbar />
       </header>
       <main>
-        <div className="container">
-          <h1>{/* `${session?.user?.name}`' */}</h1>
+        <div className="container" id="products-container">
+          <Historicos />
         </div>
       </main>
       <footer>

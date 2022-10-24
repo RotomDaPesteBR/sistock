@@ -31,7 +31,7 @@ export default function Home() {
         <Navbar />
       </header>
       <main>
-        <div className="container">
+        <div className="container" id="products-container">
           <Produtos />
         </div>
       </main>
