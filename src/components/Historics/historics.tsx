@@ -22,7 +22,7 @@ const Lista = styled.div`
 const HeaderLista = styled.div`
   width: 90%;
   border: 1px solid;
-  border-color: #999999;
+  border-color: ${({ theme }) => theme.border};
   display: flex;
   flex-direction: row;
   justify-content: center;

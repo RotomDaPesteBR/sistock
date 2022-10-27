@@ -9,7 +9,7 @@ const Item = styled.div`
   width: 90%;
   border: 1px solid;
   border-radius: 10px;
-  border-color: #999999;
+  border-color: ${({ theme }) => theme.border};
   background: ${({ theme }) => darken(0.01, theme.background)};
 `;
 
@@ -97,7 +97,7 @@ const InfoEdit = styled.input`
   padding: 0.5rem;
   width: 22.5%;
   border: 1px solid;
-  border-color: #999999;
+  border-color: ${({ theme }) => theme.border};
   border-radius: 10px;
   @media (max-width: 500px) {
     width: calc(50% - 0.25rem);
@@ -197,7 +197,7 @@ const Button = styled.button`
   margin: 0.25rem;
   border-radius: 10px;
   border: 1px solid;
-  border-color: #999999;
+  border-color: ${({ theme }) => theme.border};
 `;
 
 export default function Produto(

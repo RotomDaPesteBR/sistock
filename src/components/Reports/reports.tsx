@@ -3,9 +3,10 @@ import Graphics from './Graphics/graphics';
 
 const Reports = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
-  margin-top: 55px;
+  width: 90%;
+  max-width: 70rem;
+  padding-top: 55px;
+  align-items: start;
   justify-content: center;
 `;
 

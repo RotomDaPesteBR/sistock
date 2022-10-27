@@ -7,25 +7,13 @@ import styled from 'styled-components';
 
 Chart.register(CategoryScale);
 
-const Graphics = styled.div`
+const GraphicsContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 90%;
-  max-width: 70rem;
+  width: 100%;
+  height: 100%;
   background: ${({ theme }) => darken(0.01, theme.background)};
-  height: auto;
-  padding: 5%;
   flex-direction: column;
   font-size: 1rem;
-  padding-top: 20%;
-  @media (max-width: 800px) {
-    font-size: 0.75rem;
-  }
-`;
-
-const Container = styled.div`
-  width: 100%;
 `;
 
 const Graphic = styled.div`
@@ -130,41 +118,37 @@ export default function graphics() {
   const chartRef = useRef();
 
   return (
-    <Graphics>
-      <Container>
-        <Graphic>
-          <Titulo>FATURAMENTO</Titulo>
-          <Graficos>
-            <Faturamento
-              datasetIdKey="faturamento"
-              data={faturamentoData}
-              ref={chartRef}
-              width={400}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false
-              }}
-            />
-          </Graficos>
-        </Graphic>
-      </Container>
-      <Container>
-        <Graphic>
-          <Titulo>RELATÓRIO GERAL</Titulo>
-          <Graficos>
-            <Relatório
-              datasetIdKey="relatorio"
-              data={relatorioData}
-              ref={chartRef}
-              width={400}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false
-              }}
-            />
-          </Graficos>
-        </Graphic>
-      </Container>
-    </Graphics>
+    <GraphicsContainer>
+      <Graphic>
+        <Titulo>FATURAMENTO</Titulo>
+        <Graficos>
+          <Faturamento
+            datasetIdKey="faturamento"
+            data={faturamentoData}
+            ref={chartRef}
+            width={400}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false
+            }}
+          />
+        </Graficos>
+      </Graphic>
+      <Graphic>
+        <Titulo>RELATÓRIO GERAL</Titulo>
+        <Graficos>
+          <Relatório
+            datasetIdKey="relatorio"
+            data={relatorioData}
+            ref={chartRef}
+            width={400}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false
+            }}
+          />
+        </Graficos>
+      </Graphic>
+    </GraphicsContainer>
   );
 }

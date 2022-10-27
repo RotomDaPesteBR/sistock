@@ -5,7 +5,8 @@ const theme = {
   text: '#ffffff',
   textDark: '#555555',
   primary: '#20aaff',
-  secondary: '#30bbff'
+  secondary: '#30bbff',
+  border: '#aaaaaa'
 };
 
 export default theme;

@@ -347,4 +347,10 @@ export default createGlobalStyle`
       top: -160px;
     }
   }
+
+  #cadastro-container {
+    @media (max-width: 800px) {
+      align-items: start;
+    }
+  }
 `;

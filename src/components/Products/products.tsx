@@ -67,7 +67,7 @@ const Input = styled.input`
   margin: 0.25rem;
   border-radius: 10px;
   border: 1px solid;
-  border-color: #999999;
+  border-color: ${({ theme }) => theme.border};
 `;
 
 const Buttons = styled.div`
@@ -86,7 +86,7 @@ const Button = styled.button`
   margin: 0.25rem;
   border-radius: 10px;
   border: 1px solid;
-  border-color: #999999;
+  border-color: ${({ theme }) => theme.border};
 `;
 
 export default function Produtos(props) {
