@@ -2,16 +2,17 @@ import styled from 'styled-components';
 import Graphics from './Graphics/graphics';
 
 const Reports = styled.div`
-    display: flex;
-    width: 90%;
-    max-width: 35rem;
-    height: 60%;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: 55px;
+  justify-content: center;
 `;
 
-export default function Relatorios () {
-    return (
-        <Reports>
-            <Graphics />
-        </Reports>
-    );
+export default function Relatorios() {
+  return (
+    <Reports>
+      <Graphics />
+    </Reports>
+  );
 }

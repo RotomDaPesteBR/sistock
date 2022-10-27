@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
+import Dashboard from '../components/Dashboard/dashboard';
 import Navbar from '../components/Navbar/Navbar';
-import Graphics from '../components/Reports/Graphics/graphics';
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -19,7 +19,6 @@ export async function getServerSideProps(context) {
     }
   };
 }
-
 export default function Home() {
   return (
     <div>
@@ -32,8 +31,7 @@ export default function Home() {
       </header>
       <main>
         <div className="container" id="content">
-          <h1>{/* `${session?.user?.name}`' */}</h1>
-          <Graphics />
+          <Dashboard />
         </div>
       </main>
       <footer>

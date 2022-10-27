@@ -1,7 +1,7 @@
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { darken } from 'polished';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
 
@@ -18,7 +18,6 @@ const Graphics = styled.div`
   padding: 5%;
   flex-direction: column;
   font-size: 1rem;
-  padding-top: 20%;
   @media (max-width: 800px) {
     font-size: 0.75rem;
   }
@@ -28,10 +27,27 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
+  background: white;
+`;
+
+const Button = styled.button`
+  border: 0;
+  width: 50%;
+  height: 6rem;
+  font-size: 1.2rem;
+  text-align: center;
+  @media (max-width: 800px) {
+    height: 4rem;
+    font-size: 0.75rem;
+  }
+`;
+
 const Graphic = styled.div`
   background: white;
-  height: 25rem;
-  padding-bottom: 3rem;
+  height: 20rem;
   @media (max-width: 800px) {
     height: 100%;
   }
@@ -42,8 +58,6 @@ const Graficos = styled.div`
   padding-left: 10rem;
   padding-right: 10rem;
   height: 100%;
-  justify-content: center;
-  align-items: center;
   @media (max-width: 1200px) {
     padding-left: 6rem;
     padding-right: 6rem;
@@ -58,18 +72,12 @@ const Graficos = styled.div`
   }
 `;
 
-const Titulo = styled.h2`
-  text-align: center;
-  padding: 1rem;
-  padding-bottom: 0;
-`;
-
-const Faturamento = styled(Bar)`
+const Relatório = styled(Bar)`
   height: 100%;
   width: 100%;
 `;
 
-const Relatório = styled(Bar)`
+const Faturamento = styled(Bar)`
   height: 100%;
   width: 100%;
 `;
@@ -127,41 +135,68 @@ const faturamentoData = {
 };
 
 export default function graphics() {
+  const [activeGraphic, toggleActiveGraphic] = useState(true);
+  const [relatorio, activateRelatorio] = useState('active');
+  const [faturamento, activateFaturamento] = useState('');
   const chartRef = useRef();
+
+  function setRelatorio() {
+    toggleActiveGraphic(true);
+    activateRelatorio('active');
+    activateFaturamento('');
+  }
+
+  function setFaturamento() {
+    toggleActiveGraphic(false);
+    activateRelatorio('');
+    activateFaturamento('active');
+  }
 
   return (
     <Graphics>
       <Container>
+        <Buttons>
+          <Button
+            className={relatorio}
+            type="button"
+            onClick={() => setRelatorio()}
+          >
+            Relatório Geral
+          </Button>
+          <Button
+            className={faturamento}
+            type="button"
+            onClick={() => setFaturamento()}
+          >
+            Faturamento
+          </Button>
+        </Buttons>
         <Graphic>
-          <Titulo>FATURAMENTO</Titulo>
           <Graficos>
-            <Faturamento
-              datasetIdKey="faturamento"
-              data={faturamentoData}
-              ref={chartRef}
-              width={400}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false
-              }}
-            />
-          </Graficos>
-        </Graphic>
-      </Container>
-      <Container>
-        <Graphic>
-          <Titulo>RELATÓRIO GERAL</Titulo>
-          <Graficos>
-            <Relatório
-              datasetIdKey="relatorio"
-              data={relatorioData}
-              ref={chartRef}
-              width={400}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false
-              }}
-            />
+            {activeGraphic ? (
+              <Relatório
+                datasetIdKey="relatorio"
+                data={relatorioData}
+                ref={chartRef}
+                width={400}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false
+                }}
+              />
+            ) : null}
+            {!activeGraphic ? (
+              <Faturamento
+                datasetIdKey="faturamento"
+                data={faturamentoData}
+                ref={chartRef}
+                width={400}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false
+                }}
+              />
+            ) : null}
           </Graficos>
         </Graphic>
       </Container>
