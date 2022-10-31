@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import Image from 'next/image'
 import styled from 'styled-components';
 import Link from 'next/link';
 import LoginButton from './LoginButton/LoginButton';
@@ -63,7 +62,7 @@ export default function Login() {
   return (
     <LoginDiv>
       <LoginForm onSubmit={e => handleSubmit(e)}>
-        <img className="logo" src="/logo.png"/>
+        <img className="logo" src="/logo.png" alt="" />
         <LoginInput
           id="email"
           name="email"
@@ -84,7 +83,7 @@ export default function Login() {
         <LoginButton
           onClick={() =>
             signIn('credentials', {
-              callbackUrl: 'https://sistock.vercel.app',
+              callbackUrl: 'https://sistock.vercel.app/',
               // eslint-disable-next-line object-shorthand
               email: email,
               password: senha

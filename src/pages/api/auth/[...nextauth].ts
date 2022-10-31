@@ -14,7 +14,7 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        const res = await fetch('/api/db/auth/login', {
+        const res = await fetch('http://localhost:3000/api/db/auth/login', {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' }
@@ -25,8 +25,9 @@ export const authOptions = {
         if (res.ok && user) {
           return user;
         }
-        // Return null if user data could not be retrieved
         return null;
+
+        // Return null if user data could not be retrieved
       }
     }),
     GoogleProvider({
@@ -56,7 +57,8 @@ export const authOptions = {
       user: {
         ...session.user,
         id: user.id,
-        username: user.username
+        username: user.username,
+        email: user.email
       }
     })
   },
