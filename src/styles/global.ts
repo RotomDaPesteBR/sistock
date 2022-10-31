@@ -204,7 +204,7 @@ export default createGlobalStyle`
   .active {
     background: white;
     border: solid;
-    border-width: 2px 0 0;
+    border-width: 2px 0 0 !important;
     border-color: ${({ theme }) => theme.primary};
   }
 
@@ -352,5 +352,9 @@ export default createGlobalStyle`
     @media (max-width: 800px) {
       align-items: start;
     }
+  }
+
+  #reports-container {
+      align-items: start;
   }
 `;

@@ -86,7 +86,8 @@ export default function Login() {
               callbackUrl: 'https://sistock.vercel.app/',
               // eslint-disable-next-line object-shorthand
               email: email,
-              password: senha
+              password: senha,
+              redirect: false,
             })
           }
           type="submit"
