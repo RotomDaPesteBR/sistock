@@ -11,7 +11,7 @@ const Input = styled.input`
   @media (max-width: 500px) {
     width: 80%;
   }
-  &::placeholder{
+  &::placeholder {
     font-size: 1.2rem;
   }
 `;

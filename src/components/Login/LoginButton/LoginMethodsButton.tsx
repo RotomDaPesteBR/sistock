@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Button = styled.button`
   font-size: 1.2rem;
-  background: ${({ theme }) => theme.primary};
+  background: white;
   width: 12rem;
   height: 3rem;
   border: 0;
@@ -15,7 +16,26 @@ const Button = styled.button`
   }
 `;
 
+const Image = styled.img`
+  height: 100%;
+  padding: 0.5rem;
+`;
+
 export default function LoginMethodsButton(props) {
-  const { label } = props;
-  return <Button {...props}>{label}</Button>;
+  const [imageUrl, setImage] = useState('/');
+  const { method } = props;
+
+  useEffect(() => {
+    if (method === 'Google') {
+      setImage('/google.svg');
+    } else {
+      setImage('/facebook.svg');
+    }
+  }, []);
+
+  return (
+    <Button {...props}>
+      <Image src={imageUrl} alt="" />
+    </Button>
+  );
 }

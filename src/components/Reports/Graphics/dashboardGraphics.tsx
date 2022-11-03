@@ -15,7 +15,7 @@ const Graphics = styled.div`
   max-width: 70rem;
   background: ${({ theme }) => darken(0.01, theme.background)};
   height: auto;
-  padding: 5%;
+  padding: 1.5%;
   flex-direction: column;
   font-size: 1rem;
   @media (max-width: 800px) {
@@ -49,7 +49,7 @@ const Graphic = styled.div`
   background: white;
   height: 20rem;
   @media (max-width: 800px) {
-    height: 100%;
+    height: 15rem;
   }
 `;
 

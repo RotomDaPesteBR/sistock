@@ -87,7 +87,7 @@ export default function Login() {
               // eslint-disable-next-line object-shorthand
               email: email,
               password: senha,
-              redirect: false,
+              redirect: false
             })
           }
           type="submit"
@@ -95,13 +95,13 @@ export default function Login() {
         <Link href="/register">Cadastre-se</Link>
         <LoginMethods>
           <LoginMethodsButton
-            label="Google"
+            method="Google"
             onClick={() =>
               signIn('google', { callbackUrl: 'https://sistock.vercel.app' })
             }
           />
           <LoginMethodsButton
-            label="Facebook"
+            method="Facebook"
             onClick={() =>
               signIn('facebook', { callbackUrl: 'https://sistock.vercel.app' })
             }
