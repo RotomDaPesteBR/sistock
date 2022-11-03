@@ -203,9 +203,9 @@ export default createGlobalStyle`
 
   .active {
     background: white;
-    border: solid;
+    border: solid !important;
     border-width: 2px 0 0 !important;
-    border-color: ${({ theme }) => theme.primary};
+    border-color: ${({ theme }) => theme.primary} !important;
   }
 
   .selected-item {
