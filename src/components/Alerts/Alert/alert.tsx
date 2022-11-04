@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 
 const Item = styled.div`
@@ -10,6 +11,7 @@ const Item = styled.div`
   flex-direction: row;
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+  cursor: pointer;
 `;
 
 const Label = styled.div`
@@ -28,11 +30,13 @@ const Stock = styled.div`
 
 export default function Alert({ product }) {
   return (
-    <Item>
-      <Label>
-        <div>{`${product.name || ''} ${product.brand || ''}`}</div>
-        <Stock>{`${product.stock || 0} Disponíveis`}</Stock>
-      </Label>
-    </Item>
+    <Link href="/produtos">
+      <Item>
+        <Label>
+          <div>{`${product.name || ''} ${product.brand || ''}`}</div>
+          <Stock>{`${product.stock || 0} Disponíveis`}</Stock>
+        </Label>
+      </Item>
+    </Link>
   );
 }

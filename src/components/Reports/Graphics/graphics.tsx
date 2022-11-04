@@ -14,6 +14,9 @@ const GraphicsContainer = styled.div`
   background: ${({ theme }) => darken(0.01, theme.background)};
   flex-direction: column;
   font-size: 1rem;
+  padding: 1.5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
 `;
 
 const Graphic = styled.div`

@@ -173,55 +173,6 @@ export default function Cadastrar() {
 
   return (
     <Buttons>
-      {modalDespesas ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Adicionar</Title>
-              <Input
-                type="text"
-                placeholder="Nome"
-                value={nomeProduto}
-                onChange={e => setNomeProduto(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Marca"
-                value={marcaProduto}
-                onChange={e => setMarcaProduto(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Unidade"
-                value={unidadeProduto}
-                onChange={e => setUnidade(e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Limite"
-                value={limiteProduto === undefined ? '' : limiteProduto}
-                onChange={e => setLimiteProduto(e.target.value)}
-              />
-              <ModalButtons>
-                <ModalButton
-                  type="button"
-                  id="cancelar"
-                  onClick={() => showModalDespesas(false)}
-                >
-                  Cancelar
-                </ModalButton>
-                <ModalButton
-                  type="button"
-                  id="confirmar"
-                  onClick={() => cadastrarDespesa()}
-                >
-                  Adicionar
-                </ModalButton>
-              </ModalButtons>
-            </Form>
-          </Modal>
-        </ModalScreen>
-      ) : null}
       {modalProdutos ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
@@ -271,11 +222,60 @@ export default function Cadastrar() {
           </Modal>
         </ModalScreen>
       ) : null}
+      {modalDespesas ? (
+        <ModalScreen onClick={() => handleClickScreen()}>
+          <Modal onClick={e => handleClickModal(e)}>
+            <Form>
+              <Title>Cadastrar Despesas</Title>
+              <Input
+                type="text"
+                placeholder="Nome"
+                value={nomeProduto}
+                onChange={e => setNomeProduto(e.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Marca"
+                value={marcaProduto}
+                onChange={e => setMarcaProduto(e.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Unidade"
+                value={unidadeProduto}
+                onChange={e => setUnidade(e.target.value)}
+              />
+              <Input
+                type="number"
+                placeholder="Limite"
+                value={limiteProduto === undefined ? '' : limiteProduto}
+                onChange={e => setLimiteProduto(e.target.value)}
+              />
+              <ModalButtons>
+                <ModalButton
+                  type="button"
+                  id="cancelar"
+                  onClick={() => showModalDespesas(false)}
+                >
+                  Cancelar
+                </ModalButton>
+                <ModalButton
+                  type="button"
+                  id="confirmar"
+                  onClick={() => cadastrarDespesa()}
+                >
+                  Adicionar
+                </ModalButton>
+              </ModalButtons>
+            </Form>
+          </Modal>
+        </ModalScreen>
+      ) : null}
       {modalVendas ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
             <Form>
-              <Title>Adicionar</Title>
+              <Title>Cadastrar Vendas</Title>
               <Input
                 type="text"
                 placeholder="Nome"
@@ -320,13 +320,13 @@ export default function Cadastrar() {
           </Modal>
         </ModalScreen>
       ) : null}
-      <Button onClick={() => showModalDespesas(true)}>
-        <Icone src="/box.png" alt="" />
-        <Titulo>Despesas</Titulo>
-      </Button>
       <Button onClick={() => showModalProdutos(true)}>
         <Icone src="/box.png" alt="" />
         <Titulo>Produtos</Titulo>
+      </Button>
+      <Button onClick={() => showModalDespesas(true)}>
+        <Icone src="/box.png" alt="" />
+        <Titulo>Despesas</Titulo>
       </Button>
       <Button onClick={() => showModalVendas(true)}>
         <Icone src="/box.png" alt="" />

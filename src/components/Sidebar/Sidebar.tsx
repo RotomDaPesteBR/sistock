@@ -59,6 +59,7 @@ const ProfileImage = styled.img`
   width: 100%;
   height: 100%;
   padding: 2rem;
+  margin-top: -2rem;
   border-radius: 100%;
 `;
 
@@ -94,18 +95,37 @@ export default function Sidebar({ screen, sidebar, ...props }) {
 
   return (
     <Screen id="screen" className={`sidebar-screen ${screenFade}`} {...props}>
-      <Bar id="sidebar" className={sidebarFade} onClick={e => handleClickSidebar(e)}>
+      <Bar
+        id="sidebar"
+        className={sidebarFade}
+        onClick={e => handleClickSidebar(e)}
+      >
         <List>
           <Group>
             <Profile>
-              <ProfileImage src={session.data.user.image} alt="" />
-              <h3>{`${session.data?.user.name}`}</h3>
+              <ProfileImage
+                src={
+                  session.data.user.image
+                    ? session.data.user.image
+                    : '/blank-profile.png'
+                }
+                alt=""
+              />
+              <h3>{`${
+                session.data?.user.name ? session.data?.user.name : ' '
+              }`}</h3>
             </Profile>
             <Link href="/">
               <Item>Início</Item>
             </Link>
             <Link href="/produtos">
               <Item>Produtos</Item>
+            </Link>
+            <Link href="/vendas">
+              <Item>Vendas</Item>
+            </Link>
+            <Link href="/despesas">
+              <Item>Despesas</Item>
             </Link>
             <Link href="/cadastro">
               <Item>Cadastro</Item>

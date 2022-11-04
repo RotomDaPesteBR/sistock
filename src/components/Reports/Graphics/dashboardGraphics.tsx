@@ -100,7 +100,9 @@ const relatorioData = {
   datasets: [
     {
       label: 'Relatório',
-      data: [0, 0, 0, 0, 0, 1200, 1900, 2100, 1500, 2000, 1300],
+      data: [
+        1500, 1300, 1100, 1400, 1600, 1200, 1900, 2100, 1500, 2000, 1300, 1800
+      ],
       backgroundColor: ['rgba(32, 170, 255, 0.2)'],
       borderColor: ['rgba(32, 170, 255, 1)'],
       borderWidth: 1
@@ -126,7 +128,9 @@ const faturamentoData = {
   datasets: [
     {
       label: 'Faturamento',
-      data: [1200, 1900, 2100, 1500, 2000, 1300, 1900, 2100, 1500, 2000, 1300],
+      data: [
+        1200, 1900, 2100, 1500, 2000, 1300, 1900, 2100, 1500, 2000, 1300, 2400
+      ],
       backgroundColor: ['rgba(0, 255, 0, 0.2)'],
       borderColor: ['rgba(0, 255, 0, 1)'],
       borderWidth: 1

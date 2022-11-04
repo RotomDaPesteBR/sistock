@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../Sidebar/Sidebar';
@@ -32,6 +33,7 @@ const Item = styled.li`
 const RestaurantName = styled.h3`
   padding: 1rem;
   white-space: nowrap;
+  cursor: pointer;
 `;
 
 export default function Navbar() {
@@ -80,7 +82,7 @@ export default function Navbar() {
     }
   }
 
-  function handleClickScreen(e) {
+  function handleClickScreen() {
     fadeout();
     setShowSidebar(!showSidebar);
     setTimer(
@@ -99,7 +101,9 @@ export default function Navbar() {
             <SidebarButton onClick={() => handleClick()} />
           </Item>
           <Item>
-            <RestaurantName>{restaurant}</RestaurantName>
+            <Link href="/">
+              <RestaurantName>{restaurant}</RestaurantName>
+            </Link>
           </Item>
         </List>
       </Nav>
@@ -107,7 +111,7 @@ export default function Navbar() {
       <Sidebar
         screen={screenFade}
         sidebar={sidebarFade}
-        onClick={e => handleClickScreen(e)}
+        onClick={() => handleClickScreen()}
       />
     </Bar>
   );
