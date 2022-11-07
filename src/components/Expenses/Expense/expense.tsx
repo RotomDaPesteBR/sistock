@@ -269,7 +269,7 @@ export default function Despesa(props) {
         <Label className={selected} onClick={() => handleClick()}>
           <div>{`${expense.name || ''} ${expense.brand || ''}`}</div>
           <Buttons>
-            <Adicionar onClick={e => handleAdicionar(e)}>Pagar</Adicionar>
+            <Adicionar onClick={e => handleAdicionar(e)}>Inserir</Adicionar>
           </Buttons>
         </Label>
         {info ? (

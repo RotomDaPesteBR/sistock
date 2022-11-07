@@ -9,10 +9,13 @@ export default async function handler(
   try {
     const { data } = req.body;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const product = await prisma.SalesRec.update({
-      where: { id: data.product },
+    const expense = await prisma.SalesRec.create({
       data: {
-        stock: data.quantity
+        date: data.date,
+        value: data.value,
+        quantity: data.quantity,
+        prodsaleId: data.good,
+        userId: data.user
       }
     });
     res.status(200).json('Inserido com sucesso');

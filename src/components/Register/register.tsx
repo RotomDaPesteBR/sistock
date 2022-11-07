@@ -300,15 +300,15 @@ export default function Cadastrar() {
         </ModalScreen>
       ) : null}
       <Button onClick={() => showModalProdutos(true)}>
-        <Icone src="/box.png" alt="" />
+        <Icone src="/produtos.png" alt="" />
         <Titulo>Produtos</Titulo>
       </Button>
       <Button onClick={() => showModalMercadorias(true)}>
-        <Icone src="/box.png" alt="" />
+        <Icone src="/mercadorias.png" alt="" />
         <Titulo>Mercadorias</Titulo>
       </Button>
       <Button onClick={() => showModalDespesas(true)}>
-        <Icone src="/box.png" alt="" />
+        <Icone src="/despesas.png" alt="" />
         <Titulo>Despesas</Titulo>
       </Button>
     </Buttons>

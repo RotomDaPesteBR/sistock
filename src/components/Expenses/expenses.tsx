@@ -132,9 +132,9 @@ export default function Expenses(props) {
   async function handleAdicionar(expense, user) {
     const data = new Date().toISOString();
     const dados = {
-      expense: expense.id,
-      value: parseFloat(value),
       date: data,
+      value: parseFloat(value),
+      expense: expense.id,
       user: user.id
     };
     const promise = await axios
@@ -155,7 +155,7 @@ export default function Expenses(props) {
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
             <Form>
-              <Title>Pagar</Title>
+              <Title>Inserir</Title>
               <Input
                 type="number"
                 placeholder="Valor"
@@ -177,7 +177,7 @@ export default function Expenses(props) {
                     handleAdicionar(selectedExpense, session.data.user)
                   }
                 >
-                  Pagar
+                  Inserir
                 </Button>
               </Buttons>
             </Form>

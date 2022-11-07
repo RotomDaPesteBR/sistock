@@ -9,19 +9,12 @@ export default async function handler(
   try {
     const { data } = req.body;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const product = await prisma.Product.update({
-      where: { id: data.product },
-      data: {
-        stock: data.quantity
-      }
-    });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const historic = await prisma.ProductIn.create({
+    const expense = await prisma.ExpensesRec.create({
       data: {
         date: data.date,
         quantity: data.addedQuantity,
         value: data.value,
-        productId: data.product,
+        expensesId: data.expense,
         userId: data.user
       }
     });
