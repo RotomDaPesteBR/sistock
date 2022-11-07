@@ -189,7 +189,7 @@ export default function Despesa(props) {
 
   const [editNome, setEditNome] = useState('');
 
-  const { sale, getSales, insertModal } = props;
+  const { good, getGoods, insertModal } = props;
 
   function handleClick() {
     const state = info;
@@ -203,30 +203,30 @@ export default function Despesa(props) {
 
   function handleEdit() {
     showEdit(!edit);
-    setEditNome(sale.name);
+    setEditNome(good.name);
   }
 
   async function handleSave() {
     const dados = {
-      produto: sale.id,
+      produto: good.id,
       nome: editNome
     };
 
     // eslint-disable-next-line no-unused-vars
     const promise = await axios
-      .post('api/db/sale/update', { data: dados })
+      .post('api/db/good/update', { data: dados })
       .then(response => response.data)
       .catch(error => error.response);
-    getSales();
+    getGoods();
   }
 
-  async function deleteSale(id) {
+  async function deleteGood(id) {
     // eslint-disable-next-line no-unused-vars
     const promise = await axios
-      .post('api/db/sale/delete', { data: id })
+      .post('api/db/good/delete', { data: id })
       .then(response => response.data)
       .catch(error => error.response);
-    getSales();
+    getGoods();
   }
 
   function handleDelete() {
@@ -257,7 +257,7 @@ export default function Despesa(props) {
                 <Button type="button" onClick={() => showModalDelete(false)}>
                   Cancelar
                 </Button>
-                <Button type="button" onClick={() => deleteSale(sale.id)}>
+                <Button type="button" onClick={() => deleteGood(good.id)}>
                   Deletar
                 </Button>
               </ButtonsDelete>
@@ -267,7 +267,7 @@ export default function Despesa(props) {
       ) : null}
       <div>
         <Label className={selected} onClick={() => handleClick()}>
-          <div>{`${sale.name || ''} ${sale.brand || ''}`}</div>
+          <div>{`${good.name || ''} ${good.brand || ''}`}</div>
           <Buttons>
             <Adicionar onClick={e => handleAdicionar(e)}>Venda</Adicionar>
           </Buttons>
@@ -278,7 +278,7 @@ export default function Despesa(props) {
               <Info>
                 <InfoLine>
                   <div style={{ lineHeight: '2rem' }}>{`${
-                    sale.unit || ''
+                    good.unit || ''
                   }`}</div>
                   <div>
                     <Editar onClick={() => handleEdit()}>
@@ -294,7 +294,7 @@ export default function Despesa(props) {
             {edit ? (
               <Info>
                 <InfoLine>
-                  <div id="sale-edit-line">
+                  <div id="good-edit-line">
                     {`Nome: `}
                     <InfoEdit
                       id="edit-top-left"
