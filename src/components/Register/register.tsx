@@ -121,6 +121,11 @@ export default function Cadastrar() {
   const [marcaProduto, setMarcaProduto] = useState('');
   const [unidadeProduto, setUnidade] = useState('');
   const [limiteProduto, setLimiteProduto] = useState(undefined);
+
+  const [nomeVenda, setNomeVenda] = useState('');
+
+  const [nomeDespesa, setNomeDespesa] = useState('');
+
   const session = useSession();
 
   async function registerProduct(data, user) {
@@ -131,14 +136,20 @@ export default function Cadastrar() {
     console.log(promise);
   }
 
-  function cadastrarDespesa() {
-    const dados = {
-      nome: nomeProduto,
-      marca: marcaProduto,
-      unidade: unidadeProduto,
-      limite: parseInt(limiteProduto, 10)
-    };
-    registerProduct(dados, session.data.user);
+  async function registerSale(data, user) {
+    const promise = await axios
+      .post('api/db/register/sales', { data: { ...data, user: user.id } })
+      .then(response => response.data)
+      .catch(error => error.response);
+    console.log(promise);
+  }
+
+  async function registerExpense(data, user) {
+    const promise = await axios
+      .post('api/db/register/expenses', { data: { ...data, user: user.id } })
+      .then(response => response.data)
+      .catch(error => error.response);
+    console.log(promise);
   }
 
   function cadastrarProduto() {
@@ -153,12 +164,16 @@ export default function Cadastrar() {
 
   function cadastrarVendas() {
     const dados = {
-      nome: nomeProduto,
-      marca: marcaProduto,
-      unidade: unidadeProduto,
-      limite: parseInt(limiteProduto, 10)
+      nome: nomeVenda
     };
-    registerProduct(dados, session.data.user);
+    registerSale(dados, session.data.user);
+  }
+
+  function cadastrarDespesa() {
+    const dados = {
+      nome: nomeDespesa
+    };
+    registerExpense(dados, session.data.user);
   }
 
   function handleClickScreen() {
@@ -222,6 +237,37 @@ export default function Cadastrar() {
           </Modal>
         </ModalScreen>
       ) : null}
+      {modalVendas ? (
+        <ModalScreen onClick={() => handleClickScreen()}>
+          <Modal onClick={e => handleClickModal(e)}>
+            <Form>
+              <Title>Cadastrar Vendas</Title>
+              <Input
+                type="text"
+                placeholder="Nome"
+                value={nomeVenda}
+                onChange={e => setNomeVenda(e.target.value)}
+              />
+              <ModalButtons>
+                <ModalButton
+                  type="button"
+                  id="cancelar"
+                  onClick={() => showModalVendas(false)}
+                >
+                  Cancelar
+                </ModalButton>
+                <ModalButton
+                  type="button"
+                  id="confirmar"
+                  onClick={() => cadastrarVendas()}
+                >
+                  Adicionar
+                </ModalButton>
+              </ModalButtons>
+            </Form>
+          </Modal>
+        </ModalScreen>
+      ) : null}
       {modalDespesas ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
@@ -230,26 +276,8 @@ export default function Cadastrar() {
               <Input
                 type="text"
                 placeholder="Nome"
-                value={nomeProduto}
-                onChange={e => setNomeProduto(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Marca"
-                value={marcaProduto}
-                onChange={e => setMarcaProduto(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Unidade"
-                value={unidadeProduto}
-                onChange={e => setUnidade(e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Limite"
-                value={limiteProduto === undefined ? '' : limiteProduto}
-                onChange={e => setLimiteProduto(e.target.value)}
+                value={nomeDespesa}
+                onChange={e => setNomeDespesa(e.target.value)}
               />
               <ModalButtons>
                 <ModalButton
@@ -271,66 +299,17 @@ export default function Cadastrar() {
           </Modal>
         </ModalScreen>
       ) : null}
-      {modalVendas ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Cadastrar Vendas</Title>
-              <Input
-                type="text"
-                placeholder="Nome"
-                value={nomeProduto}
-                onChange={e => setNomeProduto(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Marca"
-                value={marcaProduto}
-                onChange={e => setMarcaProduto(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Unidade"
-                value={unidadeProduto}
-                onChange={e => setUnidade(e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Limite"
-                value={limiteProduto === undefined ? '' : limiteProduto}
-                onChange={e => setLimiteProduto(e.target.value)}
-              />
-              <ModalButtons>
-                <ModalButton
-                  type="button"
-                  id="cancelar"
-                  onClick={() => showModalVendas(false)}
-                >
-                  Cancelar
-                </ModalButton>
-                <ModalButton
-                  type="button"
-                  id="confirmar"
-                  onClick={() => cadastrarVendas}
-                >
-                  Adicionar
-                </ModalButton>
-              </ModalButtons>
-            </Form>
-          </Modal>
-        </ModalScreen>
-      ) : null}
       <Button onClick={() => showModalProdutos(true)}>
         <Icone src="/box.png" alt="" />
         <Titulo>Produtos</Titulo>
       </Button>
-      <Button onClick={() => showModalDespesas(true)}>
-        <Icone src="/box.png" alt="" />
-        <Titulo>Despesas</Titulo>
-      </Button>
       <Button onClick={() => showModalVendas(true)}>
         <Icone src="/box.png" alt="" />
         <Titulo>Vendas</Titulo>
+      </Button>
+      <Button onClick={() => showModalDespesas(true)}>
+        <Icone src="/box.png" alt="" />
+        <Titulo>Despesas</Titulo>
       </Button>
     </Buttons>
   );

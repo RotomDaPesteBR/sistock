@@ -96,7 +96,7 @@ model ProductSales {
 model ExpensesRec {
   id         String   @id @default(cuid())
   date       DateTime
-  value      Float?
+  value      Float
   expensesId String
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)

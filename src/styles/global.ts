@@ -256,6 +256,14 @@ export default createGlobalStyle`
     flex-wrap: wrap;
   }
 
+  #sale-edit-line {
+    width: 100%;
+  }
+
+  #expense-edit-line {
+    width: 100%;
+  }
+
   #edit-top-left{
     @media (max-width: 500px) {
       margin-right: 0.25rem;

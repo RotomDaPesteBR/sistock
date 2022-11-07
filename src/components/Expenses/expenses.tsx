@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Produto from './Expense/expense';
+import Venda from './Expense/expense';
 
 const Lista = styled.div`
   display: flex;
@@ -89,103 +89,67 @@ const Button = styled.button`
   border-color: ${({ theme }) => theme.border};
 `;
 
-export default function Despesas(props) {
-  const [products, setProducts] = useState('');
+export default function Expenses(props) {
+  const [expenses, setExpenses] = useState('');
   const [insert, showInsert] = useState(false);
-  const [withdraw, showWithdraw] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState([]);
+  const [selectedExpense, setSelectedExpense] = useState([]);
   const [quantity, setQuantity] = useState(undefined);
   const [value, setValue] = useState(undefined);
-  const [motivo, setMotivo] = useState('');
 
   const session = useSession();
 
-  function insertModal(product) {
+  function insertModal(expense) {
     showInsert(true);
-    showWithdraw(false);
     setQuantity(undefined);
     setValue(undefined);
-    setMotivo('');
-    setSelectedProduct(product);
+    setSelectedExpense(expense);
   }
 
-  function withdrawModal(product) {
-    showInsert(false);
-    showWithdraw(true);
-    setQuantity(undefined);
-    setValue(undefined);
-    setMotivo('');
-    setSelectedProduct(product);
-  }
-
-  async function getProducts(user) {
+  async function getExpenses(user) {
     const promise = await axios
-      .post('api/db/products', { data: user.id })
+      .post('api/db/expenses', { data: user.id })
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      const result = promise.map(product => (
-        <Produto
-          key={product.id}
-          product={product}
-          insertModal={() => insertModal(product)}
-          withdrawModal={() => withdrawModal(product)}
-          getProducts={() => getProducts(session.data.user)}
+      const result = promise.map(expense => (
+        <Venda
+          key={expense.id}
+          expense={expense}
+          insertModal={() => insertModal(expense)}
+          getExpenses={() => getExpenses(session.data.user)}
         />
       ));
-      setProducts(result);
+      setExpenses(result);
     }
   }
 
   function handleClickScreen() {
     showInsert(false);
-    showWithdraw(false);
   }
 
   function handleClickModal(e) {
     e.stopPropagation();
   }
 
-  async function handleAdicionar(product, user) {
+  async function handleAdicionar(expense, user) {
     const data = new Date().toISOString();
-    const quantidade = product.stock + parseInt(quantity, 10);
     const dados = {
-      product: product.id,
-      quantity: quantidade,
-      addedQuantity: parseInt(quantity, 10),
-      value: parseInt(value, 10),
+      expense: expense.id,
+      value: parseFloat(value),
+      quantity: parseInt(quantity, 10),
       date: data,
       user: user.id
     };
     const promise = await axios
-      .post('api/db/product/insert', { data: dados })
+      .post('api/db/expense/insert', { data: dados })
       .then(response => response.data)
       .catch(error => error.response);
     console.log(promise);
-    getProducts(session.data.user);
-  }
-
-  async function handleRemover(product, user) {
-    const data = new Date().toISOString();
-    const quantidade = product.stock - parseInt(quantity, 10);
-    const dados = {
-      product: product.id,
-      quantity: quantidade,
-      withdrawQuantity: parseInt(quantity, 10),
-      motive: motivo,
-      date: data,
-      user: user.id
-    };
-    const promise = await axios
-      .post('api/db/product/withdraw', { data: dados })
-      .then(response => response.data)
-      .catch(error => error.response);
-    console.log(promise);
-    getProducts(session.data.user);
+    getExpenses(session.data.user);
   }
 
   useEffect(() => {
-    getProducts(session.data.user);
+    getExpenses(session.data.user);
   }, []);
 
   return (
@@ -197,15 +161,15 @@ export default function Despesas(props) {
               <Title>Adicionar</Title>
               <Input
                 type="number"
-                placeholder="Quantidade"
-                value={quantity === undefined ? '' : quantity}
-                onChange={e => setQuantity(e.target.value)}
-              />
-              <Input
-                type="number"
                 placeholder="Valor"
                 value={value === undefined ? '' : value}
                 onChange={e => setValue(e.target.value)}
+              />
+              <Input
+                type="number"
+                placeholder="Quantidade"
+                value={quantity === undefined ? '' : quantity}
+                onChange={e => setQuantity(e.target.value)}
               />
               <Buttons>
                 <Button
@@ -219,7 +183,7 @@ export default function Despesas(props) {
                   type="button"
                   id="confirmar"
                   onClick={() =>
-                    handleAdicionar(selectedProduct, session.data.user)
+                    handleAdicionar(selectedExpense, session.data.user)
                   }
                 >
                   Adicionar
@@ -229,49 +193,10 @@ export default function Despesas(props) {
           </Modal>
         </ModalScreen>
       ) : null}
-      {withdraw ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Remover</Title>
-              <Input
-                type="number"
-                placeholder="Quantidade"
-                value={quantity === undefined ? '' : quantity}
-                onChange={e => setQuantity(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Motivo"
-                value={motivo}
-                onChange={e => setMotivo(e.target.value)}
-              />
-              <Buttons>
-                <Button
-                  type="button"
-                  id="cancelar"
-                  onClick={() => handleClickScreen()}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                  onClick={() =>
-                    handleRemover(selectedProduct, session.data.user)
-                  }
-                >
-                  Remover
-                </Button>
-              </Buttons>
-            </Form>
-          </Modal>
-        </ModalScreen>
-      ) : null}
       <div className="0" id="SafeArea">
         <h1>Despesas:</h1>
       </div>
-      {products}
+      {expenses}
     </Lista>
   );
 }

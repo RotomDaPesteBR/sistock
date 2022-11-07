@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import { darken, lighten } from 'polished';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Item = styled.div`
@@ -22,13 +22,6 @@ const Label = styled.div`
   padding: 1rem;
 `;
 
-const Disponíveis = styled.div`
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  text-align: center;
-  line-height: 1rem;
-`;
-
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
@@ -41,18 +34,6 @@ const Adicionar = styled.button`
   background: ${({ theme }) => theme.primary};
   border: none;
   border-radius: 5px;
-  margin-right: 0.25rem;
-  color: ${({ theme }) => theme.text};
-`;
-
-const Remover = styled.button`
-  width: 2rem;
-  height: 2rem;
-  font-size: 1.25rem;
-  background: red;
-  border: none;
-  border-radius: 5px;
-  margin-left: 0.25rem;
   color: ${({ theme }) => theme.text};
 `;
 
@@ -95,12 +76,12 @@ const Excluir = styled.button`
 
 const InfoEdit = styled.input`
   padding: 0.5rem;
-  width: 22.5%;
+  width: 30%;
   border: 1px solid;
   border-color: ${({ theme }) => theme.border};
   border-radius: 10px;
   @media (max-width: 500px) {
-    width: calc(50% - 0.25rem);
+    width: 100%;
   }
 `;
 
@@ -200,20 +181,15 @@ const Button = styled.button`
   border-color: ${({ theme }) => theme.border};
 `;
 
-export default function Despesa(
-  { product, insertModal, withdrawModal, getProducts },
-  ...props
-) {
+export default function Despesa(props) {
   const [info, showInfo] = useState(false);
   const [selected, selectedItem] = useState('');
   const [edit, showEdit] = useState(false);
-  const [disponibilidade, setDisponibilidade] = useState('');
   const [modalDelete, showModalDelete] = useState(false);
 
   const [editNome, setEditNome] = useState('');
-  const [editMarca, setEditMarca] = useState('');
-  const [editUnidade, setEditUnidade] = useState('');
-  const [editLimite, setEditLimite] = useState('');
+
+  const { expense, getExpenses, insertModal } = props;
 
   function handleClick() {
     const state = info;
@@ -227,50 +203,30 @@ export default function Despesa(
 
   function handleEdit() {
     showEdit(!edit);
-    setEditNome(product.name);
-    setEditMarca(product.brand);
-    setEditUnidade(product.unit);
-    setEditLimite(product.limit);
-  }
-
-  function disponivel() {
-    if (product.stock === 0) {
-      setDisponibilidade('indisponível');
-    } else if (product.stock < product.limit) {
-      setDisponibilidade('falta');
-    } else if (product.stock >= product.limit * 2) {
-      setDisponibilidade('sobrando');
-    } else {
-      setDisponibilidade('disponivel');
-    }
+    setEditNome(expense.name);
   }
 
   async function handleSave() {
     const dados = {
-      produto: product.id,
-      nome: editNome,
-      marca: editMarca,
-      unidade: editUnidade,
-      limite: parseInt(editLimite, 10)
+      produto: expense.id,
+      nome: editNome
     };
 
     // eslint-disable-next-line no-unused-vars
     const promise = await axios
-      .post('api/db/product/update', { data: dados })
+      .post('api/db/expense/update', { data: dados })
       .then(response => response.data)
       .catch(error => error.response);
-    getProducts();
-    disponivel();
+    getExpenses();
   }
 
-  async function deleteProduct(id) {
+  async function deleteExpense(id) {
     // eslint-disable-next-line no-unused-vars
     const promise = await axios
-      .post('api/db/product/delete', { data: id })
+      .post('api/db/expense/delete', { data: id })
       .then(response => response.data)
       .catch(error => error.response);
-    getProducts();
-    disponivel();
+    getExpenses();
   }
 
   function handleDelete() {
@@ -282,11 +238,6 @@ export default function Despesa(
     insertModal();
   }
 
-  function handleRemover(e) {
-    e.stopPropagation();
-    withdrawModal();
-  }
-
   function handleClickScreen() {
     showModalDelete(false);
   }
@@ -295,12 +246,8 @@ export default function Despesa(
     e.stopPropagation();
   }
 
-  useEffect(() => {
-    disponivel();
-  }, [product]);
-
   return (
-    <Item {...props}>
+    <Item>
       {modalDelete ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
@@ -310,7 +257,7 @@ export default function Despesa(
                 <Button type="button" onClick={() => showModalDelete(false)}>
                   Cancelar
                 </Button>
-                <Button type="button" onClick={() => deleteProduct(product.id)}>
+                <Button type="button" onClick={() => deleteExpense(expense.id)}>
                   Deletar
                 </Button>
               </ButtonsDelete>
@@ -320,24 +267,18 @@ export default function Despesa(
       ) : null}
       <div>
         <Label className={selected} onClick={() => handleClick()}>
-          <div>{`${product.name || ''} ${product.brand || ''}`}</div>
-          <div id="product-control" className={disponibilidade}>
-            <Disponíveis>{`${
-              product.stock ?? (product.stock || 0)
-            } Disponíveis`}</Disponíveis>
-            <Buttons>
-              <Adicionar onClick={e => handleAdicionar(e)}>+</Adicionar>
-              <Remover onClick={e => handleRemover(e)}>-</Remover>
-            </Buttons>
-          </div>
+          <div>{`${expense.name || ''} ${expense.brand || ''}`}</div>
+          <Buttons>
+            <Adicionar onClick={e => handleAdicionar(e)}>+</Adicionar>
+          </Buttons>
         </Label>
         {info ? (
           <div>
             {!edit ? (
               <Info>
                 <InfoLine>
-                  <div style={{ lineHeight: '2rem' }}>{`Unidade: ${
-                    product.unit || ''
+                  <div style={{ lineHeight: '2rem' }}>{`${
+                    expense.unit || ''
                   }`}</div>
                   <div>
                     <Editar onClick={() => handleEdit()}>
@@ -352,35 +293,16 @@ export default function Despesa(
             ) : null}
             {edit ? (
               <Info>
-                <InfoLine id="edit-line">
-                  <InfoEdit
-                    id="edit-top-left"
-                    type="text"
-                    value={editNome}
-                    onChange={e => setEditNome(e.target.value)}
-                  />
-                  <InfoEdit
-                    id="edit-top-right"
-                    type="text"
-                    value={editMarca}
-                    onChange={e => setEditMarca(e.target.value)}
-                  />
-                  <InfoEdit
-                    id="edit-bottom-left"
-                    type="text"
-                    value={editUnidade}
-                    onChange={e => setEditUnidade(e.target.value)}
-                  />
-                  <InfoEdit
-                    id="edit-bottom-right"
-                    type="number"
-                    value={editLimite}
-                    onChange={e => setEditLimite(e.target.value)}
-                  />
-                </InfoLine>
-                <br />
                 <InfoLine>
-                  <div />
+                  <div id="expense-edit-line">
+                    {`Nome: `}
+                    <InfoEdit
+                      id="edit-top-left"
+                      type="text"
+                      value={editNome}
+                      onChange={e => setEditNome(e.target.value)}
+                    />
+                  </div>
                   <EditButtons>
                     <Cancelar onClick={() => handleEdit()}>Cancelar</Cancelar>
                     <Salvar onClick={() => handleSave()}>Salvar</Salvar>
