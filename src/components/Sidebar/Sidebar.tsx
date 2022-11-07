@@ -121,8 +121,8 @@ export default function Sidebar({ screen, sidebar, ...props }) {
             <Link href="/produtos">
               <Item>Produtos</Item>
             </Link>
-            <Link href="/vendas">
-              <Item>Vendas</Item>
+            <Link href="/mercadorias">
+              <Item>Mercadorias</Item>
             </Link>
             <Link href="/despesas">
               <Item>Despesas</Item>

@@ -93,14 +93,12 @@ export default function Expenses(props) {
   const [expenses, setExpenses] = useState('');
   const [insert, showInsert] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState([]);
-  const [quantity, setQuantity] = useState(undefined);
   const [value, setValue] = useState(undefined);
 
   const session = useSession();
 
   function insertModal(expense) {
     showInsert(true);
-    setQuantity(undefined);
     setValue(undefined);
     setSelectedExpense(expense);
   }
@@ -136,7 +134,6 @@ export default function Expenses(props) {
     const dados = {
       expense: expense.id,
       value: parseFloat(value),
-      quantity: parseInt(quantity, 10),
       date: data,
       user: user.id
     };
@@ -158,18 +155,12 @@ export default function Expenses(props) {
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
             <Form>
-              <Title>Adicionar</Title>
+              <Title>Pagar</Title>
               <Input
                 type="number"
                 placeholder="Valor"
                 value={value === undefined ? '' : value}
                 onChange={e => setValue(e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Quantidade"
-                value={quantity === undefined ? '' : quantity}
-                onChange={e => setQuantity(e.target.value)}
               />
               <Buttons>
                 <Button
@@ -186,7 +177,7 @@ export default function Expenses(props) {
                     handleAdicionar(selectedExpense, session.data.user)
                   }
                 >
-                  Adicionar
+                  Pagar
                 </Button>
               </Buttons>
             </Form>

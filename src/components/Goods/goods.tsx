@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Venda from './Sale/sale';
+import Venda from './Good/good';
 
 const Lista = styled.div`
   display: flex;
@@ -89,37 +89,37 @@ const Button = styled.button`
   border-color: ${({ theme }) => theme.border};
 `;
 
-export default function Sales(props) {
-  const [sales, setSales] = useState('');
+export default function Goods(props) {
+  const [goods, setGoods] = useState('');
   const [insert, showInsert] = useState(false);
-  const [selectedSale, setSelectedSale] = useState([]);
+  const [selectedGood, setSelectedGood] = useState([]);
   const [quantity, setQuantity] = useState(undefined);
   const [value, setValue] = useState(undefined);
 
   const session = useSession();
 
-  function insertModal(sale) {
+  function insertModal(good) {
     showInsert(true);
     setQuantity(undefined);
     setValue(undefined);
-    setSelectedSale(sale);
+    setSelectedGood(good);
   }
 
-  async function getSales(user) {
+  async function getGoods(user) {
     const promise = await axios
-      .post('api/db/sales', { data: user.id })
+      .post('api/db/goods', { data: user.id })
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      const result = promise.map(sale => (
+      const result = promise.map(good => (
         <Venda
-          key={sale.id}
-          sale={sale}
-          insertModal={() => insertModal(sale)}
-          getSales={() => getSales(session.data.user)}
+          key={good.id}
+          good={good}
+          insertModal={() => insertModal(good)}
+          getGoods={() => getGoods(session.data.user)}
         />
       ));
-      setSales(result);
+      setGoods(result);
     }
   }
 
@@ -131,25 +131,25 @@ export default function Sales(props) {
     e.stopPropagation();
   }
 
-  async function handleAdicionar(sale, user) {
+  async function handleAdicionar(good, user) {
     const data = new Date().toISOString();
     const dados = {
-      sale: sale.id,
+      good: good.id,
       value: parseFloat(value),
       quantity: parseInt(quantity, 10),
       date: data,
       user: user.id
     };
     const promise = await axios
-      .post('api/db/sale/insert', { data: dados })
+      .post('api/db/good/insert', { data: dados })
       .then(response => response.data)
       .catch(error => error.response);
     console.log(promise);
-    getSales(session.data.user);
+    getGoods(session.data.user);
   }
 
   useEffect(() => {
-    getSales(session.data.user);
+    getGoods(session.data.user);
   }, []);
 
   return (
@@ -158,7 +158,7 @@ export default function Sales(props) {
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
             <Form>
-              <Title>Adicionar</Title>
+              <Title>Venda</Title>
               <Input
                 type="number"
                 placeholder="Valor"
@@ -183,10 +183,10 @@ export default function Sales(props) {
                   type="button"
                   id="confirmar"
                   onClick={() =>
-                    handleAdicionar(selectedSale, session.data.user)
+                    handleAdicionar(selectedGood, session.data.user)
                   }
                 >
-                  Adicionar
+                  Vender
                 </Button>
               </Buttons>
             </Form>
@@ -194,9 +194,9 @@ export default function Sales(props) {
         </ModalScreen>
       ) : null}
       <div className="0" id="SafeArea">
-        <h1>Vendas:</h1>
+        <h1>Mercadorias:</h1>
       </div>
-      {sales}
+      {goods}
     </Lista>
   );
 }

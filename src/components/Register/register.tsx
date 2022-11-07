@@ -115,14 +115,14 @@ const ModalButton = styled.button`
 export default function Cadastrar() {
   const [modalDespesas, showModalDespesas] = useState(false);
   const [modalProdutos, showModalProdutos] = useState(false);
-  const [modalVendas, showModalVendas] = useState(false);
+  const [modalMercadorias, showModalMercadorias] = useState(false);
 
   const [nomeProduto, setNomeProduto] = useState('');
   const [marcaProduto, setMarcaProduto] = useState('');
   const [unidadeProduto, setUnidade] = useState('');
   const [limiteProduto, setLimiteProduto] = useState(undefined);
 
-  const [nomeVenda, setNomeVenda] = useState('');
+  const [nomeMercadoria, setNomeMercadoria] = useState('');
 
   const [nomeDespesa, setNomeDespesa] = useState('');
 
@@ -136,9 +136,9 @@ export default function Cadastrar() {
     console.log(promise);
   }
 
-  async function registerSale(data, user) {
+  async function registerGood(data, user) {
     const promise = await axios
-      .post('api/db/register/sales', { data: { ...data, user: user.id } })
+      .post('api/db/register/goods', { data: { ...data, user: user.id } })
       .then(response => response.data)
       .catch(error => error.response);
     console.log(promise);
@@ -162,11 +162,11 @@ export default function Cadastrar() {
     registerProduct(dados, session.data.user);
   }
 
-  function cadastrarVendas() {
+  function cadastrarMercadorias() {
     const dados = {
-      nome: nomeVenda
+      nome: nomeMercadoria
     };
-    registerSale(dados, session.data.user);
+    registerGood(dados, session.data.user);
   }
 
   function cadastrarDespesa() {
@@ -179,7 +179,7 @@ export default function Cadastrar() {
   function handleClickScreen() {
     showModalDespesas(false);
     showModalProdutos(false);
-    showModalVendas(false);
+    showModalMercadorias(false);
   }
 
   function handleClickModal(e) {
@@ -237,29 +237,29 @@ export default function Cadastrar() {
           </Modal>
         </ModalScreen>
       ) : null}
-      {modalVendas ? (
+      {modalMercadorias ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
             <Form>
-              <Title>Cadastrar Vendas</Title>
+              <Title>Cadastrar Mercadorias</Title>
               <Input
                 type="text"
                 placeholder="Nome"
-                value={nomeVenda}
-                onChange={e => setNomeVenda(e.target.value)}
+                value={nomeMercadoria}
+                onChange={e => setNomeMercadoria(e.target.value)}
               />
               <ModalButtons>
                 <ModalButton
                   type="button"
                   id="cancelar"
-                  onClick={() => showModalVendas(false)}
+                  onClick={() => showModalMercadorias(false)}
                 >
                   Cancelar
                 </ModalButton>
                 <ModalButton
                   type="button"
                   id="confirmar"
-                  onClick={() => cadastrarVendas()}
+                  onClick={() => cadastrarMercadorias()}
                 >
                   Adicionar
                 </ModalButton>
@@ -303,9 +303,9 @@ export default function Cadastrar() {
         <Icone src="/box.png" alt="" />
         <Titulo>Produtos</Titulo>
       </Button>
-      <Button onClick={() => showModalVendas(true)}>
+      <Button onClick={() => showModalMercadorias(true)}>
         <Icone src="/box.png" alt="" />
-        <Titulo>Vendas</Titulo>
+        <Titulo>Mercadorias</Titulo>
       </Button>
       <Button onClick={() => showModalDespesas(true)}>
         <Icone src="/box.png" alt="" />

@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar/Navbar';
-import Vendas from '../components/Sales/sales';
+import Vendas from '../components/Goods/goods';
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);

@@ -28,7 +28,7 @@ const Buttons = styled.div`
 `;
 
 const Adicionar = styled.button`
-  width: 2rem;
+  width: 8rem;
   height: 2rem;
   font-size: 1.25rem;
   background: ${({ theme }) => theme.primary};
@@ -269,7 +269,7 @@ export default function Despesa(props) {
         <Label className={selected} onClick={() => handleClick()}>
           <div>{`${expense.name || ''} ${expense.brand || ''}`}</div>
           <Buttons>
-            <Adicionar onClick={e => handleAdicionar(e)}>+</Adicionar>
+            <Adicionar onClick={e => handleAdicionar(e)}>Pagar</Adicionar>
           </Buttons>
         </Label>
         {info ? (
