@@ -14,11 +14,14 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        const res = await fetch('http://localhost:3000/api/db/auth/login', {
-          method: 'POST',
-          body: JSON.stringify(credentials),
-          headers: { 'Content-Type': 'application/json' }
-        });
+        const res = await fetch(
+          'https://sistock.vercel.app/api/db/auth/login',
+          {
+            method: 'POST',
+            body: JSON.stringify(credentials),
+            headers: { 'Content-Type': 'application/json' }
+          }
+        );
         // If no error and we have user data, return it
         if (!res.ok) {
           return null;

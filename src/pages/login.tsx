@@ -1,6 +1,5 @@
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import { useEffect } from 'react';
 import Login from '../components/Login/Login';
 
 export async function getServerSideProps(context) {
@@ -21,11 +20,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home() {
-  const session = useSession();
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
-
   return (
     <div className="loginContainer">
       <Head>
