@@ -1,9 +1,9 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { darken } from 'polished';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import _ from 'lodash';
 import Alert from './Alert/alert';
 
 const Container = styled.div`
@@ -48,10 +48,7 @@ export default function Alerts() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      const products = _.filter(promise, p => {
-        console.log(p.stock < p.limit);
-        return p.stock < p.limit;
-      });
+      const products = _.filter(promise, p => p.stock < p.limit);
       console.log(products);
       const result = products.map(product => (
         <Alert key={product.id} product={product} />

@@ -1,8 +1,8 @@
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import FacebookProvider from 'next-auth/providers/facebook';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import GoogleProvider from 'next-auth/providers/google';
 import prisma from '../../../lib/prisma';
 
 export const authOptions = {
@@ -19,13 +19,14 @@ export const authOptions = {
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' }
         });
+        // If no error and we have user data, return it
+        if (!res.ok) {
+          return null;
+        }
+
         const user = await res.json();
 
-        // If no error and we have user data, return it
-        if (res.ok && user) {
-          return user;
-        }
-        return null;
+        return user;
 
         // Return null if user data could not be retrieved
       }
@@ -49,19 +50,42 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    jwt(params) {
-      return params.token;
-    },
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-        username: user.username,
-        email: user.email
+    jwt: ({ token, user }) => {
+      const jwtToken = { ...token };
+      if (user) {
+        jwtToken.id = user.id;
       }
-    })
+      return jwtToken;
+    },
+    session: ({ session, user, token }) => {
+      if (token) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: token.id,
+            username: token.name,
+            email: token.email,
+            image: token.picture
+          }
+        };
+      }
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          username: user.username,
+          email: user.email
+        }
+      };
+    }
   },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+    encryption: true
+  },
+  session: { strategy: 'jwt' },
   pages: {
     signIn: '/login',
     signOut: '/login',

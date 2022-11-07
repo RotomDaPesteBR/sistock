@@ -20,8 +20,7 @@ export default async function handler(
           name: true,
           email: true,
           password: true,
-          refresh_token: true,
-          access_token: true
+          image: true
         }
       });
       if (account.email === email && account.password === password) {
@@ -30,8 +29,7 @@ export default async function handler(
           id: account.id,
           name: account.name,
           email: account.email,
-          token: account.access_token,
-          refreshToken: account.refreshToken
+          image: account.image
         };
         res.status(200).json(user);
       } else {

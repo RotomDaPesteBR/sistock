@@ -1,10 +1,11 @@
-import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import styled from 'styled-components';
 import Link from 'next/link';
+import Router from 'next/router';
+import { useState } from 'react';
+import styled from 'styled-components';
 import LoginButton from './LoginButton/LoginButton';
-import LoginInput from './LoginInput/LoginInput';
 import LoginMethodsButton from './LoginButton/LoginMethodsButton';
+import LoginInput from './LoginInput/LoginInput';
 
 const LoginDiv = styled.div`
   background: ${({ theme }) => theme.backgroundLogin};
@@ -55,6 +56,19 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
+  async function handleLogin() {
+    const res = await signIn('credentials', {
+      callbackUrl: 'https://sistock.vercel.app/',
+      // eslint-disable-next-line object-shorthand
+      email: email,
+      password: senha,
+      redirect: false
+    });
+    if (res.ok) {
+      Router.push('/dashboard');
+    }
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
   }
@@ -80,24 +94,15 @@ export default function Login() {
           type="password"
         />
         <Link href="/recover">Esqueceu a senha?</Link>
-        <LoginButton
-          onClick={() =>
-            signIn('credentials', {
-              callbackUrl: 'https://sistock.vercel.app/',
-              // eslint-disable-next-line object-shorthand
-              email: email,
-              password: senha,
-              redirect: false
-            })
-          }
-          type="submit"
-        />
+        <LoginButton onClick={() => handleLogin()} type="submit" />
         <Link href="/register">Cadastre-se</Link>
         <LoginMethods>
           <LoginMethodsButton
             method="Google"
             onClick={() =>
-              signIn('google', { callbackUrl: 'https://sistock.vercel.app' })
+              signIn('google', {
+                callbackUrl: 'https://sistock.vercel.app'
+              })
             }
           />
           <LoginMethodsButton
