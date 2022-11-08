@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
+import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { darken } from 'polished';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
 
@@ -134,9 +135,18 @@ export default function graphics() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      /*const result = promise.map(product => ());
-      setProducts(result);*/
-      console.log(promise);
+      const expensesLastMonth = _.filter(promise, item => {
+        const data = new Date();
+        const oldData = new Date(item.date);
+        const i = data.getTime() - oldData.getTime();
+        const x = Math.ceil(i / (1000 * 3600 * 24));
+        console.log(x);
+        return x <= 30;
+      });
+      /* const result = promise.map(product => ());
+      setProducts(result); */
+      // console.log(promise);
+      console.log(expensesLastMonth);
     }
   }
 
@@ -146,7 +156,7 @@ export default function graphics() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      /*const result = promise.map(product => (
+      /* const result = promise.map(product => (
         <Produto
           key={product.id}
           product={product}
@@ -155,7 +165,7 @@ export default function graphics() {
           getProducts={() => getProducts(session.data.user)}
         />
       ));
-      setProducts(result);*/
+      setProducts(result); */
       console.log(promise);
     }
   }
@@ -163,7 +173,7 @@ export default function graphics() {
   useEffect(() => {
     getExpenses(session.data.user);
     getGoods(session.data.user);
-  },[]);
+  }, []);
 
   return (
     <GraphicsContainer>

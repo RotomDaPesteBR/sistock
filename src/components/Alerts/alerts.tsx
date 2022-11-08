@@ -49,7 +49,6 @@ export default function Alerts() {
       .catch(error => error.response);
     if (promise?.status !== 500) {
       const products = _.filter(promise, p => p.stock < p.limit);
-      console.log(products);
       const result = products.map(product => (
         <Alert key={product.id} product={product} />
       ));
