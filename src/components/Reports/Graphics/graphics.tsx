@@ -84,6 +84,21 @@ export default function graphics() {
     'Dezembro'
   ]);
 
+  const mesesList = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+  ];
+
   const chartRef = useRef();
 
   const session = useSession();
@@ -94,18 +109,38 @@ export default function graphics() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      const expensesLastMonth = _.filter(promise, item => {
+      /* const expensesLastMonth = _.filter(promise, item => {
         const data = new Date();
         const oldData = new Date(item.date);
         const i = data.getTime() - oldData.getTime();
         const x = Math.ceil(i / (1000 * 3600 * 24));
         console.log(x);
         return x <= 30;
+      }); */
+      // const ano = new Date().getFullYear;
+      const expensesByYear = _.groupBy(promise, item => {
+        const year = new Date(item.date).getFullYear();
+        return year;
       });
-      /* const result = promise.map(product => ());
-      setProducts(result); */
-      // console.log(promise);
-      console.log(expensesLastMonth);
+      const expensesLastYear = _.groupBy(promise, item => {
+        const data = new Date();
+        const oldData = new Date(item.date);
+        const i = data.getTime() - oldData.getTime();
+        const x = Math.ceil(i / (1000 * 3600 * 24));
+        return x <= 365;
+      });
+      const expensesByMonth = _.groupBy(expensesLastYear.true, item => {
+        const mes = new Date(item.date).getMonth();
+        return mes;
+      });
+      const arrayExpensesLastYearValue = Object.values(expensesByMonth);
+      const expensesLastYearValue = arrayExpensesLastYearValue.map(e =>
+        _.sum(e.value)
+      );
+      console.log(expensesByYear);
+      console.log(expensesLastYear);
+      console.log(expensesByMonth);
+      console.log(expensesLastYearValue);
     }
   }
 
@@ -131,20 +166,12 @@ export default function graphics() {
 
   function listMonths() {
     const month = new Date().getMonth();
-    const mesesTemp = meses;
-    const months = [mesesTemp[month]];
-
-    /* for (let i = 1; i <= month; i + 1) {
-      if (mesesTemp[month + i] !== undefined) {
-        months.push(mesesTemp[month + i]);
-      }
-      if (mesesTemp[month - i] !== undefined) {
-        months.push(mesesTemp[month - i]);
-      }
-    } */
-    console.log(mesesTemp);
+    const i = 11 - month;
+    const monthsA = _.take(mesesList, month + 1);
+    const monthsB = _.takeRight(mesesList, i);
+    const months = _.concat(monthsB, monthsA);
     console.log(months);
-    // setMeses(months);
+    setMeses(months);
   }
 
   useEffect(() => {
@@ -154,20 +181,7 @@ export default function graphics() {
   }, []);
 
   const relatorioData = {
-    labels: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro'
-    ],
+    labels: [...meses],
     datasets: [
       {
         label: 'Relatório',
@@ -182,20 +196,7 @@ export default function graphics() {
   };
 
   const faturamentoData = {
-    labels: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro'
-    ],
+    labels: [...meses],
     datasets: [
       {
         label: 'Faturamento',
