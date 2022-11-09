@@ -148,7 +148,8 @@ export default function Produtos(props) {
 
   async function handleAdicionar(product, user) {
     const data = new Date().toISOString();
-    const quantidade = product.stock + parseInt(quantity, 10);
+    const quant = product.stock + parseInt(quantity, 10);
+    const quantidade = quant >= 0 ? quant : 0;
     const dados = {
       product: product.id,
       quantity: quantidade,
@@ -167,7 +168,8 @@ export default function Produtos(props) {
 
   async function handleRemover(product, user) {
     const data = new Date().toISOString();
-    const quantidade = product.stock - parseInt(quantity, 10);
+    const quant = product.stock - parseInt(quantity, 10);
+    const quantidade = quant >= 0 ? quant : 0;
     const dados = {
       product: product.id,
       quantity: quantidade,
@@ -184,6 +186,17 @@ export default function Produtos(props) {
     getProducts(session.data.user);
   }
 
+  function validate(e) {
+    const ev = e || window.event;
+    let key = ev.keyCode || ev.which;
+    key = String.fromCharCode(key);
+    const regex = /[0-9]/;
+    if (!regex.test(key)) {
+      ev.returnValue = false;
+      if (ev.preventDefault) ev.preventDefault();
+    }
+  }
+
   useEffect(() => {
     getProducts(session.data.user);
   }, []);
@@ -198,12 +211,14 @@ export default function Produtos(props) {
               <Input
                 type="number"
                 placeholder="Quantidade"
+                onKeyPress={e => validate(e)}
                 value={quantity === undefined ? '' : quantity}
                 onChange={e => setQuantity(e.target.value)}
               />
               <Input
                 type="number"
                 placeholder="Valor"
+                onKeyPress={e => validate(e)}
                 value={value === undefined ? '' : value}
                 onChange={e => setValue(e.target.value)}
               />
@@ -237,6 +252,7 @@ export default function Produtos(props) {
               <Input
                 type="number"
                 placeholder="Quantidade"
+                onKeyPress={e => validate(e)}
                 value={quantity === undefined ? '' : quantity}
                 onChange={e => setQuantity(e.target.value)}
               />

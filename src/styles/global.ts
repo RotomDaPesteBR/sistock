@@ -35,11 +35,16 @@ export default createGlobalStyle`
   }
 
   .loginContainer {
-    background-image: url('/background.png'); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/background.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    background-size: cover; 
+    background-size: cover;
   }
 
   img{
@@ -323,11 +328,6 @@ export default createGlobalStyle`
     background: ${({ theme }) => darken(0.05, theme.background)};
   }
 
-  .notifier{
-    padding: 1rem;
-  }
-
-
   .notifierIn{
     animation: 2s forwards notificationIn;
   }
@@ -338,21 +338,49 @@ export default createGlobalStyle`
 
   @keyframes notificationIn {
     0% {
-      top: -160px
+      top: -120px
     }
   
     100% {
-      top: 80px;
+      top: 70px;
     }
   }
 
   @keyframes notificationOut {
     0% {
-      top: 80px;
+      top: 70px;
     }
   
     100% {
-      top: -160px;
+      top: -120px;
+    }
+  }
+
+  .loginNotifierIn{
+    animation: 2s forwards loginNotificationIn;
+  }
+
+  .loginNotifierOut{
+    animation: 2s forwards loginNotificationOut;
+  }
+  
+  @keyframes loginNotificationIn {
+    0% {
+      top: -120px
+    }
+  
+    100% {
+      top: 120px;
+    }
+  }
+
+  @keyframes loginNotificationOut {
+    0% {
+      top: 120px;
+    }
+  
+    100% {
+      top: -120px;
     }
   }
 

@@ -18,7 +18,7 @@ const Popup = styled.div`
   border: 1px solid;
   border-radius: 10px;
   border-color: ${({ theme }) => theme.border};
-  z-index: 30;
+  z-index: 50;
 `;
 
 const Label = styled.div`
@@ -42,11 +42,11 @@ export function notify(text, delay, timeouts) {
   const AnimationRef = setTimeout(() => {
     notifier.style.animation = null;
   }, 1);
-  notifier.classList.remove('notifierOut');
-  notifier.classList.add('notifierIn');
+  notifier.classList.remove('loginNotifierOut');
+  notifier.classList.add('loginNotifierIn');
   const ExpireRef = setTimeout(() => {
-    notifier.classList.remove('notifierIn');
-    notifier.classList.add('notifierOut');
+    notifier.classList.remove('loginNotifierIn');
+    notifier.classList.add('loginNotifierOut');
   }, time);
   // setExpireTimeout(ExpireRef);
   // setAnimationTimeout(AnimationRef);

@@ -9,6 +9,7 @@ const Screen = styled.div`
   height: 100vh;
   width: 100%;
   display: none;
+  z-index: 50;
 `;
 
 const Bar = styled.div`

@@ -21,14 +21,13 @@ export async function getServerSideProps(context) {
 
 export default function Home() {
   return (
-    <div className="loginContainer">
+    <div>
       <Head>
         <title>Sistock</title>
         <meta name="description" content="Entre na sua conta" />
       </Head>
-
       <main>
-        <div className="container">
+        <div className="loginContainer">
           <Login />
         </div>
       </main>

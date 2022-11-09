@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
+import Notifier, { notify } from '../Notifier/loginNotifier';
 import LoginButton from './LoginButton/LoginButton';
 import LoginMethodsButton from './LoginButton/LoginMethodsButton';
 import LoginInput from './LoginInput/LoginInput';
@@ -17,6 +18,7 @@ const LoginDiv = styled.div`
   border-radius: 10px;
   width: 100%;
   height: 80vh;
+  min-height: 40rem;
   margin: 0;
   max-width: 40rem;
   max-height: 50rem;
@@ -56,16 +58,33 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
+  const [notifierRef, setNotifierRef] = useState({
+    animation: undefined,
+    expire: undefined
+  });
+
   async function handleLogin() {
-    const res = await signIn('credentials', {
-      callbackUrl: 'https://sistock.vercel.app/',
-      // eslint-disable-next-line object-shorthand
-      email: email,
-      password: senha,
-      redirect: false
-    });
-    if (res.ok) {
-      Router.push('/dashboard');
+    if (email !== '' && senha !== '') {
+      const res = await signIn('credentials', {
+        callbackUrl: 'https://sistock.vercel.app/',
+        // eslint-disable-next-line object-shorthand
+        email: email.toLowerCase(),
+        password: senha,
+        redirect: false
+      });
+      if (res.ok) {
+        Router.push('/dashboard');
+      } else {
+        const ref = notify(
+          'Verifique se o email ou senha foram digitados corretamente',
+          5000,
+          notifierRef
+        );
+        setNotifierRef(ref);
+      }
+    } else {
+      const ref = notify('Informe email e senha', 5000, notifierRef);
+      setNotifierRef(ref);
     }
   }
 
@@ -75,6 +94,7 @@ export default function Login() {
 
   return (
     <LoginDiv>
+      <Notifier />
       <LoginForm onSubmit={e => handleSubmit(e)}>
         <img className="logo" src="/logo.png" alt="" />
         <LoginInput

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import Notifier, { notify } from '../Notifier/notifier';
 
 const Buttons = styled.div`
   display: flex;
@@ -126,6 +127,11 @@ export default function Cadastrar() {
 
   const [nomeDespesa, setNomeDespesa] = useState('');
 
+  const [notifierRef, setNotifierRef] = useState({
+    animation: undefined,
+    expire: undefined
+  });
+
   const session = useSession();
 
   async function registerProduct(data, user) {
@@ -133,7 +139,10 @@ export default function Cadastrar() {
       .post('api/db/register/products', { data: { ...data, user: user.id } })
       .then(response => response.data)
       .catch(error => error.response);
-    console.log(promise);
+    if (promise) {
+      const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   async function registerGood(data, user) {
@@ -141,7 +150,10 @@ export default function Cadastrar() {
       .post('api/db/register/goods', { data: { ...data, user: user.id } })
       .then(response => response.data)
       .catch(error => error.response);
-    console.log(promise);
+    if (promise) {
+      const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   async function registerExpense(data, user) {
@@ -149,31 +161,54 @@ export default function Cadastrar() {
       .post('api/db/register/expenses', { data: { ...data, user: user.id } })
       .then(response => response.data)
       .catch(error => error.response);
-    console.log(promise);
+    if (promise) {
+      const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   function cadastrarProduto() {
-    const dados = {
-      nome: nomeProduto,
-      marca: marcaProduto,
-      unidade: unidadeProduto,
-      limite: parseInt(limiteProduto, 10)
-    };
-    registerProduct(dados, session.data.user);
+    if (
+      nomeProduto !== '' &&
+      marcaProduto !== '' &&
+      unidadeProduto !== '' &&
+      limiteProduto !== ''
+    ) {
+      const dados = {
+        nome: nomeProduto,
+        marca: marcaProduto,
+        unidade: unidadeProduto,
+        limite: parseInt(limiteProduto, 10)
+      };
+      registerProduct(dados, session.data.user);
+    } else {
+      const ref = notify('Preencha todos os campos', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   function cadastrarMercadorias() {
-    const dados = {
-      nome: nomeMercadoria
-    };
-    registerGood(dados, session.data.user);
+    if (nomeMercadoria !== '') {
+      const dados = {
+        nome: nomeMercadoria
+      };
+      registerGood(dados, session.data.user);
+    } else {
+      const ref = notify('Preencha todos os campos', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   function cadastrarDespesa() {
-    const dados = {
-      nome: nomeDespesa
-    };
-    registerExpense(dados, session.data.user);
+    if (nomeDespesa !== '') {
+      const dados = {
+        nome: nomeDespesa
+      };
+      registerExpense(dados, session.data.user);
+    } else {
+      const ref = notify('Preencha todos os campos', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   function handleClickScreen() {
@@ -188,6 +223,7 @@ export default function Cadastrar() {
 
   return (
     <Buttons>
+      <Notifier />
       {modalProdutos ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>

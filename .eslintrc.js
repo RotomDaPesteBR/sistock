@@ -28,6 +28,14 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': 'error',
     'space-before-function-paren': 'off',
-    'react/prop-types': 'off'
+    'react/prop-types': 'off',
+    "react/no-unknown-property": [
+      2,
+      {
+        "ignore": [
+          "jsx"
+        ]
+      }
+    ]
   }
 };
