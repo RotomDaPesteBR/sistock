@@ -118,6 +118,7 @@ export default function graphics() {
         return x <= 30;
       }); */
       // const ano = new Date().getFullYear;
+      const mes = new Date().getFullYear;
       const expensesByYear = _.groupBy(promise, item => {
         const year = new Date(item.date).getFullYear();
         return year;
@@ -130,17 +131,21 @@ export default function graphics() {
         return x <= 365;
       });
       const expensesByMonth = _.groupBy(expensesLastYear.true, item => {
-        const mes = new Date(item.date).getMonth();
-        return mes;
+        const mesE = new Date(item.date).getMonth();
+        return mesE;
       });
       const arrayExpensesLastYearValue = Object.values(expensesByMonth);
-      const expensesLastYearValue = arrayExpensesLastYearValue.map(e =>
-        _.sum(e.value)
+      const expensesLastYearValue = _.sum(
+        arrayExpensesLastYearValue.map(e => e[0].value)
       );
+      const arrayExpensesLastMonth = expensesByMonth[mes];
+      // const expensesLastMonth = _.sum(arrayExpensesLastMonth[0].value);
+
       console.log(expensesByYear);
       console.log(expensesLastYear);
       console.log(expensesByMonth);
       console.log(expensesLastYearValue);
+      console.log(arrayExpensesLastMonth);
     }
   }
 
