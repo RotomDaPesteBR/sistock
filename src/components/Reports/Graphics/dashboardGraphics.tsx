@@ -92,6 +92,7 @@ export default function graphics() {
 
   const [faturamento, setFaturamento] = useState([]);
   const [despesas, setDespesas] = useState([]);
+  const [despesasProdutos, setDespesasProdutos] = useState([]);
   const [geral, setGeral] = useState([]);
 
   const mesesList = [
@@ -201,9 +202,59 @@ export default function graphics() {
     }
   }
 
+  async function getProductExpenses(user) {
+    const promise = await axios
+      .post('api/db/historic/productExpenses', { data: user.id })
+      .then(response => response.data)
+      .catch(error => error.response);
+    if (promise?.status !== 500) {
+      const productExpensesLastYear = _.groupBy(promise, item => {
+        const data = new Date();
+        const oldData = new Date(item.date);
+        const i = data.getTime() - oldData.getTime();
+        const x = Math.ceil(i / (1000 * 3600 * 24));
+        return x <= 365;
+      });
+      const productExpensesByMonth = _.groupBy(
+        productExpensesLastYear.true,
+        item => {
+          const mesE = new Date(item.date).getMonth();
+          return mesE;
+        }
+      );
+      const formatedProductExpensesByMonth = Object.values(mesesList).map(
+        (e, i) => {
+          const format = {
+            month: e,
+            value: productExpensesByMonth[i]
+              ? _.sum(
+                  Object.values(productExpensesByMonth[i]).map(
+                    (n: RecordType) => n.value * n.quantity
+                  )
+                )
+              : 0
+          };
+          return format;
+        }
+      );
+      const i = 11 - mes;
+      const monthsA = _.take(formatedProductExpensesByMonth, mes + 1);
+      const monthsB = _.takeRight(formatedProductExpensesByMonth, i);
+      const months = _.concat(monthsB, monthsA);
+
+      setDespesasProdutos(months);
+    }
+  }
+
   function getGeneral() {
     const general = faturamento.map((e, i) => {
-      const format = { month: e.month, value: e.value - despesas[i].value };
+      const format = {
+        month: e.month,
+        value:
+          e.value -
+          (despesas[i] ? despesas[i].value : 0) -
+          (despesasProdutos[i] ? despesasProdutos[i].value : 0)
+      };
       return format;
     });
     setGeral(general);
@@ -212,9 +263,10 @@ export default function graphics() {
   useEffect(() => {
     getExpenses(session.data.user);
     getGoods(session.data.user);
+    getProductExpenses(session.data.user);
   }, []);
 
-  useEffect(() => getGeneral(), [faturamento, despesas]);
+  useEffect(() => getGeneral(), [faturamento, despesas, despesasProdutos]);
 
   function setShowRelatorio() {
     toggleActiveGraphic(true);

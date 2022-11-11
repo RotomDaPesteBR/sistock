@@ -45,6 +45,10 @@ export default createGlobalStyle`
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
+    @media (max-height:40rem) {
+      height: 100%;
+    }
+    
   }
 
   img{

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { darken } from 'polished';
 import { useEffect, useRef, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, getDatasetAtEvent, getElementAtEvent } from 'react-chartjs-2';
 import styled from 'styled-components';
 
 Chart.register(CategoryScale);
@@ -85,6 +85,7 @@ export default function graphics() {
   ]); */
   const [faturamento, setFaturamento] = useState([]);
   const [despesas, setDespesas] = useState([]);
+  const [despesasProdutos, setDespesasProdutos] = useState([]);
   const [geral, setGeral] = useState([]);
 
   const mesesList = [
@@ -227,6 +228,50 @@ export default function graphics() {
     }
   }
 
+  async function getProductExpenses(user) {
+    const promise = await axios
+      .post('api/db/historic/productExpenses', { data: user.id })
+      .then(response => response.data)
+      .catch(error => error.response);
+    if (promise?.status !== 500) {
+      const productExpensesLastYear = _.groupBy(promise, item => {
+        const data = new Date();
+        const oldData = new Date(item.date);
+        const i = data.getTime() - oldData.getTime();
+        const x = Math.ceil(i / (1000 * 3600 * 24));
+        return x <= 365;
+      });
+      const productExpensesByMonth = _.groupBy(
+        productExpensesLastYear.true,
+        item => {
+          const mesE = new Date(item.date).getMonth();
+          return mesE;
+        }
+      );
+      const formatedProductExpensesByMonth = Object.values(mesesList).map(
+        (e, i) => {
+          const format = {
+            month: e,
+            value: productExpensesByMonth[i]
+              ? _.sum(
+                  Object.values(productExpensesByMonth[i]).map(
+                    (n: RecordType) => n.value * n.quantity
+                  )
+                )
+              : 0
+          };
+          return format;
+        }
+      );
+      const i = 11 - mes;
+      const monthsA = _.take(formatedProductExpensesByMonth, mes + 1);
+      const monthsB = _.takeRight(formatedProductExpensesByMonth, i);
+      const months = _.concat(monthsB, monthsA);
+
+      setDespesasProdutos(months);
+    }
+  }
+
   /* function listMonths() {
     const month = new Date().getMonth();
     const i = 11 - month;
@@ -238,7 +283,13 @@ export default function graphics() {
 
   function getGeneral() {
     const general = faturamento.map((e, i) => {
-      const format = { month: e.month, value: e.value - despesas[i].value };
+      const format = {
+        month: e.month,
+        value:
+          e.value -
+          (despesas[i] ? despesas[i].value : 0) -
+          (despesasProdutos[i] ? despesasProdutos[i].value : 0)
+      };
       return format;
     });
     setGeral(general);
@@ -247,10 +298,11 @@ export default function graphics() {
   useEffect(() => {
     getExpenses(session.data.user);
     getGoods(session.data.user);
+    getProductExpenses(session.data.user);
     // listMonths();
   }, []);
 
-  useEffect(() => getGeneral(), [faturamento, despesas]);
+  useEffect(() => getGeneral(), [faturamento, despesas, despesasProdutos]);
 
   // const expensesLabel = despesas.map(e => e.month);
   // const expensesData = despesas.map(e => e.value);
@@ -307,6 +359,27 @@ export default function graphics() {
             options={{
               responsive: true,
               maintainAspectRatio: false
+            }}
+            onClick={event => {
+              const { current: chart } = chartRef;
+
+              if (!chart) {
+                return null;
+              }
+
+              // const { index } = getDatasetAtEvent(chart, event)[0];
+
+              console.log(getDatasetAtEvent(chart, event)[0]);
+
+              // https://react-chartjs-2.js.org/examples/chart-events/
+
+              // console.log(goodsLabel[index], goodsData[index]);
+
+              return event;
+
+              // printDatasetAtEvent(getDatasetAtEvent(chart, event));
+              // printElementAtEvent(getElementAtEvent(chart, event));
+              // printElementsAtEvent(getElementsAtEvent(chart, event));
             }}
           />
         </Graficos>
