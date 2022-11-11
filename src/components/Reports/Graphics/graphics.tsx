@@ -5,10 +5,21 @@ import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { darken } from 'polished';
 import { useEffect, useRef, useState } from 'react';
-import { Bar, getDatasetAtEvent, getElementAtEvent } from 'react-chartjs-2';
+import { Bar, getElementAtEvent } from 'react-chartjs-2';
 import styled from 'styled-components';
 
 Chart.register(CategoryScale);
+
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  font-size: 1rem;
+  padding: 1.5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+`;
 
 const GraphicsContainer = styled.div`
   display: flex;
@@ -18,14 +29,11 @@ const GraphicsContainer = styled.div`
   flex-direction: column;
   font-size: 1rem;
   padding: 1.5%;
-  margin-top: 5%;
-  margin-bottom: 5%;
 `;
 
 const Graphic = styled.div`
   background: white;
-  height: 25rem;
-  padding-bottom: 3rem;
+  height: 100%;
   @media (max-width: 800px) {
     height: 100%;
   }
@@ -35,7 +43,7 @@ const Graficos = styled.div`
   padding: 1rem;
   padding-left: 10rem;
   padding-right: 10rem;
-  height: 100%;
+  height: 25rem;
   justify-content: center;
   align-items: center;
   @media (max-width: 1200px) {
@@ -68,6 +76,42 @@ const Relatório = styled(Bar)`
   width: 100%;
 `;
 
+const Info = styled.div`
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  max-height: 20rem;
+  padding: 2.5rem;
+`;
+
+const InfoColumn = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  @media (max-width: 800px) {
+    height: 100%;
+  }
+`;
+
+const InfoTitle = styled.div`
+  font-size: 2rem;
+`;
+
+const InfoItems = styled.div`
+  height: 100%;
+  padding: 1rem;
+`;
+
+const Space = styled.div`
+  padding: 0.5rem;
+`;
+
 export default function graphics() {
   /* const [meses, setMeses] = useState([
     'Janeiro',
@@ -84,9 +128,21 @@ export default function graphics() {
     'Dezembro'
   ]); */
   const [faturamento, setFaturamento] = useState([]);
+  const [faturamentoPorMes, setFaturamentoPorMes] = useState([]);
   const [despesas, setDespesas] = useState([]);
+  const [despesasPorMes, setDespesasPorMes] = useState([]);
   const [despesasProdutos, setDespesasProdutos] = useState([]);
+  const [despesasProdutosPorMes, setDespesasProdutosPorMes] = useState([]);
   const [geral, setGeral] = useState([]);
+
+  const [relatorioInfo, setRelatorioInfo] = useState([]);
+  const [produtosInfo, setProdutosInfo] = useState([]);
+  const [despesasInfo, setDespesasInfo] = useState([]);
+  const [faturamentoInfo, setFaturamentoInfo] = useState([]);
+
+  const [relatorioInfoVisibility, setRelatorioInfoVisibility] = useState(false);
+  const [faturamentoInfoVisibility, setFaturamentoInfoVisibility] =
+    useState(false);
 
   const mesesList = [
     'Janeiro',
@@ -105,7 +161,8 @@ export default function graphics() {
 
   const mes = new Date().getMonth();
 
-  const chartRef = useRef();
+  const relatorioRef = useRef();
+  const faturamentoRef = useRef();
 
   const session = useSession();
 
@@ -114,6 +171,7 @@ export default function graphics() {
   }; */
 
   type RecordType = {
+    forEach(arg0: (r: any, m: any) => void): any;
     id: string;
     date: number;
     value: number;
@@ -165,6 +223,22 @@ export default function graphics() {
 
         return format;
       });
+      const fExpensesByMonth = Object.values(mesesList).map((e, i) => {
+        const group = _.groupBy(expensesByMonth[i], item => item.expenses.name);
+        const grouped = group;
+        const groupkeys = Object.keys(group);
+
+        let m = 0;
+        Object.values(group).forEach((n: RecordType) => {
+          n.forEach(r => {
+            grouped[groupkeys[m]] = r.value;
+            m += 1;
+          });
+        });
+        const format = expensesByMonth[i] ? grouped : {};
+
+        return format;
+      });
       // const arrayExpensesLastYearValue = Object.values(expensesByMonth);
       /* const expensesLastYearValue = _.sum(
         arrayExpensesLastYearValue.map((e: MapType) =>
@@ -185,7 +259,12 @@ export default function graphics() {
       const monthsB = _.takeRight(formatedExpensesByMonth, i);
       const months = _.concat(monthsB, monthsA);
 
+      const monthsC = _.take(fExpensesByMonth, mes + 1);
+      const monthsD = _.takeRight(fExpensesByMonth, i);
+      const byMonths = _.concat(monthsD, monthsC);
+
       setDespesas(months);
+      setDespesasPorMes(byMonths);
     }
   }
 
@@ -219,12 +298,34 @@ export default function graphics() {
         };
         return format;
       });
+
+      const fGoodsByMonth = Object.values(mesesList).map((e, i) => {
+        const group = _.groupBy(goodsByMonth[i], item => item.prodsale.name);
+        const grouped = group;
+        const groupkeys = Object.keys(group);
+        Object.values(group).forEach((n: RecordType) =>
+          _.sum(
+            n.forEach((r, m) => {
+              grouped[groupkeys[m]] = r.value * r.quantity;
+            })
+          )
+        );
+        const format = goodsByMonth[i] ? grouped : {};
+
+        return format;
+      });
+
       const i = 11 - mes;
       const monthsA = _.take(formatedGoodsByMonth, mes + 1);
       const monthsB = _.takeRight(formatedGoodsByMonth, i);
       const months = _.concat(monthsB, monthsA);
 
+      const monthsC = _.take(fGoodsByMonth, mes + 1);
+      const monthsD = _.takeRight(fGoodsByMonth, i);
+      const byMonths = _.concat(monthsD, monthsC);
+
       setFaturamento(months);
+      setFaturamentoPorMes(byMonths);
     }
   }
 
@@ -263,12 +364,38 @@ export default function graphics() {
           return format;
         }
       );
+
+      const fProductExpensesByMonth = Object.values(mesesList).map((e, i) => {
+        const group = _.groupBy(
+          productExpensesByMonth[i],
+          item => `${item.product.name} ${item.product.brand}`
+        );
+        const grouped = group;
+        const groupkeys = Object.keys(group);
+
+        let m = 0;
+        Object.values(group).forEach((n: RecordType) => {
+          n.forEach(r => {
+            grouped[groupkeys[m]] = r.value;
+          });
+          m += 1;
+        });
+        const format = productExpensesByMonth[i] ? grouped : {};
+
+        return format;
+      });
+
       const i = 11 - mes;
       const monthsA = _.take(formatedProductExpensesByMonth, mes + 1);
       const monthsB = _.takeRight(formatedProductExpensesByMonth, i);
       const months = _.concat(monthsB, monthsA);
 
+      const monthsC = _.take(fProductExpensesByMonth, mes + 1);
+      const monthsD = _.takeRight(fProductExpensesByMonth, i);
+      const byMonths = _.concat(monthsD, monthsC);
+
       setDespesasProdutos(months);
+      setDespesasProdutosPorMes(byMonths);
     }
   }
 
@@ -293,6 +420,36 @@ export default function graphics() {
       return format;
     });
     setGeral(general);
+  }
+
+  function showRelatorioInfo(element) {
+    const { index } = element;
+    setRelatorioInfo(faturamentoPorMes[index]);
+    setProdutosInfo(despesasProdutosPorMes[index]);
+    setDespesasInfo(despesasPorMes[index]);
+    if (
+      faturamentoPorMes[index] === relatorioInfo &&
+      despesasProdutosPorMes[index] === produtosInfo &&
+      despesasPorMes[index] === despesasInfo
+    ) {
+      setRelatorioInfoVisibility(false);
+      setRelatorioInfo([]);
+      setProdutosInfo([]);
+      setDespesasInfo([]);
+    } else {
+      setRelatorioInfoVisibility(true);
+    }
+  }
+
+  function showFaturamentoInfo(element) {
+    const { index } = element;
+    setFaturamentoInfo(faturamentoPorMes[index]);
+    if (faturamentoPorMes[index] === faturamentoInfo) {
+      setFaturamentoInfoVisibility(false);
+      setFaturamentoInfo([]);
+    } else {
+      setFaturamentoInfoVisibility(true);
+    }
   }
 
   useEffect(() => {
@@ -347,58 +504,133 @@ export default function graphics() {
   };
 
   return (
-    <GraphicsContainer>
-      <Graphic>
-        <Titulo>RELATÓRIO GERAL</Titulo>
-        <Graficos>
-          <Relatório
-            datasetIdKey="relatorio"
-            data={relatorioData}
-            ref={chartRef}
-            width={400}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false
-            }}
-            onClick={event => {
-              const { current: chart } = chartRef;
+    <Container>
+      <GraphicsContainer>
+        <Graphic>
+          <Titulo>RELATÓRIO GERAL</Titulo>
+          <Graficos>
+            <Relatório
+              datasetIdKey="relatorio"
+              data={relatorioData}
+              ref={relatorioRef}
+              width={400}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false
+              }}
+              onClick={event => {
+                const { current: chart } = relatorioRef;
 
-              if (!chart) {
-                return null;
-              }
+                if (!chart) {
+                  return null;
+                }
 
-              // const { index } = getDatasetAtEvent(chart, event)[0];
+                const element = getElementAtEvent(chart, event);
 
-              console.log(getDatasetAtEvent(chart, event)[0]);
+                if (!element.length) return null;
 
-              // https://react-chartjs-2.js.org/examples/chart-events/
+                showRelatorioInfo(element[0]);
+                //
 
-              // console.log(goodsLabel[index], goodsData[index]);
+                // console.log(goodsLabel[index], goodsData[index]);
 
-              return event;
+                return event;
 
-              // printDatasetAtEvent(getDatasetAtEvent(chart, event));
-              // printElementAtEvent(getElementAtEvent(chart, event));
-              // printElementsAtEvent(getElementsAtEvent(chart, event));
-            }}
-          />
-        </Graficos>
-      </Graphic>
-      <Graphic>
-        <Titulo>FATURAMENTO</Titulo>
-        <Graficos>
-          <Faturamento
-            datasetIdKey="faturamento"
-            data={faturamentoData}
-            ref={chartRef}
-            width={400}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false
-            }}
-          />
-        </Graficos>
-      </Graphic>
-    </GraphicsContainer>
+                // printDatasetAtEvent(getDatasetAtEvent(chart, event));
+                // printElementAtEvent(getElementAtEvent(chart, event));
+                // printElementsAtEvent(getElementsAtEvent(chart, event));
+              }}
+            />
+          </Graficos>
+          {relatorioInfoVisibility ? (
+            <Info>
+              {!_.isEmpty(relatorioInfo) ? (
+                <InfoColumn>
+                  <InfoTitle>Vendas:</InfoTitle>
+                  <InfoItems>
+                    {Object.values(relatorioInfo).map((e, i) => (
+                      <div key={Object.keys(relatorioInfo)[i]}>{`${
+                        Object.keys(relatorioInfo)[i]
+                      }: ${e}`}</div>
+                    ))}
+                  </InfoItems>
+                </InfoColumn>
+              ) : null}
+              {!_.isEmpty(produtosInfo) ? (
+                <InfoColumn>
+                  <InfoTitle>Produtos:</InfoTitle>
+                  <InfoItems>
+                    {Object.values(produtosInfo).map((e, i) => (
+                      <div key={Object.keys(produtosInfo)[i]}>{`${
+                        Object.keys(produtosInfo)[i]
+                      }: ${e}`}</div>
+                    ))}
+                  </InfoItems>
+                </InfoColumn>
+              ) : null}
+              {!_.isEmpty(despesasInfo) ? (
+                <InfoColumn>
+                  <InfoTitle>Despesas:</InfoTitle>
+                  <InfoItems>
+                    {Object.values(despesasInfo).map((e, i) => (
+                      <div key={Object.keys(despesasInfo)[i]}>{`${
+                        Object.keys(despesasInfo)[i]
+                      }: ${e}`}</div>
+                    ))}
+                  </InfoItems>
+                </InfoColumn>
+              ) : null}
+            </Info>
+          ) : null}
+        </Graphic>
+      </GraphicsContainer>
+      <Space />
+      <GraphicsContainer>
+        <Graphic>
+          <Titulo>FATURAMENTO</Titulo>
+          <Graficos>
+            <Faturamento
+              datasetIdKey="faturamento"
+              data={faturamentoData}
+              ref={faturamentoRef}
+              width={400}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false
+              }}
+              onClick={event => {
+                const { current: chart } = faturamentoRef;
+
+                if (!chart) {
+                  return null;
+                }
+
+                const element = getElementAtEvent(chart, event);
+
+                if (!element.length) return null;
+
+                showFaturamentoInfo(element[0]);
+
+                return event;
+              }}
+            />
+          </Graficos>
+        </Graphic>
+        {faturamentoInfoVisibility ? (
+          <Info>
+            <InfoColumn>
+              <InfoTitle>Faturamento:</InfoTitle>
+              <InfoItems>
+                {Object.values(faturamentoInfo).map((e, i) => (
+                  <div key={Object.keys(faturamentoInfo)[i]}>{`${
+                    Object.keys(faturamentoInfo)[i]
+                  }: ${e}`}</div>
+                ))}
+              </InfoItems>
+            </InfoColumn>
+          </Info>
+        ) : null}
+      </GraphicsContainer>
+    </Container>
   );
 }
