@@ -84,6 +84,13 @@ const Info = styled.div`
   height: 100%;
   max-height: 20rem;
   padding: 2.5rem;
+  padding-top: 1rem;
+  @media (max-width: 800px) {
+    padding: 2.5rem;
+    padding-top: 0;
+    flex-wrap: wrap;
+    max-height: 100%;
+  }
 `;
 
 const InfoColumn = styled.div`
@@ -93,8 +100,13 @@ const InfoColumn = styled.div`
   height: 100%;
   width: 100%;
   overflow: auto;
+`;
+
+const FaturamentoColumn = styled.div`
+  height: 100%;
+  width: 50%;
   @media (max-width: 800px) {
-    height: 100%;
+    width: 100%;
   }
 `;
 
@@ -107,13 +119,20 @@ const InfoTitle = styled.div`
 
 const InfoItems = styled.div`
   height: 100%;
+  width: 100%;
   padding: 1rem;
+  overflow: auto;
   @media (max-width: 800px) {
     font-size: 0.75rem;
+    padding: 0.5rem;
+    max-height: 5rem;
   }
 `;
 const InfoItem = styled.div`
+  display: flex;
+  flex-direction: row;
   padding: 0.1rem;
+  justify-content: space-between;
 `;
 
 const Space = styled.div`
@@ -585,6 +604,11 @@ export default function graphics() {
                         Object.keys(despesasInfo)[i]
                       }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
                     ))}
+                    {Object.values(despesasInfo).map((e, i) => (
+                      <InfoItem key={Object.keys(despesasInfo)[i]}>{`${
+                        Object.keys(despesasInfo)[i]
+                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
+                    ))}
                   </InfoItems>
                 </InfoColumn>
               ) : null}
@@ -626,16 +650,19 @@ export default function graphics() {
         </Graphic>
         {faturamentoInfoVisibility ? (
           <Info>
-            <InfoColumn>
-              <InfoTitle>Faturamento:</InfoTitle>
-              <InfoItems>
-                {Object.values(faturamentoInfo).map((e, i) => (
-                  <InfoItem key={Object.keys(faturamentoInfo)[i]}>{`${
-                    Object.keys(faturamentoInfo)[i]
-                  }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
-                ))}
-              </InfoItems>
-            </InfoColumn>
+            <FaturamentoColumn>
+              <InfoColumn>
+                <InfoTitle>Faturamento:</InfoTitle>
+                <InfoItems>
+                  {Object.values(faturamentoInfo).map((e, i) => (
+                    <InfoItem key={Object.keys(faturamentoInfo)[i]}>
+                      <div>{`${Object.keys(faturamentoInfo)[i]}:`}</div>{' '}
+                      <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                    </InfoItem>
+                  ))}
+                </InfoItems>
+              </InfoColumn>
+            </FaturamentoColumn>
           </Info>
         ) : null}
       </GraphicsContainer>
