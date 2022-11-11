@@ -69,7 +69,7 @@ const Relatório = styled(Bar)`
 `;
 
 export default function graphics() {
-  const [meses, setMeses] = useState([
+  /* const [meses, setMeses] = useState([
     'Janeiro',
     'Fevereiro',
     'Março',
@@ -82,7 +82,10 @@ export default function graphics() {
     'Outubro',
     'Novembro',
     'Dezembro'
-  ]);
+  ]); */
+  const [faturamento, setFaturamento] = useState([]);
+  const [despesas, setDespesas] = useState([]);
+  const [geral, setGeral] = useState([]);
 
   const mesesList = [
     'Janeiro',
@@ -99,9 +102,21 @@ export default function graphics() {
     'Dezembro'
   ];
 
+  const mes = new Date().getMonth();
+
   const chartRef = useRef();
 
   const session = useSession();
+
+  /* type ReportType = {
+    [i: number]: { month: string; value: number };
+  }; */
+
+  type RecordType = {
+    id: string;
+    date: number;
+    value: any;
+  };
 
   async function getExpenses(user) {
     const promise = await axios
@@ -118,11 +133,11 @@ export default function graphics() {
         return x <= 30;
       }); */
       // const ano = new Date().getFullYear;
-      const mes = new Date().getMonth();
-      const expensesByYear = _.groupBy(promise, item => {
+      // const mes = new Date().getMonth();
+      /* const expensesByYear = _.groupBy(promise, item => {
         const year = new Date(item.date).getFullYear();
         return year;
-      });
+      }); */
       const expensesLastYear = _.groupBy(promise, item => {
         const data = new Date();
         const oldData = new Date(item.date);
@@ -134,20 +149,41 @@ export default function graphics() {
         const mesE = new Date(item.date).getMonth();
         return mesE;
       });
-      const arrayExpensesLastYearValue = Object.values(expensesByMonth);
-      const expensesLastYearValue = _.sum(
-        arrayExpensesLastYearValue.map(e => _.sum(e.map(n => n.value)))
+      const formatedExpensesByMonth = Object.values(mesesList).map((e, i) => {
+        const format = {
+          month: e,
+          value: expensesByMonth[i]
+            ? _.sum(
+                Object.values(expensesByMonth[i]).map(
+                  (n: RecordType) => n.value
+                )
+              )
+            : 0
+        };
+
+        return format;
+      });
+      // const arrayExpensesLastYearValue = Object.values(expensesByMonth);
+      /* const expensesLastYearValue = _.sum(
+        arrayExpensesLastYearValue.map((e: MapType) =>
+          _.sum(e.map(n => n.value))
+        )
       );
       const arrayExpensesLastMonth = Object.values(expensesByMonth[mes]);
-      const expensesLastMonth = _.sum(arrayExpensesLastMonth.map(e => e.value));
+      const expensesLastMonth = _.sum(arrayExpensesLastMonth.map(e => e.value)); */
 
       // console.log(expensesByYear);
       // console.log(expensesLastYear);
-      // console.log(expensesByMonth);
-      console.log(arrayExpensesLastYearValue);
-      console.log(expensesLastYearValue);
-      console.log(arrayExpensesLastMonth);
-      console.log(expensesLastMonth);
+      // console.log(arrayExpensesLastYearValue);
+      // console.log(expensesLastYearValue);
+      // console.log(arrayExpensesLastMonth);
+      // console.log(expensesLastMonth);
+      const i = 11 - mes;
+      const monthsA = _.take(formatedExpensesByMonth, mes + 1);
+      const monthsB = _.takeRight(formatedExpensesByMonth, i);
+      const months = _.concat(monthsB, monthsA);
+
+      setDespesas(months);
     }
   }
 
@@ -157,44 +193,74 @@ export default function graphics() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      /* const result = promise.map(product => (
-        <Produto
-          key={product.id}
-          product={product}
-          insertModal={() => insertModal(product)}
-          withdrawModal={() => withdrawModal(product)}
-          getProducts={() => getProducts(session.data.user)}
-        />
-      ));
-      setProducts(result); */
-      console.log(promise);
+      const goodsLastYear = _.groupBy(promise, item => {
+        const data = new Date();
+        const oldData = new Date(item.date);
+        const i = data.getTime() - oldData.getTime();
+        const x = Math.ceil(i / (1000 * 3600 * 24));
+        return x <= 365;
+      });
+      const goodsByMonth = _.groupBy(goodsLastYear.true, item => {
+        const mesE = new Date(item.date).getMonth();
+        return mesE;
+      });
+      const formatedGoodsByMonth = Object.values(mesesList).map((e, i) => {
+        const format = {
+          month: e,
+          value: goodsByMonth[i]
+            ? _.sum(
+                Object.values(goodsByMonth[i]).map((n: RecordType) => n.value)
+              )
+            : 0
+        };
+
+        return format;
+      });
+      const i = 11 - mes;
+      const monthsA = _.take(formatedGoodsByMonth, mes + 1);
+      const monthsB = _.takeRight(formatedGoodsByMonth, i);
+      const months = _.concat(monthsB, monthsA);
+
+      setFaturamento(months);
     }
   }
 
-  function listMonths() {
+  /* function listMonths() {
     const month = new Date().getMonth();
     const i = 11 - month;
     const monthsA = _.take(mesesList, month + 1);
     const monthsB = _.takeRight(mesesList, i);
     const months = _.concat(monthsB, monthsA);
-    console.log(months);
     setMeses(months);
+  } */
+
+  function getGeneral() {
+    const general = faturamento.map((e, i) => {
+      const format = { month: e.month, value: e.value - despesas[i].value };
+      return format;
+    });
+    setGeral(general);
   }
 
   useEffect(() => {
     getExpenses(session.data.user);
     getGoods(session.data.user);
-    listMonths();
+    // listMonths();
+    getGeneral();
   }, []);
 
+  // const expensesLabel = despesas.map(e => e.month);
+  // const expensesData = despesas.map(e => e.value);
+
+  const generalLabel = geral.map(e => e.month);
+  const generalData = geral.map(e => e.value);
+
   const relatorioData = {
-    labels: [...meses],
+    labels: [...generalLabel],
     datasets: [
       {
         label: 'Relatório',
-        data: [
-          1500, 1300, 1100, 1400, 1600, 1200, 1900, 2100, 1500, 2000, 1300, 1800
-        ],
+        data: [...generalData],
         backgroundColor: ['rgba(32, 170, 255, 0.2)'],
         borderColor: ['rgba(32, 170, 255, 1)'],
         borderWidth: 1
@@ -202,14 +268,15 @@ export default function graphics() {
     ]
   };
 
+  const goodsLabel = faturamento.map(e => e.month);
+  const goodsData = faturamento.map(e => e.value);
+
   const faturamentoData = {
-    labels: [...meses],
+    labels: [...goodsLabel],
     datasets: [
       {
         label: 'Faturamento',
-        data: [
-          1200, 1900, 2100, 1500, 2000, 1300, 1900, 2100, 1500, 2000, 1300, 2400
-        ],
+        data: [...goodsData],
         backgroundColor: ['rgba(0, 255, 0, 0.2)'],
         borderColor: ['rgba(0, 255, 0, 1)'],
         borderWidth: 1
