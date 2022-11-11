@@ -257,6 +257,13 @@ export default function graphics() {
 
   const generalLabel = geral.map(e => e.month);
   const generalData = geral.map(e => e.value);
+  const generalColor = geral.map(e =>
+    e.value >= 0 ? 'rgba(32, 170, 255, 0.2)' : 'rgba(255, 0, 0, 0.2)'
+  );
+
+  const generalBorder = geral.map(e =>
+    e.value >= 0 ? 'rgba(32, 170, 255, 1)' : 'rgb(255, 0, 0)'
+  );
 
   const relatorioData = {
     labels: [...generalLabel],
@@ -264,8 +271,8 @@ export default function graphics() {
       {
         label: 'Relatório',
         data: [...generalData],
-        backgroundColor: ['rgba(32, 170, 255, 0.2)'],
-        borderColor: ['rgba(32, 170, 255, 1)'],
+        backgroundColor: [...generalColor],
+        borderColor: [...generalBorder],
         borderWidth: 1
       }
     ]

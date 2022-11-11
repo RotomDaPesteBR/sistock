@@ -1,7 +1,10 @@
+import axios from 'axios';
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
+import _ from 'lodash';
+import { useSession } from 'next-auth/react';
 import { darken } from 'polished';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
 
@@ -82,95 +85,203 @@ const Faturamento = styled(Bar)`
   width: 100%;
 `;
 
-const relatorioData = {
-  labels: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro'
-  ],
-  datasets: [
-    {
-      label: 'Relatório',
-      data: [
-        1500, 1300, 1100, 1400, 1600, 1200, 1900, 2100, 1500, 2000, 1300, 1800
-      ],
-      backgroundColor: ['rgba(32, 170, 255, 0.2)'],
-      borderColor: ['rgba(32, 170, 255, 1)'],
-      borderWidth: 1
-    }
-  ]
-};
-
-const faturamentoData = {
-  labels: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro'
-  ],
-  datasets: [
-    {
-      label: 'Faturamento',
-      data: [
-        1200, 1900, 2100, 1500, 2000, 1300, 1900, 2100, 1500, 2000, 1300, 2400
-      ],
-      backgroundColor: ['rgba(0, 255, 0, 0.2)'],
-      borderColor: ['rgba(0, 255, 0, 1)'],
-      borderWidth: 1
-    }
-  ]
-};
-
 export default function graphics() {
   const [activeGraphic, toggleActiveGraphic] = useState(true);
-  const [relatorio, activateRelatorio] = useState('active');
-  const [faturamento, activateFaturamento] = useState('');
+  const [showRelatorio, activateRelatorio] = useState('active');
+  const [showFaturamento, activateFaturamento] = useState('');
+
+  const [faturamento, setFaturamento] = useState([]);
+  const [despesas, setDespesas] = useState([]);
+  const [geral, setGeral] = useState([]);
+
+  const mesesList = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+  ];
+
+  const mes = new Date().getMonth();
+
+  const session = useSession();
+
   const chartRef = useRef();
 
-  function setRelatorio() {
+  type RecordType = {
+    id: string;
+    date: number;
+    value: number;
+    quantity: number;
+  };
+
+  async function getExpenses(user) {
+    const promise = await axios
+      .post('api/db/historic/expensesRec', { data: user.id })
+      .then(response => response.data)
+      .catch(error => error.response);
+    if (promise?.status !== 500) {
+      const expensesLastYear = _.groupBy(promise, item => {
+        const data = new Date();
+        const oldData = new Date(item.date);
+        const i = data.getTime() - oldData.getTime();
+        const x = Math.ceil(i / (1000 * 3600 * 24));
+        return x <= 365;
+      });
+      const expensesByMonth = _.groupBy(expensesLastYear.true, item => {
+        const mesE = new Date(item.date).getMonth();
+        return mesE;
+      });
+      const formatedExpensesByMonth = Object.values(mesesList).map((e, i) => {
+        const format = {
+          month: e,
+          value: expensesByMonth[i]
+            ? _.sum(
+                Object.values(expensesByMonth[i]).map(
+                  (n: RecordType) => n.value
+                )
+              )
+            : 0
+        };
+
+        return format;
+      });
+      const i = 11 - mes;
+      const monthsA = _.take(formatedExpensesByMonth, mes + 1);
+      const monthsB = _.takeRight(formatedExpensesByMonth, i);
+      const months = _.concat(monthsB, monthsA);
+
+      setDespesas(months);
+    }
+  }
+
+  async function getGoods(user) {
+    const promise = await axios
+      .post('api/db/historic/goodsRec', { data: user.id })
+      .then(response => response.data)
+      .catch(error => error.response);
+    if (promise?.status !== 500) {
+      const goodsLastYear = _.groupBy(promise, item => {
+        const data = new Date();
+        const oldData = new Date(item.date);
+        const i = data.getTime() - oldData.getTime();
+        const x = Math.ceil(i / (1000 * 3600 * 24));
+        return x <= 365;
+      });
+      const goodsByMonth = _.groupBy(goodsLastYear.true, item => {
+        const mesE = new Date(item.date).getMonth();
+        return mesE;
+      });
+      const formatedGoodsByMonth = Object.values(mesesList).map((e, i) => {
+        const format = {
+          month: e,
+          value: goodsByMonth[i]
+            ? _.sum(
+                Object.values(goodsByMonth[i]).map(
+                  (n: RecordType) => n.value * n.quantity
+                )
+              )
+            : 0
+        };
+        return format;
+      });
+      const i = 11 - mes;
+      const monthsA = _.take(formatedGoodsByMonth, mes + 1);
+      const monthsB = _.takeRight(formatedGoodsByMonth, i);
+      const months = _.concat(monthsB, monthsA);
+
+      setFaturamento(months);
+    }
+  }
+
+  function getGeneral() {
+    const general = faturamento.map((e, i) => {
+      const format = { month: e.month, value: e.value - despesas[i].value };
+      return format;
+    });
+    setGeral(general);
+  }
+
+  useEffect(() => {
+    getExpenses(session.data.user);
+    getGoods(session.data.user);
+  }, []);
+
+  useEffect(() => getGeneral(), [faturamento, despesas]);
+
+  function setShowRelatorio() {
     toggleActiveGraphic(true);
     activateRelatorio('active');
     activateFaturamento('');
   }
 
-  function setFaturamento() {
+  function setShowFaturamento() {
     toggleActiveGraphic(false);
     activateRelatorio('');
     activateFaturamento('active');
   }
+
+  const generalLabel = geral.map(e => e.month);
+  const generalData = geral.map(e => e.value);
+  const generalColor = geral.map(e =>
+    e.value >= 0 ? 'rgba(32, 170, 255, 0.2)' : 'rgba(255, 0, 0, 0.2)'
+  );
+
+  const generalBorder = geral.map(e =>
+    e.value >= 0 ? 'rgba(32, 170, 255, 1)' : 'rgb(255, 0, 0)'
+  );
+
+  const relatorioData = {
+    labels: [...generalLabel],
+    datasets: [
+      {
+        label: 'Relatório',
+        data: [...generalData],
+        backgroundColor: [...generalColor],
+        borderColor: [...generalBorder],
+        borderWidth: 1
+      }
+    ]
+  };
+
+  const goodsLabel = faturamento.map(e => e.month);
+  const goodsData = faturamento.map(e => e.value);
+
+  const faturamentoData = {
+    labels: [...goodsLabel],
+    datasets: [
+      {
+        label: 'Faturamento',
+        data: [...goodsData],
+        backgroundColor: ['rgba(0, 255, 0, 0.2)'],
+        borderColor: ['rgba(0, 255, 0, 1)'],
+        borderWidth: 1
+      }
+    ]
+  };
 
   return (
     <Graphics>
       <Container>
         <Buttons>
           <Button
-            className={relatorio}
+            className={showRelatorio}
             type="button"
-            onClick={() => setRelatorio()}
+            onClick={() => setShowRelatorio()}
           >
             Relatório Geral
           </Button>
           <Button
-            className={faturamento}
+            className={showFaturamento}
             type="button"
-            onClick={() => setFaturamento()}
+            onClick={() => setShowFaturamento()}
           >
             Faturamento
           </Button>
