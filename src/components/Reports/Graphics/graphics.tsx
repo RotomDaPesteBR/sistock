@@ -115,7 +115,8 @@ export default function graphics() {
   type RecordType = {
     id: string;
     date: number;
-    value: any;
+    value: number;
+    quantity: number;
   };
 
   async function getExpenses(user) {
@@ -209,11 +210,12 @@ export default function graphics() {
           month: e,
           value: goodsByMonth[i]
             ? _.sum(
-                Object.values(goodsByMonth[i]).map((n: RecordType) => n.value)
+                Object.values(goodsByMonth[i]).map(
+                  (n: RecordType) => n.value * n.quantity
+                )
               )
             : 0
         };
-
         return format;
       });
       const i = 11 - mes;
@@ -246,8 +248,9 @@ export default function graphics() {
     getExpenses(session.data.user);
     getGoods(session.data.user);
     // listMonths();
-    getGeneral();
   }, []);
+
+  useEffect(() => getGeneral(), [faturamento, despesas]);
 
   // const expensesLabel = despesas.map(e => e.month);
   // const expensesData = despesas.map(e => e.value);
