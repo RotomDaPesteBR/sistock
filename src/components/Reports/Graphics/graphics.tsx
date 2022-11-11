@@ -80,7 +80,6 @@ const Info = styled.div`
   background: white;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: row;
   height: 100%;
   max-height: 20rem;
