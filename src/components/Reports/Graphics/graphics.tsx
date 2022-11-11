@@ -375,7 +375,7 @@ export default function graphics() {
         let m = 0;
         Object.values(group).forEach((n: RecordType) => {
           n.forEach(r => {
-            grouped[groupkeys[m]] = r.value;
+            grouped[groupkeys[m]] = r.value * r.quantity;
           });
           m += 1;
         });
