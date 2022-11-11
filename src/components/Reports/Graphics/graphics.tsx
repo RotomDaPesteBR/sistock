@@ -100,11 +100,20 @@ const InfoColumn = styled.div`
 
 const InfoTitle = styled.div`
   font-size: 2rem;
+  @media (max-width: 800px) {
+    font-size: 1rem;
+  }
 `;
 
 const InfoItems = styled.div`
   height: 100%;
   padding: 1rem;
+  @media (max-width: 800px) {
+    font-size: 0.75rem;
+  }
+`;
+const InfoItem = styled.div`
+  padding: 0.1rem;
 `;
 
 const Space = styled.div`
@@ -548,9 +557,9 @@ export default function graphics() {
                   <InfoTitle>Vendas:</InfoTitle>
                   <InfoItems>
                     {Object.values(relatorioInfo).map((e, i) => (
-                      <div key={Object.keys(relatorioInfo)[i]}>{`${
+                      <InfoItem key={Object.keys(relatorioInfo)[i]}>{`${
                         Object.keys(relatorioInfo)[i]
-                      }: ${e}`}</div>
+                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
                     ))}
                   </InfoItems>
                 </InfoColumn>
@@ -560,9 +569,9 @@ export default function graphics() {
                   <InfoTitle>Produtos:</InfoTitle>
                   <InfoItems>
                     {Object.values(produtosInfo).map((e, i) => (
-                      <div key={Object.keys(produtosInfo)[i]}>{`${
+                      <InfoItem key={Object.keys(produtosInfo)[i]}>{`${
                         Object.keys(produtosInfo)[i]
-                      }: ${e}`}</div>
+                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
                     ))}
                   </InfoItems>
                 </InfoColumn>
@@ -572,9 +581,9 @@ export default function graphics() {
                   <InfoTitle>Despesas:</InfoTitle>
                   <InfoItems>
                     {Object.values(despesasInfo).map((e, i) => (
-                      <div key={Object.keys(despesasInfo)[i]}>{`${
+                      <InfoItem key={Object.keys(despesasInfo)[i]}>{`${
                         Object.keys(despesasInfo)[i]
-                      }: ${e}`}</div>
+                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
                     ))}
                   </InfoItems>
                 </InfoColumn>
@@ -621,9 +630,9 @@ export default function graphics() {
               <InfoTitle>Faturamento:</InfoTitle>
               <InfoItems>
                 {Object.values(faturamentoInfo).map((e, i) => (
-                  <div key={Object.keys(faturamentoInfo)[i]}>{`${
+                  <InfoItem key={Object.keys(faturamentoInfo)[i]}>{`${
                     Object.keys(faturamentoInfo)[i]
-                  }: ${e}`}</div>
+                  }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
                 ))}
               </InfoItems>
             </InfoColumn>
