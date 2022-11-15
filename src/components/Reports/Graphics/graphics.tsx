@@ -104,7 +104,7 @@ const InfoColumn = styled.div`
 
 const FaturamentoColumn = styled.div`
   height: 100%;
-  width: 50%;
+  width: 40%;
   @media (max-width: 800px) {
     width: 100%;
   }
@@ -576,9 +576,10 @@ export default function graphics() {
                   <InfoTitle>Vendas:</InfoTitle>
                   <InfoItems>
                     {Object.values(relatorioInfo).map((e, i) => (
-                      <InfoItem key={Object.keys(relatorioInfo)[i]}>{`${
-                        Object.keys(relatorioInfo)[i]
-                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
+                      <InfoItem key={Object.keys(relatorioInfo)[i]}>
+                        <div>{`${Object.keys(relatorioInfo)[i]}:`}</div>{' '}
+                        <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                      </InfoItem>
                     ))}
                   </InfoItems>
                 </InfoColumn>
@@ -588,9 +589,10 @@ export default function graphics() {
                   <InfoTitle>Produtos:</InfoTitle>
                   <InfoItems>
                     {Object.values(produtosInfo).map((e, i) => (
-                      <InfoItem key={Object.keys(produtosInfo)[i]}>{`${
-                        Object.keys(produtosInfo)[i]
-                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
+                      <InfoItem key={Object.keys(produtosInfo)[i]}>
+                        <div>{`${Object.keys(produtosInfo)[i]}:`}</div>{' '}
+                        <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                      </InfoItem>
                     ))}
                   </InfoItems>
                 </InfoColumn>
@@ -600,14 +602,10 @@ export default function graphics() {
                   <InfoTitle>Despesas:</InfoTitle>
                   <InfoItems>
                     {Object.values(despesasInfo).map((e, i) => (
-                      <InfoItem key={Object.keys(despesasInfo)[i]}>{`${
-                        Object.keys(despesasInfo)[i]
-                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
-                    ))}
-                    {Object.values(despesasInfo).map((e, i) => (
-                      <InfoItem key={Object.keys(despesasInfo)[i]}>{`${
-                        Object.keys(despesasInfo)[i]
-                      }: R$${e.toFixed(2).replace(/\./, ',')}`}</InfoItem>
+                      <InfoItem key={Object.keys(despesasInfo)[i]}>
+                        <div>{`${Object.keys(despesasInfo)[i]}:`}</div>{' '}
+                        <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                      </InfoItem>
                     ))}
                   </InfoItems>
                 </InfoColumn>

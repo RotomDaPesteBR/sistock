@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import Login from '../components/Login/Login';
+import SignUp from '../components/SignUp/SignUp';
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -21,15 +21,15 @@ export async function getServerSideProps(context) {
 
 export default function Home() {
   return (
-    <div className="loginContainer">
+    <div>
       <Head>
         <title>Sistock</title>
         <meta name="description" content="Cadastre-se" />
       </Head>
 
       <main>
-        <div className="container">
-          <Login />
+        <div className="loginContainer">
+          <SignUp />
         </div>
       </main>
     </div>

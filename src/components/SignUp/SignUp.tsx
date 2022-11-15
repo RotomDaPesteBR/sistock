@@ -1,14 +1,12 @@
-import { signIn } from 'next-auth/react';
-import Link from 'next/link';
+import axios from 'axios';
 import Router from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Notifier, { notify } from '../Notifier/loginNotifier';
-import LoginButton from './LoginButton/LoginButton';
-import LoginMethodsButton from './LoginButton/LoginMethodsButton';
-import LoginInput from './LoginInput/LoginInput';
+import SignUpButton from './SignUpButton/SignUpButton';
+import SignUpInput from './SignUpInput/SignUpInput';
 
-const LoginDiv = styled.div`
+const SignUpDiv = styled.div`
   background: ${({ theme }) => theme.backgroundLogin};
   color: ${({ theme }) => theme.text};
   display: flex;
@@ -36,7 +34,7 @@ const LoginDiv = styled.div`
   }
 `;
 
-const LoginForm = styled.form`
+const SignUpForm = styled.form`
   color: ${({ theme }) => theme.text};
   width: 100%;
   height: 100%;
@@ -46,37 +44,45 @@ const LoginForm = styled.form`
   flex-direction: column;
 `;
 
-const LoginMethods = styled.div`
-  display: flex;
-  flex-direction: row;
-  @media (max-width: 500px) {
-    width: 85%;
-  }
+const Title = styled.h1`
+  color: ${({ theme }) => theme.text};
+  padding: 1rem;
+  font-size: 3rem;
 `;
 
-export default function Login() {
+export default function SignUp() {
+  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [nomeEstabelecimento, setNomeEstabelecimento] = useState('');
 
   const [notifierRef, setNotifierRef] = useState({
     animation: undefined,
     expire: undefined
   });
 
-  async function handleLogin() {
-    if (email !== '' && senha !== '') {
-      const res = await signIn('credentials', {
-        callbackUrl: 'https://sistock.vercel.app/',
-        // eslint-disable-next-line object-shorthand
-        email: email.toLowerCase(),
+  async function handleSignUp() {
+    if (
+      nome !== '' &&
+      email !== '' &&
+      senha !== '' &&
+      nomeEstabelecimento !== ''
+    ) {
+      const dados = {
+        name: nome,
+        email,
         password: senha,
-        redirect: false
-      });
-      if (res.ok) {
+        establishmentName: nomeEstabelecimento
+      };
+      const promise = await axios
+        .post('api/db/auth/signup', { data: { ...dados } })
+        .then(response => response.data)
+        .catch(error => error.response);
+      if (promise === 'Conta criada com sucesso') {
         Router.push('/dashboard');
       } else {
         const ref = notify(
-          'Verifique se o email ou senha foram digitados corretamente',
+          'Verifique se todos os campos foram digitados corretamente',
           5000,
           notifierRef
         );
@@ -93,11 +99,19 @@ export default function Login() {
   }
 
   return (
-    <LoginDiv>
+    <SignUpDiv>
       <Notifier />
-      <LoginForm onSubmit={e => handleSubmit(e)}>
-        <img className="logo" src="/logo.png" alt="" />
-        <LoginInput
+      <SignUpForm onSubmit={e => handleSubmit(e)}>
+        <Title>Cadastre-se</Title>
+        <SignUpInput
+          id="name"
+          name="name"
+          placeholder="Nome"
+          value={nome}
+          onChange={e => setNome(e.target.value)}
+          type="text"
+        />
+        <SignUpInput
           id="email"
           name="email"
           placeholder="Email"
@@ -105,7 +119,7 @@ export default function Login() {
           onChange={e => setEmail(e.target.value)}
           type="email"
         />
-        <LoginInput
+        <SignUpInput
           id="password"
           name="password"
           placeholder="Senha"
@@ -113,26 +127,16 @@ export default function Login() {
           onChange={e => setSenha(e.target.value)}
           type="password"
         />
-        <Link href="/recover">Esqueceu a senha?</Link>
-        <LoginButton onClick={() => handleLogin()} type="submit" />
-        <Link href="/signup">Cadastre-se</Link>
-        <LoginMethods>
-          <LoginMethodsButton
-            method="Google"
-            onClick={() =>
-              signIn('google', {
-                callbackUrl: 'https://sistock.vercel.app'
-              })
-            }
-          />
-          <LoginMethodsButton
-            method="Facebook"
-            onClick={() =>
-              signIn('facebook', { callbackUrl: 'https://sistock.vercel.app' })
-            }
-          />
-        </LoginMethods>
-      </LoginForm>
-    </LoginDiv>
+        <SignUpInput
+          id="restaurantName"
+          name="restaurantName"
+          placeholder="Nome do estabelecimento"
+          value={nomeEstabelecimento}
+          onChange={e => setNomeEstabelecimento(e.target.value)}
+          type="text"
+        />
+        <SignUpButton onClick={() => handleSignUp()} type="submit" />
+      </SignUpForm>
+    </SignUpDiv>
   );
 }
