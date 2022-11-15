@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import LoginMethodsButton from '../Login/LoginButton/LoginMethodsButton';
 
 const Form = styled.div`
   display: flex;
@@ -29,6 +30,14 @@ const Button = styled.button`
   border-radius: 10px;
   border: 1px solid;
   border-color: ${({ theme }) => theme.border};
+`;
+
+const LoginMethods = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 500px) {
+    width: 85%;
+  }
 `;
 
 export default function Configuracao() {
@@ -80,6 +89,22 @@ export default function Configuracao() {
 
   return (
     <Form>
+      <LoginMethods>
+        <LoginMethodsButton
+          method="Google"
+          onClick={() =>
+            signIn('google', {
+              callbackUrl: 'https://sistock.vercel.app'
+            })
+          }
+        />
+        <LoginMethodsButton
+          method="Facebook"
+          onClick={() =>
+            signIn('facebook', { callbackUrl: 'https://sistock.vercel.app' })
+          }
+        />
+      </LoginMethods>
       <Input
         type="text"
         placeholder="Nome"

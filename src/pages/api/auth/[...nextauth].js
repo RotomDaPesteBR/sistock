@@ -43,13 +43,11 @@ export const authOptions = {
           response_type: 'code',
           scope: 'openid profile email'
         }
-      },
-      allowDangerousEmailAccountLinking: true
+      }
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,
