@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { signIn } from 'next-auth/react';
 import Router from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -78,8 +79,20 @@ export default function SignUp() {
         .post('api/db/auth/signup', { data: { ...dados } })
         .then(response => response.data)
         .catch(error => error.response);
-      if (promise === 'Conta criada com sucesso') {
-        Router.push('/dashboard');
+      console.log(promise);
+      if (promise.status !== 500) {
+        const res = await signIn('credentials', {
+          callbackUrl: 'https://sistock.vercel.app/',
+          // eslint-disable-next-line object-shorthand
+          email: email.toLowerCase(),
+          password: senha,
+          redirect: false
+        });
+        if (res.ok) {
+          Router.push('/dashboard');
+        } else {
+          Router.push('/login');
+        }
       } else {
         const ref = notify(
           'Verifique se todos os campos foram digitados corretamente',
