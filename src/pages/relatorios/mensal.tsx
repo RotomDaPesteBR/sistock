@@ -33,6 +33,7 @@ export default function Home() {
       <main>
         <div className="container">
           <h1>Relatório Mensal:</h1>
+          <button className='buttonRelatorio' onClick={() => print()}>Imprimir</button>
         </div>
       </main>
       <footer>

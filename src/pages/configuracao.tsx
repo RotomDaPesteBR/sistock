@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import Configuracao from '../components/Configuration/Configuration';
+import Configuracao from '../components/Configuration/configuration';
 import Navbar from '../components/Navbar/Navbar';
 
 export async function getServerSideProps(context) {

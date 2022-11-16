@@ -417,4 +417,10 @@ export default createGlobalStyle`
     color: black;
     cursor: pointer;
   }
+
+  .buttonRelatorio {
+    @media print {
+      display: none;
+    }
+  }
 `;
