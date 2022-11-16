@@ -113,9 +113,13 @@ export default function Login() {
           onChange={e => setSenha(e.target.value)}
           type="password"
         />
-        <Link href="/recover">Esqueceu a senha?</Link>
+        <Link href="/recover">
+          <div className="loginLabel">Esqueceu a senha?</div>
+        </Link>
         <LoginButton onClick={() => handleLogin()} type="submit" />
-        <Link href="/signup">Cadastre-se</Link>
+        <Link href="/signup">
+          <div className="loginLabel">Cadastre-se</div>
+        </Link>
         <LoginMethods>
           <LoginMethodsButton
             method="Google"

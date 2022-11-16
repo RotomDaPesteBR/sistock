@@ -30,7 +30,7 @@ const Item = styled.li`
   padding: 0;
 `;
 
-const RestaurantName = styled.h3`
+const EstablishmentName = styled.h3`
   padding: 1rem;
   white-space: nowrap;
   cursor: pointer;
@@ -41,18 +41,18 @@ export default function Navbar() {
   const [timer, setTimer] = useState(undefined);
   const [screenFade, setScreenFade] = useState('screenFadeIn');
   const [sidebarFade, setSidebarFade] = useState('sidebarFadeIn');
-  const [restaurant, setRestaurant] = useState('');
+  const [establishment, setEstablishment] = useState('');
   const session = useSession();
 
-  async function getRestaurant(user) {
+  async function getEstablishment(user) {
     const promise = await axios
-      .post('api/db/restaurant', { data: user.id })
+      .post('api/db/establishment', { data: user.id })
       .then(response => response.data)
       .catch(error => error.response);
-    setRestaurant(promise?.restaurantName);
+    setEstablishment(promise?.establishmentName);
   }
 
-  getRestaurant(session.data.user);
+  getEstablishment(session.data.user);
 
   function fadein() {
     setScreenFade('screenFadeIn');
@@ -102,7 +102,7 @@ export default function Navbar() {
           </Item>
           <Item>
             <Link href="/">
-              <RestaurantName>{restaurant}</RestaurantName>
+              <EstablishmentName>{establishment}</EstablishmentName>
             </Link>
           </Item>
         </List>

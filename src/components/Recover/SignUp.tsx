@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { signIn } from 'next-auth/react';
-import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -10,7 +9,6 @@ import SignUpInput from './SignUpInput/SignUpInput';
 
 const SignUpDiv = styled.div`
   background: ${({ theme }) => theme.backgroundLogin};
-  position: relative;
   color: ${({ theme }) => theme.text};
   display: flex;
   justify-content: center;
@@ -35,16 +33,6 @@ const SignUpDiv = styled.div`
     max-width: 22.5rem;
     padding: 0;
   }
-`;
-
-const Back = styled.div`
-  position: absolute;
-  left: 1.5rem;
-  top: 1.5rem;
-  height: 4rem;
-  width: 4rem;
-  flex-direction: row;
-  cursor: pointer;
 `;
 
 const SignUpForm = styled.form`
@@ -124,51 +112,44 @@ export default function SignUp() {
   }
 
   return (
-    <>
+    <SignUpDiv>
       <Notifier />
-      <SignUpDiv>
-        <Link href="/login">
-          <Back>
-            <img src="/back.svg" alt="" />
-          </Back>
-        </Link>
-        <SignUpForm onSubmit={e => handleSubmit(e)}>
-          <Title>Cadastre-se</Title>
-          <SignUpInput
-            id="name"
-            name="name"
-            placeholder="Nome"
-            value={nome}
-            onChange={e => setNome(e.target.value)}
-            type="text"
-          />
-          <SignUpInput
-            id="email"
-            name="email"
-            placeholder="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            type="email"
-          />
-          <SignUpInput
-            id="password"
-            name="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={e => setSenha(e.target.value)}
-            type="password"
-          />
-          <SignUpInput
-            id="restaurantName"
-            name="restaurantName"
-            placeholder="Nome do estabelecimento"
-            value={nomeEstabelecimento}
-            onChange={e => setNomeEstabelecimento(e.target.value)}
-            type="text"
-          />
-          <SignUpButton onClick={() => handleSignUp()} type="submit" />
-        </SignUpForm>
-      </SignUpDiv>
-    </>
+      <SignUpForm onSubmit={e => handleSubmit(e)}>
+        <Title>Cadastre-se</Title>
+        <SignUpInput
+          id="name"
+          name="name"
+          placeholder="Nome"
+          value={nome}
+          onChange={e => setNome(e.target.value)}
+          type="text"
+        />
+        <SignUpInput
+          id="email"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          type="email"
+        />
+        <SignUpInput
+          id="password"
+          name="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={e => setSenha(e.target.value)}
+          type="password"
+        />
+        <SignUpInput
+          id="restaurantName"
+          name="restaurantName"
+          placeholder="Nome do estabelecimento"
+          value={nomeEstabelecimento}
+          onChange={e => setNomeEstabelecimento(e.target.value)}
+          type="text"
+        />
+        <SignUpButton onClick={() => handleSignUp()} type="submit" />
+      </SignUpForm>
+    </SignUpDiv>
   );
 }

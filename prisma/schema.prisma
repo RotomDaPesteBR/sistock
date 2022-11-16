@@ -43,10 +43,9 @@ model User {
   emailVerified  DateTime?
   password       String?
   image          String?
+  establishmentName String?     
   accounts       Account[]
-  sessions       Session[]
-  restaurantName String?        @unique
-  cpf            String?
+  sessions       Session[]   
   Product        Product[]
   Expenses       Expenses[]
   ProductSales   ProductSales[]

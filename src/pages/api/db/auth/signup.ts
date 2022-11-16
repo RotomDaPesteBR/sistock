@@ -1,3 +1,4 @@
+import { hash } from 'argon2';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import prisma from '../../../../lib/prisma';
 
@@ -8,16 +9,20 @@ export default async function handler(
   try {
     if (req.method === 'POST') {
       const { name, email, password, establishmentName } = req.body.data;
+
+      const encrypted = await hash(password);
+
       const User = await prisma.User.create({
         data: {
           name,
           email,
-          password,
-          restaurantName: establishmentName
+          password: encrypted,
+          establishmentName
         }
       });
       if (User) {
         // createSign('');
+        // const iv = randomBytes(32).toString('hex');
         res.status(200).json('Conta criada com sucesso');
       }
     }

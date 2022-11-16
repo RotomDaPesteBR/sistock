@@ -1,3 +1,4 @@
+import { verify } from 'argon2';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 // import { createSign } from 'crypto';
 
@@ -23,7 +24,10 @@ export default async function handler(
           image: true
         }
       });
-      if (account.email === email && account.password === password) {
+      if (
+        account.email === email &&
+        (await verify(account.password, password))
+      ) {
         // createSign('');
         const user = {
           id: account.id,

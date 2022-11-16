@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import prisma from '../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,17 +7,16 @@ export default async function handler(
 ) {
   try {
     const { data } = req.body;
-    const user = await prisma.User.findUnique({
-      where: { id: data },
+    const providers = await prisma.Account.findMany({
+      where: { userId: data },
       select: {
-        name: true,
-        email: true,
-        password: true,
-        image: true,
-        establishmentName: true
+        provider: true
+      },
+      orderBy: {
+        provider: 'asc'
       }
     });
-    res.status(200).json(user);
+    res.status(200).json(providers);
   } catch (err) {
     res.status(500).json({ error: 'failed to load data' });
   }

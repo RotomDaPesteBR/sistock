@@ -397,4 +397,24 @@ export default createGlobalStyle`
   #reports-container {
       align-items: start;
   }
+
+  .loginLabel {
+    color: black;
+    cursor: pointer;
+  }
+
+  .loginLabel:visited {
+    color: black;
+    cursor: pointer;
+  }
+
+  .loginLabel:link {
+    color: black;
+    cursor: pointer;
+  }
+
+  .loginLabel:active {
+    color: black;
+    cursor: pointer;
+  }
 `;

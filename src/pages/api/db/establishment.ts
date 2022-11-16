@@ -7,9 +7,9 @@ export default async function handler(
 ) {
   try {
     const { data } = req.body;
-    const restaurant = await prisma.user.findUnique({
+    const restaurant = await prisma.User.findUnique({
       where: { id: data },
-      select: { restaurantName: true }
+      select: { establishmentName: true }
     });
     res.status(200).json(restaurant);
   } catch (err) {
