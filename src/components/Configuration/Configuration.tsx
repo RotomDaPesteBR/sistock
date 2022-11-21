@@ -145,7 +145,6 @@ const Modal = styled.div`
   }
 `;
 
-
 const Form = styled.div`
   display: flex;
   flex-direction: column;
@@ -314,10 +313,7 @@ export default function Configuracao() {
                 >
                   Cancelar
                 </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                >
+                <Button type="button" id="confirmar">
                   Salvar
                 </Button>
               </Buttons>
@@ -350,10 +346,7 @@ export default function Configuracao() {
                 >
                   Cancelar
                 </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                >
+                <Button type="button" id="confirmar">
                   Salvar
                 </Button>
               </Buttons>
@@ -386,10 +379,7 @@ export default function Configuracao() {
                 >
                   Cancelar
                 </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                >
+                <Button type="button" id="confirmar">
                   Salvar
                 </Button>
               </Buttons>
@@ -412,15 +402,21 @@ export default function Configuracao() {
         <ProfileInfo>
           <ProfileInfoItem>
             <ProfileInfoLabel>{nome}</ProfileInfoLabel>
-            <ProfileInfoEdit onClick={() => toggleNomeModal()}>Editar</ProfileInfoEdit>
+            <ProfileInfoEdit onClick={() => toggleNomeModal()}>
+              Editar
+            </ProfileInfoEdit>
           </ProfileInfoItem>
           <ProfileInfoItem>
             <ProfileInfoLabel>{email}</ProfileInfoLabel>
-            <ProfileInfoEdit onClick={() => toggleEmailModal()}>Editar</ProfileInfoEdit>
+            <ProfileInfoEdit onClick={() => toggleEmailModal()}>
+              Editar
+            </ProfileInfoEdit>
           </ProfileInfoItem>
           <ProfileInfoItem>
             <ProfileInfoLabel>{establishmentName}</ProfileInfoLabel>
-            <ProfileInfoEdit onClick={() => toggleEstablishmentModal()}>Editar</ProfileInfoEdit>
+            <ProfileInfoEdit onClick={() => toggleEstablishmentModal()}>
+              Editar
+            </ProfileInfoEdit>
           </ProfileInfoItem>
         </ProfileInfo>
       </ProfileContainer>

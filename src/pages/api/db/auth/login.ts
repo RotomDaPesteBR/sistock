@@ -28,7 +28,6 @@ export default async function handler(
         account.email === email &&
         (await verify(account.password, password))
       ) {
-        // createSign('');
         const user = {
           id: account.id,
           name: account.name,

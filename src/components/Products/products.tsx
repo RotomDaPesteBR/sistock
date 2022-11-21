@@ -285,7 +285,7 @@ export default function Produtos(props) {
         </ModalScreen>
       ) : null}
       <div className="0" id="SafeArea">
-        <h1>Produtos:</h1>
+        <h1>Estoque:</h1>
       </div>
       {products}
     </Lista>
