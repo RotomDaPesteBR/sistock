@@ -52,6 +52,16 @@ const InfoLine = styled.div`
   flex-direction: row;
 `;
 
+const EditLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: row;
+  @media (max-width: 500px) {
+    flex-wrap: wrap;
+  }
+`;
+
 const Editar = styled.button`
   line-height: 0.1rem;
   width: 2rem;
@@ -143,6 +153,7 @@ const Modal = styled.div`
   width: 90%;
   height: 40%;
   max-width: 30rem;
+  min-height: 25rem;
   border-radius: 10px;
 `;
 
@@ -293,7 +304,7 @@ export default function Despesa(props) {
             ) : null}
             {edit ? (
               <Info>
-                <InfoLine>
+                <EditLine>
                   <div id="good-edit-line">
                     {`Nome: `}
                     <InfoEdit
@@ -307,7 +318,7 @@ export default function Despesa(props) {
                     <Cancelar onClick={() => handleEdit()}>Cancelar</Cancelar>
                     <Salvar onClick={() => handleSave()}>Salvar</Salvar>
                   </EditButtons>
-                </InfoLine>
+                </EditLine>
               </Info>
             ) : null}
           </div>

@@ -251,7 +251,7 @@ export default createGlobalStyle`
   }
 
   .sobrando {
-    color: #00ff00;
+    color: #009900;
   }
 
   #product-control{
@@ -265,12 +265,18 @@ export default createGlobalStyle`
     flex-wrap: wrap;
   }
 
-  #sale-edit-line {
+  #good-edit-line {
     width: 100%;
+    @media (max-width: 500px) {
+      margin-bottom: 0.5rem;
+    }
   }
 
   #expense-edit-line {
-    width: 100%;
+    width: 100%;  
+    @media (max-width: 500px) {
+      margin-bottom: 0.5rem;
+    }
   }
 
   #edit-top-left{

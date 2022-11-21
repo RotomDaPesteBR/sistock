@@ -78,7 +78,7 @@ model Product {
 
 model Expenses {
   id          String        @id @default(cuid())
-  name        String        @unique
+  name        String        
   userId      String
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   ExpensesRec ExpensesRec[]
@@ -86,7 +86,7 @@ model Expenses {
 
 model ProductSales {
   id       String     @id @default(cuid())
-  name     String     @unique
+  name     String    
   userId   String
   user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   SalesRec SalesRec[]

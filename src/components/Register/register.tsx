@@ -243,13 +243,15 @@ export default function Cadastrar() {
               />
               <Input
                 type="text"
-                placeholder="Unidade"
+                placeholder="Unidade de medida"
+                title="Unidade de medida do produto (ex.: 5Kg)"
                 value={unidadeProduto}
                 onChange={e => setUnidade(e.target.value)}
               />
               <Input
                 type="number"
-                placeholder="Limite"
+                placeholder="Limite mínimo"
+                title="Limite mínimo para o produto"
                 value={limiteProduto === undefined ? '' : limiteProduto}
                 onChange={e => setLimiteProduto(e.target.value)}
               />

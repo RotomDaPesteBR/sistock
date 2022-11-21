@@ -62,6 +62,12 @@ const ProfileImage = styled.img`
   padding: 2rem;
   margin-top: -2rem;
   border-radius: 100%;
+  @media (max-height: 500px) {
+    padding: 0.5rem;
+  }
+  @media (max-height: 300px) {
+    padding: 0rem;
+  }
 `;
 
 const Logout = styled.button`

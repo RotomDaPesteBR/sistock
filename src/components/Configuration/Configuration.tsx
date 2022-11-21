@@ -207,11 +207,33 @@ export default function Configuracao() {
   const session = useSession();
 
   async function getProviders(user) {
-    const promise = await axios
+    await axios
       .post('api/db/configuration/providers', { data: user.id })
       .then(response => response.data)
       .catch(error => error.response);
-    console.log(promise);
+  }
+
+  async function saveName(dados, user) {
+    await axios
+      .post('api/db/configuration/name', { data: { ...dados, user: user.id } })
+      .then(response => response.data)
+      .catch(error => error.response);
+  }
+
+  async function saveEmail(dados, user) {
+    await axios
+      .post('api/db/configuration/email', { data: { ...dados, user: user.id } })
+      .then(response => response.data)
+      .catch(error => error.response);
+  }
+
+  async function saveEstablishmentName(dados, user) {
+    await axios
+      .post('api/db/configuration/establishmentName', {
+        data: { ...dados, user: user.id }
+      })
+      .then(response => response.data)
+      .catch(error => error.response);
   }
 
   async function getUser(usuario) {
@@ -246,6 +268,30 @@ export default function Configuracao() {
     };
     saveUser(dados, session.data.user);
   } */
+
+  function handleSaveName() {
+    const dados = {
+      name: nomeInput,
+      password: senhaInput
+    };
+    saveName(dados, session.data.user);
+  }
+
+  function handleSaveEmail() {
+    const dados = {
+      email: nomeInput,
+      password: senhaInput
+    };
+    saveEmail(dados, session.data.user);
+  }
+
+  function handleSaveEstablishmentName() {
+    const dados = {
+      establishmentName: nomeInput,
+      password: senhaInput
+    };
+    saveEstablishmentName(dados, session.data.user);
+  }
 
   function handleClickScreen() {
     showNomeModal(false);
@@ -313,7 +359,11 @@ export default function Configuracao() {
                 >
                   Cancelar
                 </Button>
-                <Button type="button" id="confirmar">
+                <Button
+                  type="button"
+                  id="confirmar"
+                  onClick={() => handleSaveName()}
+                >
                   Salvar
                 </Button>
               </Buttons>
@@ -346,7 +396,11 @@ export default function Configuracao() {
                 >
                   Cancelar
                 </Button>
-                <Button type="button" id="confirmar">
+                <Button
+                  type="button"
+                  id="confirmar"
+                  onClick={() => handleSaveEmail()}
+                >
                   Salvar
                 </Button>
               </Buttons>
@@ -379,7 +433,11 @@ export default function Configuracao() {
                 >
                   Cancelar
                 </Button>
-                <Button type="button" id="confirmar">
+                <Button
+                  type="button"
+                  id="confirmar"
+                  onClick={() => handleSaveEstablishmentName()}
+                >
                   Salvar
                 </Button>
               </Buttons>

@@ -30,7 +30,7 @@ const Stock = styled.div`
 
 export default function Alert({ product }) {
   return (
-    <Link href="/produtos">
+    <Link href="/estoque">
       <Item>
         <Label>
           <div>{`${product.name || ''} ${product.brand || ''}`}</div>

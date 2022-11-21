@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Notifier, { notify } from '../Notifier/notifier';
 import Venda from './Good/good';
 
 const Lista = styled.div`
@@ -40,6 +41,7 @@ const Modal = styled.div`
   width: 90%;
   height: 40%;
   max-width: 30rem;
+  min-height: 25rem;
   border-radius: 10px;
   @media (max-width: 500px) {
     height: 50%;
@@ -96,6 +98,11 @@ export default function Goods(props) {
   const [quantity, setQuantity] = useState(undefined);
   const [value, setValue] = useState(undefined);
 
+  const [notifierRef, setNotifierRef] = useState({
+    animation: undefined,
+    expire: undefined
+  });
+
   const session = useSession();
 
   function insertModal(good) {
@@ -132,20 +139,33 @@ export default function Goods(props) {
   }
 
   async function handleAdicionar(good, user) {
-    const data = new Date().toISOString();
-    const dados = {
-      good: good.id,
-      value: parseFloat(value),
-      quantity: parseInt(quantity, 10),
-      date: data,
-      user: user.id
-    };
-    const promise = await axios
-      .post('api/db/good/insert', { data: dados })
-      .then(response => response.data)
-      .catch(error => error.response);
-    console.log(promise);
-    getGoods(session.data.user);
+    if (
+      value !== '' &&
+      value !== undefined &&
+      quantity !== '' &&
+      quantity !== undefined
+    ) {
+      const data = new Date().toISOString();
+      const dados = {
+        good: good.id,
+        value: parseFloat(value),
+        quantity: parseInt(quantity, 10),
+        date: data,
+        user: user.id
+      };
+      await axios
+        .post('api/db/good/insert', { data: dados })
+        .then(response => response.data)
+        .catch(error => error.response);
+      getGoods(session.data.user);
+      const ref = notify('Venda registrada com sucesso', 5000, notifierRef);
+      setNotifierRef(ref);
+      setValue(undefined);
+      setQuantity(undefined);
+    } else {
+      const ref = notify('Preencha todos os campos', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   useEffect(() => {
@@ -153,50 +173,53 @@ export default function Goods(props) {
   }, []);
 
   return (
-    <Lista {...props}>
-      {insert ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Venda</Title>
-              <Input
-                type="number"
-                placeholder="Valor"
-                value={value === undefined ? '' : value}
-                onChange={e => setValue(e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Quantidade"
-                value={quantity === undefined ? '' : quantity}
-                onChange={e => setQuantity(e.target.value)}
-              />
-              <Buttons>
-                <Button
-                  type="button"
-                  id="cancelar"
-                  onClick={() => handleClickScreen()}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                  onClick={() =>
-                    handleAdicionar(selectedGood, session.data.user)
-                  }
-                >
-                  Vender
-                </Button>
-              </Buttons>
-            </Form>
-          </Modal>
-        </ModalScreen>
-      ) : null}
-      <div className="0" id="SafeArea">
-        <h1>Mercadorias:</h1>
-      </div>
-      {goods}
-    </Lista>
+    <>
+      <Notifier />
+      <Lista {...props}>
+        {insert ? (
+          <ModalScreen onClick={() => handleClickScreen()}>
+            <Modal onClick={e => handleClickModal(e)}>
+              <Form>
+                <Title>Venda</Title>
+                <Input
+                  type="number"
+                  placeholder="Valor Unitário"
+                  value={value === undefined ? '' : value}
+                  onChange={e => setValue(e.target.value)}
+                />
+                <Input
+                  type="number"
+                  placeholder="Quantidade"
+                  value={quantity === undefined ? '' : quantity}
+                  onChange={e => setQuantity(e.target.value)}
+                />
+                <Buttons>
+                  <Button
+                    type="button"
+                    id="cancelar"
+                    onClick={() => handleClickScreen()}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="button"
+                    id="confirmar"
+                    onClick={() =>
+                      handleAdicionar(selectedGood, session.data.user)
+                    }
+                  >
+                    Vender
+                  </Button>
+                </Buttons>
+              </Form>
+            </Modal>
+          </ModalScreen>
+        ) : null}
+        <div className="0" id="SafeArea">
+          <h1>Mercadorias:</h1>
+        </div>
+        {goods}
+      </Lista>
+    </>
   );
 }

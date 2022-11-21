@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Notifier, { notify } from '../Notifier/notifier';
 import Venda from './Expense/expense';
 
 const Lista = styled.div`
@@ -40,6 +41,7 @@ const Modal = styled.div`
   width: 90%;
   height: 40%;
   max-width: 30rem;
+  min-height: 25rem;
   border-radius: 10px;
   @media (max-width: 500px) {
     height: 50%;
@@ -95,6 +97,11 @@ export default function Expenses(props) {
   const [selectedExpense, setSelectedExpense] = useState([]);
   const [value, setValue] = useState(undefined);
 
+  const [notifierRef, setNotifierRef] = useState({
+    animation: undefined,
+    expire: undefined
+  });
+
   const session = useSession();
 
   function insertModal(expense) {
@@ -130,19 +137,26 @@ export default function Expenses(props) {
   }
 
   async function handleAdicionar(expense, user) {
-    const data = new Date().toISOString();
-    const dados = {
-      date: data,
-      value: parseFloat(value),
-      expense: expense.id,
-      user: user.id
-    };
-    const promise = await axios
-      .post('api/db/expense/insert', { data: dados })
-      .then(response => response.data)
-      .catch(error => error.response);
-    console.log(promise);
-    getExpenses(session.data.user);
+    if (value !== '' && value !== undefined) {
+      const data = new Date().toISOString();
+      const dados = {
+        date: data,
+        value: parseFloat(value),
+        expense: expense.id,
+        user: user.id
+      };
+      await axios
+        .post('api/db/expense/insert', { data: dados })
+        .then(response => response.data)
+        .catch(error => error.response);
+      getExpenses(session.data.user);
+      const ref = notify('Despesa inserida com sucesso', 5000, notifierRef);
+      setNotifierRef(ref);
+      setValue(undefined);
+    } else {
+      const ref = notify('Preencha todos os campos', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   useEffect(() => {
@@ -150,44 +164,47 @@ export default function Expenses(props) {
   }, []);
 
   return (
-    <Lista {...props}>
-      {insert ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Inserir</Title>
-              <Input
-                type="number"
-                placeholder="Valor"
-                value={value === undefined ? '' : value}
-                onChange={e => setValue(e.target.value)}
-              />
-              <Buttons>
-                <Button
-                  type="button"
-                  id="cancelar"
-                  onClick={() => handleClickScreen()}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                  onClick={() =>
-                    handleAdicionar(selectedExpense, session.data.user)
-                  }
-                >
-                  Inserir
-                </Button>
-              </Buttons>
-            </Form>
-          </Modal>
-        </ModalScreen>
-      ) : null}
-      <div className="0" id="SafeArea">
-        <h1>Despesas:</h1>
-      </div>
-      {expenses}
-    </Lista>
+    <>
+      <Notifier />
+      <Lista {...props}>
+        {insert ? (
+          <ModalScreen onClick={() => handleClickScreen()}>
+            <Modal onClick={e => handleClickModal(e)}>
+              <Form>
+                <Title>Inserir</Title>
+                <Input
+                  type="number"
+                  placeholder="Valor"
+                  value={value === undefined ? '' : value}
+                  onChange={e => setValue(e.target.value)}
+                />
+                <Buttons>
+                  <Button
+                    type="button"
+                    id="cancelar"
+                    onClick={() => handleClickScreen()}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="button"
+                    id="confirmar"
+                    onClick={() =>
+                      handleAdicionar(selectedExpense, session.data.user)
+                    }
+                  >
+                    Inserir
+                  </Button>
+                </Buttons>
+              </Form>
+            </Modal>
+          </ModalScreen>
+        ) : null}
+        <div className="0" id="SafeArea">
+          <h1>Despesas:</h1>
+        </div>
+        {expenses}
+      </Lista>
+    </>
   );
 }

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Notifier, { notify } from '../Notifier/notifier';
 import Produto from './Product/product';
 
 const Lista = styled.div`
@@ -40,6 +41,7 @@ const Modal = styled.div`
   width: 90%;
   height: 40%;
   max-width: 30rem;
+  min-height: 25rem;
   border-radius: 10px;
   @media (max-width: 500px) {
     height: 50%;
@@ -98,6 +100,11 @@ export default function Produtos(props) {
   const [value, setValue] = useState(undefined);
   const [motivo, setMotivo] = useState('');
 
+  const [notifierRef, setNotifierRef] = useState({
+    animation: undefined,
+    expire: undefined
+  });
+
   const session = useSession();
 
   function insertModal(product) {
@@ -147,43 +154,64 @@ export default function Produtos(props) {
   }
 
   async function handleAdicionar(product, user) {
-    const data = new Date().toISOString();
-    const quant = product.stock + parseInt(quantity, 10);
-    const quantidade = quant >= 0 ? quant : 0;
-    const dados = {
-      product: product.id,
-      quantity: quantidade,
-      addedQuantity: parseInt(quantity, 10),
-      value: parseInt(value, 10),
-      date: data,
-      user: user.id
-    };
-    const promise = await axios
-      .post('api/db/product/insert', { data: dados })
-      .then(response => response.data)
-      .catch(error => error.response);
-    console.log(promise);
-    getProducts(session.data.user);
+    if (quantity !== '' && motivo !== '' && quantity !== undefined) {
+      const data = new Date().toISOString();
+      const quant = product.stock + parseInt(quantity, 10);
+      const quantidade = quant >= 0 ? quant : 0;
+      const dados = {
+        product: product.id,
+        quantity: quantidade,
+        addedQuantity: parseInt(quantity, 10),
+        value: parseInt(value, 10),
+        date: data,
+        user: user.id
+      };
+      await axios
+        .post('api/db/product/insert', { data: dados })
+        .then(response => response.data)
+        .catch(error => error.response);
+      getProducts(session.data.user);
+      const ref = notify('Adicionado com sucesso', 5000, notifierRef);
+      setNotifierRef(ref);
+      setQuantity(undefined);
+      setValue(undefined);
+    } else {
+      const ref = notify('Preencha todos os campos', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   async function handleRemover(product, user) {
-    const data = new Date().toISOString();
-    const quant = product.stock - parseInt(quantity, 10);
-    const quantidade = quant >= 0 ? quant : 0;
-    const dados = {
-      product: product.id,
-      quantity: quantidade,
-      withdrawQuantity: parseInt(quantity, 10),
-      motive: motivo,
-      date: data,
-      user: user.id
-    };
-    const promise = await axios
-      .post('api/db/product/withdraw', { data: dados })
-      .then(response => response.data)
-      .catch(error => error.response);
-    console.log(promise);
-    getProducts(session.data.user);
+    if (
+      quantity !== '' &&
+      value !== '' &&
+      quantity !== undefined &&
+      value !== undefined
+    ) {
+      const data = new Date().toISOString();
+      const quant = product.stock - parseInt(quantity, 10);
+      const quantidade = quant >= 0 ? quant : 0;
+      const dados = {
+        product: product.id,
+        quantity: quantidade,
+        withdrawQuantity: parseInt(quantity, 10),
+        motive: motivo,
+        date: data,
+        user: user.id
+      };
+      await axios
+        .post('api/db/product/withdraw', { data: dados })
+        .then(response => response.data)
+        .catch(error => error.response);
+      const ref = notify('Removido com sucesso', 5000, notifierRef);
+      setNotifierRef(ref);
+      getProducts(session.data.user);
+      setQuantity(undefined);
+      setMotivo('');
+    } else {
+      const ref = notify('Preencha todos os campos', 5000, notifierRef);
+      setNotifierRef(ref);
+    }
   }
 
   function validate(e) {
@@ -202,92 +230,95 @@ export default function Produtos(props) {
   }, []);
 
   return (
-    <Lista {...props}>
-      {insert ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Adicionar</Title>
-              <Input
-                type="number"
-                placeholder="Quantidade"
-                onKeyPress={e => validate(e)}
-                value={quantity === undefined ? '' : quantity}
-                onChange={e => setQuantity(e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Valor"
-                onKeyPress={e => validate(e)}
-                value={value === undefined ? '' : value}
-                onChange={e => setValue(e.target.value)}
-              />
-              <Buttons>
-                <Button
-                  type="button"
-                  id="cancelar"
-                  onClick={() => handleClickScreen()}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                  onClick={() =>
-                    handleAdicionar(selectedProduct, session.data.user)
-                  }
-                >
-                  Adicionar
-                </Button>
-              </Buttons>
-            </Form>
-          </Modal>
-        </ModalScreen>
-      ) : null}
-      {withdraw ? (
-        <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
-            <Form>
-              <Title>Remover</Title>
-              <Input
-                type="number"
-                placeholder="Quantidade"
-                onKeyPress={e => validate(e)}
-                value={quantity === undefined ? '' : quantity}
-                onChange={e => setQuantity(e.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Motivo"
-                value={motivo}
-                onChange={e => setMotivo(e.target.value)}
-              />
-              <Buttons>
-                <Button
-                  type="button"
-                  id="cancelar"
-                  onClick={() => handleClickScreen()}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="button"
-                  id="confirmar"
-                  onClick={() =>
-                    handleRemover(selectedProduct, session.data.user)
-                  }
-                >
-                  Remover
-                </Button>
-              </Buttons>
-            </Form>
-          </Modal>
-        </ModalScreen>
-      ) : null}
-      <div className="0" id="SafeArea">
-        <h1>Estoque:</h1>
-      </div>
-      {products}
-    </Lista>
+    <>
+      <Notifier />
+      <Lista {...props}>
+        {insert ? (
+          <ModalScreen onClick={() => handleClickScreen()}>
+            <Modal onClick={e => handleClickModal(e)}>
+              <Form>
+                <Title>Adicionar</Title>
+                <Input
+                  type="number"
+                  placeholder="Quantidade"
+                  onKeyPress={e => validate(e)}
+                  value={quantity === undefined ? '' : quantity}
+                  onChange={e => setQuantity(e.target.value)}
+                />
+                <Input
+                  type="number"
+                  placeholder="Valor Unitário"
+                  onKeyPress={e => validate(e)}
+                  value={value === undefined ? '' : value}
+                  onChange={e => setValue(e.target.value)}
+                />
+                <Buttons>
+                  <Button
+                    type="button"
+                    id="cancelar"
+                    onClick={() => handleClickScreen()}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="button"
+                    id="confirmar"
+                    onClick={() =>
+                      handleAdicionar(selectedProduct, session.data.user)
+                    }
+                  >
+                    Adicionar
+                  </Button>
+                </Buttons>
+              </Form>
+            </Modal>
+          </ModalScreen>
+        ) : null}
+        {withdraw ? (
+          <ModalScreen onClick={() => handleClickScreen()}>
+            <Modal onClick={e => handleClickModal(e)}>
+              <Form>
+                <Title>Remover</Title>
+                <Input
+                  type="number"
+                  placeholder="Quantidade"
+                  onKeyPress={e => validate(e)}
+                  value={quantity === undefined ? '' : quantity}
+                  onChange={e => setQuantity(e.target.value)}
+                />
+                <Input
+                  type="text"
+                  placeholder="Motivo"
+                  value={motivo}
+                  onChange={e => setMotivo(e.target.value)}
+                />
+                <Buttons>
+                  <Button
+                    type="button"
+                    id="cancelar"
+                    onClick={() => handleClickScreen()}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="button"
+                    id="confirmar"
+                    onClick={() =>
+                      handleRemover(selectedProduct, session.data.user)
+                    }
+                  >
+                    Remover
+                  </Button>
+                </Buttons>
+              </Form>
+            </Modal>
+          </ModalScreen>
+        ) : null}
+        <div className="0" id="SafeArea">
+          <h1>Estoque:</h1>
+        </div>
+        {products}
+      </Lista>
+    </>
   );
 }

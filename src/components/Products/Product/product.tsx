@@ -162,6 +162,7 @@ const Modal = styled.div`
   width: 90%;
   height: 40%;
   max-width: 30rem;
+  min-height: 25rem;
   border-radius: 10px;
 `;
 
@@ -198,6 +199,15 @@ const Button = styled.button`
   border-radius: 10px;
   border: 1px solid;
   border-color: ${({ theme }) => theme.border};
+`;
+
+const EditLine = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const LimitInfo = styled.div`
+  margin-right: 0.5rem;
 `;
 
 export default function Produto(
@@ -339,14 +349,17 @@ export default function Produto(
                   <div style={{ lineHeight: '2rem' }}>{`Unidade: ${
                     product.unit || ''
                   }`}</div>
-                  <div>
+                  <EditLine>
+                    <LimitInfo
+                      style={{ lineHeight: '2rem' }}
+                    >{`Limite Mínimo: ${product.limit || ''}`}</LimitInfo>
                     <Editar onClick={() => handleEdit()}>
                       <img className="pencil" src="/pencil.svg" alt="" />
                     </Editar>
                     <Excluir onClick={() => handleDelete()}>
                       <img className="trash" src="/trash.svg" alt="" />
                     </Excluir>
-                  </div>
+                  </EditLine>
                 </InfoLine>
               </Info>
             ) : null}
