@@ -64,8 +64,21 @@ const Modal = styled.div`
   align-items: center;
   background: white;
   width: 90%;
+  height: 40%;
+  max-width: 40rem;
+  min-height: 25rem;
+  border-radius: 10px;
+`;
+
+const ProductModal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  width: 90%;
   height: 60%;
   max-width: 40rem;
+  min-height: 35rem;
   border-radius: 10px;
 `;
 
@@ -226,7 +239,7 @@ export default function Cadastrar() {
       <Notifier />
       {modalProdutos ? (
         <ModalScreen onClick={() => handleClickScreen()}>
-          <Modal onClick={e => handleClickModal(e)}>
+          <ProductModal onClick={e => handleClickModal(e)}>
             <Form>
               <Title>Cadastrar Produtos</Title>
               <Input
@@ -272,7 +285,7 @@ export default function Cadastrar() {
                 </ModalButton>
               </ModalButtons>
             </Form>
-          </Modal>
+          </ProductModal>
         </ModalScreen>
       ) : null}
       {modalMercadorias ? (
