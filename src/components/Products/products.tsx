@@ -154,7 +154,12 @@ export default function Produtos(props) {
   }
 
   async function handleAdicionar(product, user) {
-    if (quantity !== '' && motivo !== '' && quantity !== undefined) {
+    if (
+      quantity !== '' &&
+      value !== '' &&
+      quantity !== undefined &&
+      value !== undefined
+    ) {
       const data = new Date().toISOString();
       const quant = product.stock + parseInt(quantity, 10);
       const quantidade = quant >= 0 ? quant : 0;
@@ -182,12 +187,7 @@ export default function Produtos(props) {
   }
 
   async function handleRemover(product, user) {
-    if (
-      quantity !== '' &&
-      value !== '' &&
-      quantity !== undefined &&
-      value !== undefined
-    ) {
+    if (quantity !== '' && motivo !== '' && quantity !== undefined) {
       const data = new Date().toISOString();
       const quant = product.stock - parseInt(quantity, 10);
       const quantidade = quant >= 0 ? quant : 0;
