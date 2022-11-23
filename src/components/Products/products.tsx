@@ -2,8 +2,11 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import DatePicker from 'react-datepicker'
 import Notifier, { notify } from '../Notifier/notifier';
 import Produto from './Product/product';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const Lista = styled.div`
   display: flex;
@@ -72,6 +75,17 @@ const Input = styled.input`
   border-color: ${({ theme }) => theme.border};
 `;
 
+const Picker = styled(DatePicker)`
+  padding: 1rem;
+  width: 100%;
+  max-width: 35rem;
+  margin: 0.25rem;
+  margin-left: 0;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color: ${({ theme }) => theme.border};
+`;
+
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
@@ -99,6 +113,7 @@ export default function Produtos(props) {
   const [quantity, setQuantity] = useState(undefined);
   const [value, setValue] = useState(undefined);
   const [motivo, setMotivo] = useState('');
+  const [date, setDate] = useState(new Date());
 
   const [notifierRef, setNotifierRef] = useState({
     animation: undefined,
@@ -160,7 +175,7 @@ export default function Produtos(props) {
       quantity !== undefined &&
       value !== undefined
     ) {
-      const data = new Date().toISOString();
+      const data = date.toISOString();
       const quant = product.stock + parseInt(quantity, 10);
       const quantidade = quant >= 0 ? quant : 0;
       const dados = {
@@ -252,6 +267,7 @@ export default function Produtos(props) {
                   value={value === undefined ? '' : value}
                   onChange={e => setValue(e.target.value)}
                 />
+                <Picker className="date-picker" placeholder="Data" selected={date} onChange={(date) => setDate(date)} withPortal={screen.width > 550 ? false : true} dateFormat="dd/MM/yyyy" isClearable={false} />
                 <Buttons>
                   <Button
                     type="button"

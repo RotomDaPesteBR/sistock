@@ -429,4 +429,12 @@ export default createGlobalStyle`
       display: none;
     }
   }
+
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+  .react-datepicker__input-container {
+    width: 100%;
+  }
 `;
