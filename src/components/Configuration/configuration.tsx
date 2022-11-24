@@ -56,7 +56,7 @@ const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  @media (max-width: 500px) {
+  @media (max-width: 800px) {
     padding: 0;
   }
 `;
@@ -68,7 +68,7 @@ const ProfileInfoItem = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 500px) {
+  @media (max-width: 800px) {
     flex-direction: column;
   }
 `;
@@ -76,20 +76,21 @@ const ProfileInfoItem = styled.div`
 const ProfileInfoLabel = styled.div`
   font-size: 1rem;
   white-space: nowrap;
-  @media (max-width: 500px) {
+  @media (max-width: 800px) {
     padding-bottom: 0.5rem;
   }
 `;
 
 const ProfileInfoEdit = styled.button`
   width: 10rem;
-  padding: 0.25rem;
+  padding: 0.4rem;
   border: 0;
-  border-radius: 2rem;
+  border-radius: 10px;
   background-color: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.text};
-  @media (max-width: 500px) {
+  @media (max-width: 800px) {
     width: 100%;
+    max-width: 15rem;
   }
 `;
 
@@ -176,14 +177,16 @@ const LinkButtons = styled.div`
 
 const ModalScreen = styled.div`
   position: fixed;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 20;
   top: 0;
   bottom: 0;
+  right: 0;
+  left: 0;
   background: #00000055;
 `;
 
@@ -194,6 +197,7 @@ const Modal = styled.div`
   background: white;
   width: 90%;
   height: 40%;
+  min-height: 25rem;
   max-width: 30rem;
   border-radius: 10px;
   @media (max-width: 500px) {
@@ -214,6 +218,9 @@ const Title = styled.h1`
   padding-top: 0;
   font-size: 2.5rem;
   text-align: center;
+  @media (max-width: 500px) {
+    font-size: 2rem;
+  }
 `;
 
 const Input = styled.input`
@@ -230,7 +237,7 @@ const Buttons = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  @media (max-width: 500px) {
+  @media (max-width: 800px) {
     flex-wrap: wrap;
   }
 `;
