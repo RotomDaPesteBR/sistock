@@ -23,10 +23,10 @@ export default async function handler(
         await prisma.User.update({
           where: { id: data.user },
           data: {
-            establishmentName: data.establishmentName
+            email: data.email
           }
         });
-        res.status(200).json(`Nome do estabelecimento editado com sucesso`);
+        res.status(200).json(`Email editado com sucesso`);
       } else {
         res.status(500).json({ error: 'Senha invalida' });
       }

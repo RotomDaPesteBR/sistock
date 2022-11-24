@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { darken } from 'polished';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -271,6 +272,7 @@ export default function Configuracao() {
   const [facebookProvider, setFacebookProvider] = useState(false);
 
   const session = useSession();
+  const Router = useRouter();
 
   async function getProviders(user) {
     const promise = await axios
@@ -292,6 +294,7 @@ export default function Configuracao() {
       .post('api/db/configuration/name', { data: { ...dados, user: user.id } })
       .then(response => response.data)
       .catch(error => error.response);
+    Router.reload();
   }
 
   async function saveEmail(dados, user) {
@@ -299,6 +302,7 @@ export default function Configuracao() {
       .post('api/db/configuration/email', { data: { ...dados, user: user.id } })
       .then(response => response.data)
       .catch(error => error.response);
+    Router.reload();
   }
 
   async function saveEstablishmentName(dados, user) {
@@ -308,6 +312,7 @@ export default function Configuracao() {
       })
       .then(response => response.data)
       .catch(error => error.response);
+    Router.reload();
   }
 
   async function getUser(usuario) {
