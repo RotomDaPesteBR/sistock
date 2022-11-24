@@ -1,9 +1,12 @@
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
 import Notifier, { notify } from '../Notifier/notifier';
 import Venda from './Expense/expense';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Lista = styled.div`
   display: flex;
@@ -72,6 +75,17 @@ const Input = styled.input`
   border-color: ${({ theme }) => theme.border};
 `;
 
+const Picker = styled(DatePicker)`
+  padding: 1rem;
+  width: 100%;
+  max-width: 35rem;
+  margin: 0.25rem;
+  margin-left: 0;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color: ${({ theme }) => theme.border};
+`;
+
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
@@ -96,6 +110,7 @@ export default function Expenses(props) {
   const [insert, showInsert] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState([]);
   const [value, setValue] = useState(undefined);
+  const [date, setDate] = useState(new Date());
 
   const [notifierRef, setNotifierRef] = useState({
     animation: undefined,
@@ -107,6 +122,7 @@ export default function Expenses(props) {
   function insertModal(expense) {
     showInsert(true);
     setValue(undefined);
+    setDate(new Date());
     setSelectedExpense(expense);
   }
 
@@ -138,7 +154,7 @@ export default function Expenses(props) {
 
   async function handleAdicionar(expense, user) {
     if (value !== '' && value !== undefined) {
-      const data = new Date().toISOString();
+      const data = date.toISOString();
       const dados = {
         date: data,
         value: parseFloat(value),
@@ -153,6 +169,7 @@ export default function Expenses(props) {
       const ref = notify('Despesa inserida com sucesso', 5000, notifierRef);
       setNotifierRef(ref);
       setValue(undefined);
+      setDate(new Date());
     } else {
       const ref = notify('Preencha todos os campos', 5000, notifierRef);
       setNotifierRef(ref);
@@ -177,6 +194,13 @@ export default function Expenses(props) {
                   placeholder="Valor"
                   value={value === undefined ? '' : value}
                   onChange={e => setValue(e.target.value)}
+                />
+                <Picker
+                  id="date-picker"
+                  placeholder="Data"
+                  selected={date}
+                  onChange={e => setDate(e)}
+                  dateFormat="dd/MM/yyyy"
                 />
                 <Buttons>
                   <Button

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
-import DatePicker from 'react-datepicker'
 import Notifier, { notify } from '../Notifier/notifier';
 import Produto from './Product/product';
 
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Lista = styled.div`
   display: flex;
@@ -25,14 +25,16 @@ const Lista = styled.div`
 
 const ModalScreen = styled.div`
   position: fixed;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 20;
   top: 0;
   bottom: 0;
+  left: 0;
+  right: 0;
   background: #00000055;
 `;
 
@@ -195,6 +197,7 @@ export default function Produtos(props) {
       setNotifierRef(ref);
       setQuantity(undefined);
       setValue(undefined);
+      setDate(new Date());
     } else {
       const ref = notify('Preencha todos os campos', 5000, notifierRef);
       setNotifierRef(ref);
@@ -203,7 +206,7 @@ export default function Produtos(props) {
 
   async function handleRemover(product, user) {
     if (quantity !== '' && motivo !== '' && quantity !== undefined) {
-      const data = new Date().toISOString();
+      const data = date.toISOString();
       const quant = product.stock - parseInt(quantity, 10);
       const quantidade = quant >= 0 ? quant : 0;
       const dados = {
@@ -223,6 +226,7 @@ export default function Produtos(props) {
       getProducts(session.data.user);
       setQuantity(undefined);
       setMotivo('');
+      setDate(new Date());
     } else {
       const ref = notify('Preencha todos os campos', 5000, notifierRef);
       setNotifierRef(ref);
@@ -267,7 +271,13 @@ export default function Produtos(props) {
                   value={value === undefined ? '' : value}
                   onChange={e => setValue(e.target.value)}
                 />
-                <Picker className="date-picker" placeholder="Data" selected={date} onChange={(date) => setDate(date)} withPortal={screen.width > 550 ? false : true} dateFormat="dd/MM/yyyy" isClearable={false} />
+                <Picker
+                  id="date-picker"
+                  placeholder="Data"
+                  selected={date}
+                  onChange={e => setDate(e)}
+                  dateFormat="dd/MM/yyyy"
+                />
                 <Buttons>
                   <Button
                     type="button"
@@ -307,6 +317,13 @@ export default function Produtos(props) {
                   placeholder="Motivo"
                   value={motivo}
                   onChange={e => setMotivo(e.target.value)}
+                />
+                <Picker
+                  className="date-picker"
+                  placeholder="Data"
+                  selected={date}
+                  onChange={e => setDate(e)}
+                  dateFormat="dd/MM/yyyy"
                 />
                 <Buttons>
                   <Button

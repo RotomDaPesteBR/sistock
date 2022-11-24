@@ -102,7 +102,9 @@ export default function Navbar() {
           </Item>
           <Item>
             <Link href="/">
-              <EstablishmentName>{establishment}</EstablishmentName>
+              <EstablishmentName>
+                {establishment || 'Estabelecimento'}
+              </EstablishmentName>
             </Link>
           </Item>
         </List>

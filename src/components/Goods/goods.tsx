@@ -1,9 +1,12 @@
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
 import Notifier, { notify } from '../Notifier/notifier';
 import Venda from './Good/good';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Lista = styled.div`
   display: flex;
@@ -72,6 +75,17 @@ const Input = styled.input`
   border-color: ${({ theme }) => theme.border};
 `;
 
+const Picker = styled(DatePicker)`
+  padding: 1rem;
+  width: 100%;
+  max-width: 35rem;
+  margin: 0.25rem;
+  margin-left: 0;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color: ${({ theme }) => theme.border};
+`;
+
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
@@ -97,6 +111,7 @@ export default function Goods(props) {
   const [selectedGood, setSelectedGood] = useState([]);
   const [quantity, setQuantity] = useState(undefined);
   const [value, setValue] = useState(undefined);
+  const [date, setDate] = useState(new Date());
 
   const [notifierRef, setNotifierRef] = useState({
     animation: undefined,
@@ -109,6 +124,7 @@ export default function Goods(props) {
     showInsert(true);
     setQuantity(undefined);
     setValue(undefined);
+    setDate(new Date());
     setSelectedGood(good);
   }
 
@@ -145,7 +161,7 @@ export default function Goods(props) {
       quantity !== '' &&
       quantity !== undefined
     ) {
-      const data = new Date().toISOString();
+      const data = date.toISOString();
       const dados = {
         good: good.id,
         value: parseFloat(value),
@@ -162,6 +178,7 @@ export default function Goods(props) {
       setNotifierRef(ref);
       setValue(undefined);
       setQuantity(undefined);
+      setDate(new Date());
     } else {
       const ref = notify('Preencha todos os campos', 5000, notifierRef);
       setNotifierRef(ref);
@@ -192,6 +209,13 @@ export default function Goods(props) {
                   placeholder="Quantidade"
                   value={quantity === undefined ? '' : quantity}
                   onChange={e => setQuantity(e.target.value)}
+                />
+                <Picker
+                  id="date-picker"
+                  placeholder="Data"
+                  selected={date}
+                  onChange={e => setDate(e)}
+                  dateFormat="dd/MM/yyyy"
                 />
                 <Buttons>
                   <Button

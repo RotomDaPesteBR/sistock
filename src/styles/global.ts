@@ -400,27 +400,45 @@ export default createGlobalStyle`
     }
   }
 
+  #config-container {
+    @media (max-width: 800px) {
+      align-items: start;
+    }
+  }
+
   #reports-container {
       align-items: start;
   }
 
+  .vinculado {
+    cursor: auto !important;
+  }
+
+  .status-vinculado {
+    background-color: #009900;
+  }
+
+  .status-desvinculado {
+    background-color: #ff0000;
+  }
+
   .loginLabel {
-    color: black;
+    color: ${({ theme }) => darken(0.25, theme.primary)};
     cursor: pointer;
   }
 
   .loginLabel:visited {
-    color: black;
+    color: ${({ theme }) => darken(0.25, theme.primary)};
     cursor: pointer;
   }
 
   .loginLabel:link {
-    color: black;
+    color: ${({ theme }) => darken(0.25, theme.primary)};
     cursor: pointer;
   }
 
   .loginLabel:active {
-    color: black;
+    color: ${({ theme }) => darken(0.25, theme.primary)};
     cursor: pointer;
   }
 

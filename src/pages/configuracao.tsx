@@ -31,7 +31,7 @@ export default function Home() {
         <Navbar />
       </header>
       <main>
-        <div className="container">
+        <div className="container" id="config-container">
           <Configuracao />
         </div>
       </main>

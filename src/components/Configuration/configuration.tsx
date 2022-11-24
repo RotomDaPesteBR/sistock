@@ -3,7 +3,6 @@ import { signIn, useSession } from 'next-auth/react';
 import { darken } from 'polished';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import LoginMethodsButton from '../Login/LoginButton/LoginMethodsButton';
 
 const Configuration = styled.div`
   display: flex;
@@ -19,6 +18,7 @@ const Configuration = styled.div`
   @media (max-width: 800px) {
     font-size: 0.75rem;
     justify-content: start;
+    padding-top: 75px;
   }
 `;
 
@@ -56,6 +56,9 @@ const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  @media (max-width: 500px) {
+    padding: 0;
+  }
 `;
 
 const ProfileInfoItem = styled.div`
@@ -65,10 +68,17 @@ const ProfileInfoItem = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 const ProfileInfoLabel = styled.div`
   font-size: 1rem;
+  white-space: nowrap;
+  @media (max-width: 500px) {
+    padding-bottom: 0.5rem;
+  }
 `;
 
 const ProfileInfoEdit = styled.button`
@@ -78,43 +88,89 @@ const ProfileInfoEdit = styled.button`
   border-radius: 2rem;
   background-color: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.text};
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const AccountLinksContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20rem;
+  margin-top: 20px;
+  padding: 2rem;
+  background: ${({ theme }) => darken(0.01, theme.background)};
+  @media (max-width: 500px) {
+    height: 100%;
+  }
+`;
+
+const AccountLinksTitle = styled.div`
+  font-size: 2rem;
+  padding-bottom: 1rem;
+`;
+
+const AccountLinks = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 20rem;
-  background: ${({ theme }) => darken(0.01, theme.background)};
+  height: 100%;
 `;
 
-/* const Input = styled.input`
-  padding: 1rem;
+const LinkContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: 35rem;
-  margin: 0.25rem;
-  border-radius: 10px;
-  border: 1px solid;
-  border-color: ${({ theme }) => theme.border};
+  height: 70%;
+  color: ${({ theme }) => theme.textDark};
 `;
 
-const Button = styled.button`
-  padding: 1rem;
-  width: 100%;
-  max-width: 35rem;
-  margin: 0.25rem;
-  border-radius: 10px;
-  border: 1px solid;
-  border-color: ${({ theme }) => theme.border};
-`; */
+const LinkImage = styled.img`
+  height: 4rem;
+  padding: 0.5rem;
+`;
 
-const LoginMethods = styled.div`
+const LinkStatus = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 30%;
+  border: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.text};
+`;
+
+const LinkButton = styled.button`
+  font-size: 1.2rem;
+  background: white;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 10px;
+  margin: 0.5rem;
+  text-align: center;
+  border: 0;
+  color: ${({ theme }) => theme.text};
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+`;
+
+const LinkButtons = styled.div`
   display: flex;
   flex-direction: row;
   @media (max-width: 500px) {
-    width: 85%;
+    flex-wrap: wrap;
   }
 `;
 
@@ -204,13 +260,24 @@ export default function Configuracao() {
   const [nomeInput, setNomeInput] = useState('');
   const [senhaInput, setSenhaInput] = useState('');
 
+  const [googleProvider, setGoogleProvider] = useState(false);
+  const [facebookProvider, setFacebookProvider] = useState(false);
+
   const session = useSession();
 
   async function getProviders(user) {
-    await axios
+    const promise = await axios
       .post('api/db/configuration/providers', { data: user.id })
       .then(response => response.data)
       .catch(error => error.response);
+    promise.forEach(p => {
+      if (p.provider === 'google') {
+        setGoogleProvider(true);
+      }
+      if (p.provider === 'facebook') {
+        setFacebookProvider(true);
+      }
+    });
   }
 
   async function saveName(dados, user) {
@@ -246,7 +313,7 @@ export default function Configuracao() {
     // setSenha(promise.password ? promise.password : '');
     // setImagem(promise.image ? promise.image : '');
     setEstablishmentName(
-      promise.establishmentName ? promise.establishmentName : ''
+      promise.establishmentName ? promise.establishmentName : 'Estabelecimento'
     );
   }
 
@@ -479,22 +546,51 @@ export default function Configuracao() {
         </ProfileInfo>
       </ProfileContainer>
       <AccountLinksContainer>
-        <LoginMethods>
-          <LoginMethodsButton
-            method="Google"
-            onClick={() =>
-              signIn('google', {
-                callbackUrl: 'https://sistock.vercel.app'
-              })
-            }
-          />
-          <LoginMethodsButton
-            method="Facebook"
-            onClick={() =>
-              signIn('facebook', { callbackUrl: 'https://sistock.vercel.app' })
-            }
-          />
-        </LoginMethods>
+        <AccountLinksTitle>Conexões</AccountLinksTitle>
+        <AccountLinks>
+          <LinkButtons>
+            <LinkButton
+              className={googleProvider ? 'vinculado' : ''}
+              disabled={googleProvider}
+              onClick={() =>
+                signIn('google', {
+                  callbackUrl: 'https://sistock.vercel.app'
+                })
+              }
+            >
+              <LinkContent>
+                <LinkImage src="/google.svg" alt="" />
+              </LinkContent>
+              <LinkStatus
+                className={
+                  googleProvider ? 'status-vinculado' : 'status-desvinculado'
+                }
+              >
+                {googleProvider ? 'Vinculado' : 'Vincular'}
+              </LinkStatus>
+            </LinkButton>
+            <LinkButton
+              className={facebookProvider ? 'vinculado' : ''}
+              disabled={facebookProvider}
+              onClick={() =>
+                signIn('facebook', {
+                  callbackUrl: 'https://sistock.vercel.app'
+                })
+              }
+            >
+              <LinkContent>
+                <LinkImage src="/facebook.svg" alt="" />
+              </LinkContent>
+              <LinkStatus
+                className={
+                  facebookProvider ? 'status-vinculado' : 'status-desvinculado'
+                }
+              >
+                {facebookProvider ? 'Vinculado' : 'Vincular'}
+              </LinkStatus>
+            </LinkButton>
+          </LinkButtons>
+        </AccountLinks>
       </AccountLinksContainer>
       {/* <Input
         type="text"
