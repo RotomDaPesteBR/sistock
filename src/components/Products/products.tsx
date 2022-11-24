@@ -77,6 +77,16 @@ const Input = styled.input`
   border-color: ${({ theme }) => theme.border};
 `;
 
+const Select = styled.select`
+  padding: 1rem;
+  width: 100%;
+  max-width: 35rem;
+  margin: 0.25rem;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color: ${({ theme }) => theme.border};
+`;
+
 const Picker = styled(DatePicker)`
   padding: 1rem;
   width: 100%;
@@ -312,12 +322,15 @@ export default function Produtos(props) {
                   value={quantity === undefined ? '' : quantity}
                   onChange={e => setQuantity(e.target.value)}
                 />
-                <Input
-                  type="text"
+                <Select
                   placeholder="Motivo"
                   value={motivo}
                   onChange={e => setMotivo(e.target.value)}
-                />
+                >
+                  <option value="" label="Motivo" />
+                  <option value="Uso">Uso</option>
+                  <option value="Perda">Perda</option>
+                </Select>
                 <Picker
                   className="date-picker"
                   placeholder="Data"
