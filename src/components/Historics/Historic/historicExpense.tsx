@@ -35,13 +35,15 @@ export default function Historic({ historic, type, stripe }, ...props) {
       {type === 'in' ? (
         <div>
           <Label className={stripe ? 'striped' : ''}>
-            <LabelItem>{`${historic.quantity || ''}`}</LabelItem>
-            <LabelItem>{`${historic.date.slice(0, 10) || ''}`}</LabelItem>
-            <LabelItem>{`${historic.product.name || ''} ${
-              historic.product.brand || ''
+            <LabelItem>{`${historic.expenses.name || ''} ${
+              historic.expenses.brand || ''
             }`}</LabelItem>
             <LabelItem>{`R$${
-              historic.value ?? (historic.value || 0)
+              historic.value ??
+              (historic.value.toFixed(2).replace(/\./, ',') || 0)
+            }`}</LabelItem>
+            <LabelItem>{`${
+              historic.date.slice(0, 10).split('-').reverse().join('/') || ''
             }`}</LabelItem>
           </Label>
         </div>
@@ -49,12 +51,14 @@ export default function Historic({ historic, type, stripe }, ...props) {
       {type === 'out' ? (
         <div>
           <Label className={stripe ? 'striped' : ''}>
-            <LabelItem>{`${historic.quantity || ''}`}</LabelItem>
-            <LabelItem>{`${historic.date.slice(0, 10) || ''}`}</LabelItem>
-            <LabelItem>{`${historic.product.name || ''} ${
-              historic.product.brand || ''
+            <LabelItem>{`${historic.expenses.name || ''} ${
+              historic.expenses.brand || ''
             }`}</LabelItem>
+            <LabelItem>{`${historic.quantity || ''}`}</LabelItem>
             <LabelItem>{`${historic.motive || ''}`}</LabelItem>
+            <LabelItem>{`${
+              historic.date.slice(0, 10).split('-').reverse().join('/') || ''
+            }`}</LabelItem>
           </Label>
         </div>
       ) : null}

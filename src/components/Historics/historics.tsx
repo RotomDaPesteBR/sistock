@@ -2,7 +2,9 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Historic from './Historic/historic';
+import HistoricProduct from './Historic/historicProduct';
+import HistoricGood from './Historic/historicGood';
+import HistoricExpense from './Historic/historicExpense';
 
 const Lista = styled.div`
   display: flex;
@@ -40,11 +42,18 @@ const HeaderItem = styled.div`
 export default function Historicos(props) {
   const [historicProductIn, setHistoricProductIn] = useState('');
   const [historicProductOut, setHistoricProductOut] = useState('');
-  const [historico, toggleHistorico] = useState(false);
+  const [historicMercadorias, setHistoricMercadorias] = useState('');
+  const [historicDespesas, setHistoricDespesas] = useState('');
+
+  const [historicProducts, toggleHistoricProducts] = useState(true);
+  const [historicGoods, toggleHistoricGoods] = useState(false);
+  const [historicExpenses, toggleHistoricExpenses] = useState(false);
+
+  const [historicoProduto, toggleHistoricoProduto] = useState(false);
 
   const session = useSession();
 
-  async function getHistoric(user) {
+  async function getHistoricProducts(user) {
     const promiseProductIn = await axios
       .post('api/db/historic/productIn', { data: user.id })
       .then(response => response.data)
@@ -58,7 +67,7 @@ export default function Historicos(props) {
       const resultProductIn = promiseProductIn.map(historic => {
         stripe = !stripe;
         return (
-          <Historic
+          <HistoricProduct
             key={historic.id}
             historic={historic}
             stripe={stripe}
@@ -73,7 +82,7 @@ export default function Historicos(props) {
       const resultProductOut = promiseProductOut.map(historic => {
         stripe = !stripe;
         return (
-          <Historic
+          <HistoricProduct
             key={historic.id}
             historic={historic}
             stripe={stripe}
@@ -85,12 +94,76 @@ export default function Historicos(props) {
     }
   }
 
+  async function getHistoricGoods(user) {
+    const promiseGoods = await axios
+      .post('api/db/historic/goodsRec', { data: user.id })
+      .then(response => response.data)
+      .catch(error => error.response);
+    if (promiseGoods?.status !== 500) {
+      let stripe = false;
+      const resultProductIn = promiseGoods.map(historic => {
+        stripe = !stripe;
+        return (
+          <HistoricGood
+            key={historic.id}
+            historic={historic}
+            stripe={stripe}
+            type="in"
+          />
+        );
+      });
+      setHistoricMercadorias(resultProductIn);
+    }
+  }
+
+  async function getHistoricExpenses(user) {
+    const promiseGoods = await axios
+      .post('api/db/historic/expensesRec', { data: user.id })
+      .then(response => response.data)
+      .catch(error => error.response);
+    if (promiseGoods?.status !== 500) {
+      let stripe = false;
+      const resultProductIn = promiseGoods.map(historic => {
+        stripe = !stripe;
+        return (
+          <HistoricExpense
+            key={historic.id}
+            historic={historic}
+            stripe={stripe}
+            type="in"
+          />
+        );
+      });
+      setHistoricDespesas(resultProductIn);
+    }
+  }
+
+  function handleClickProducts() {
+    toggleHistoricProducts(true);
+    toggleHistoricGoods(false);
+    toggleHistoricExpenses(false);
+  }
+
+  function handleClickGoods() {
+    toggleHistoricProducts(false);
+    toggleHistoricGoods(true);
+    toggleHistoricExpenses(false);
+  }
+
+  function handleClickExpenses() {
+    toggleHistoricProducts(false);
+    toggleHistoricGoods(false);
+    toggleHistoricExpenses(true);
+  }
+
   function handleClick(e) {
-    toggleHistorico(e);
+    toggleHistoricoProduto(e);
   }
 
   useEffect(() => {
-    getHistoric(session.data.user);
+    getHistoricProducts(session.data.user);
+    getHistoricGoods(session.data.user);
+    getHistoricExpenses(session.data.user);
   }, []);
 
   return (
@@ -100,41 +173,90 @@ export default function Historicos(props) {
       </div>
       <HeaderLista>
         <HeaderItem
-          className={!historico ? 'selected' : ''}
-          onClick={() => handleClick(false)}
+          className={historicProducts ? 'selected' : ''}
+          onClick={() => handleClickProducts()}
           style={{ cursor: 'pointer' }}
         >
-          Entrada
+          Estoque
         </HeaderItem>
         <HeaderItem
-          className={historico ? 'selected' : ''}
-          onClick={() => handleClick(true)}
+          className={historicGoods ? 'selected' : ''}
+          onClick={() => handleClickGoods()}
           style={{ cursor: 'pointer' }}
         >
-          Saida
+          Vendas
+        </HeaderItem>
+        <HeaderItem
+          className={historicExpenses ? 'selected' : ''}
+          onClick={() => handleClickExpenses()}
+          style={{ cursor: 'pointer' }}
+        >
+          Despesas
         </HeaderItem>
       </HeaderLista>
       <br />
-      {!historico ? (
+      {historicProducts ? (
         <>
           <HeaderLista>
-            <HeaderItem>Quantidade</HeaderItem>
-            <HeaderItem>Data</HeaderItem>
-            <HeaderItem>Produto</HeaderItem>
-            <HeaderItem>Valor</HeaderItem>
+            <HeaderItem
+              className={!historicoProduto ? 'selected' : ''}
+              onClick={() => handleClick(false)}
+              style={{ cursor: 'pointer' }}
+            >
+              Entrada
+            </HeaderItem>
+            <HeaderItem
+              className={historicoProduto ? 'selected' : ''}
+              onClick={() => handleClick(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              Saida
+            </HeaderItem>
           </HeaderLista>
-          {historicProductIn}
+          <br />
+          {!historicoProduto ? (
+            <>
+              <HeaderLista>
+                <HeaderItem>Produto</HeaderItem>
+                <HeaderItem>Valor</HeaderItem>
+                <HeaderItem>Quantidade</HeaderItem>
+                <HeaderItem>Data</HeaderItem>
+              </HeaderLista>
+              {historicProductIn}
+            </>
+          ) : null}
+          {historicoProduto ? (
+            <>
+              <HeaderLista>
+                <HeaderItem>Produto</HeaderItem>
+                <HeaderItem>Quantidade</HeaderItem>
+                <HeaderItem>Motivo</HeaderItem>
+                <HeaderItem>Data</HeaderItem>
+              </HeaderLista>
+              {historicProductOut}
+            </>
+          ) : null}
         </>
       ) : null}
-      {historico ? (
+      {historicGoods ? (
         <>
           <HeaderLista>
+            <HeaderItem>Mercadoria</HeaderItem>
+            <HeaderItem>Valor</HeaderItem>
             <HeaderItem>Quantidade</HeaderItem>
             <HeaderItem>Data</HeaderItem>
-            <HeaderItem>Produto</HeaderItem>
-            <HeaderItem>Motivo</HeaderItem>
           </HeaderLista>
-          {historicProductOut}
+          {historicMercadorias}
+        </>
+      ) : null}
+      {historicExpenses ? (
+        <>
+          <HeaderLista>
+            <HeaderItem>Despesa</HeaderItem>
+            <HeaderItem>Valor</HeaderItem>
+            <HeaderItem>Data</HeaderItem>
+          </HeaderLista>
+          {historicDespesas}
         </>
       ) : null}
     </Lista>
