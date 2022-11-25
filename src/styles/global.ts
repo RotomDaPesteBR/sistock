@@ -455,4 +455,11 @@ export default createGlobalStyle`
   .react-datepicker__input-container {
     width: 100%;
   }
+  
+  .motivo:required:invalid {
+    color: gray;
+  }
+  .motivo option {
+    color: ${({ theme }) => theme.textDark};
+  }
 `;

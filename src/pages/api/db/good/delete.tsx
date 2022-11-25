@@ -7,10 +7,13 @@ export default async function handler(
 ) {
   try {
     const { data } = req.body;
-    const user = await prisma.ProductSales.delete({
-      where: { id: data }
+    await prisma.ProductSales.update({
+      where: { id: data },
+      data: {
+        active: false
+      }
     });
-    res.status(200).json(user);
+    res.status(200).json('Desativado com sucesso');
   } catch (err) {
     res.status(500).json({ error: 'failed to load data' });
   }

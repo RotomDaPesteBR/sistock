@@ -11,7 +11,8 @@ export default async function handler(
       where: { userId: data },
       select: {
         id: true,
-        name: true
+        name: true,
+        active: true
       },
       orderBy: {
         name: 'asc'

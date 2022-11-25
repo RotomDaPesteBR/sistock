@@ -15,7 +15,8 @@ export default async function handler(
         brand: true,
         unit: true,
         limit: true,
-        stock: true
+        stock: true,
+        active: true
       },
       orderBy: {
         stock: 'asc'

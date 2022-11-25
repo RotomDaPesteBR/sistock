@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
@@ -158,7 +159,8 @@ export default function Produtos(props) {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      const result = promise.map(product => (
+      const actives = _.filter(promise, ['active', true]);
+      const result = actives.map(product => (
         <Produto
           key={product.id}
           product={product}
@@ -323,11 +325,13 @@ export default function Produtos(props) {
                   onChange={e => setQuantity(e.target.value)}
                 />
                 <Select
+                  required
+                  className="motivo"
                   placeholder="Motivo"
                   value={motivo}
                   onChange={e => setMotivo(e.target.value)}
                 >
-                  <option value="" label="Motivo" />
+                  <option value="" label="Motivo" selected disabled hidden />
                   <option value="Uso">Uso</option>
                   <option value="Perda">Perda</option>
                 </Select>

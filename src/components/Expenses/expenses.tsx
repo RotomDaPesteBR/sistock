@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
@@ -132,7 +133,8 @@ export default function Expenses(props) {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      const result = promise.map(expense => (
+      const actives = _.filter(promise, ['active', true]);
+      const result = actives.map(expense => (
         <Venda
           key={expense.id}
           expense={expense}

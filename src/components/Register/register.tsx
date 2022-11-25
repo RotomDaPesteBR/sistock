@@ -155,6 +155,10 @@ export default function Cadastrar() {
     if (promise) {
       const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
       setNotifierRef(ref);
+      setNomeProduto('');
+      setMarcaProduto('');
+      setUnidade('');
+      setLimiteProduto(undefined);
     }
   }
 
@@ -166,6 +170,7 @@ export default function Cadastrar() {
     if (promise) {
       const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
       setNotifierRef(ref);
+      setNomeMercadoria('');
     }
   }
 
@@ -177,6 +182,7 @@ export default function Cadastrar() {
     if (promise) {
       const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
       setNotifierRef(ref);
+      setNomeDespesa('');
     }
   }
 
@@ -232,6 +238,24 @@ export default function Cadastrar() {
 
   function handleClickModal(e) {
     e.stopPropagation();
+  }
+
+  function handleShowProducts() {
+    showModalProdutos(true);
+    setNomeProduto('');
+    setMarcaProduto('');
+    setUnidade('');
+    setLimiteProduto(undefined);
+  }
+
+  function handleShowGoods() {
+    showModalMercadorias(true);
+    setNomeMercadoria('');
+  }
+
+  function handleShowExpenses() {
+    showModalDespesas(true);
+    setNomeDespesa('');
   }
 
   return (
@@ -350,15 +374,15 @@ export default function Cadastrar() {
           </Modal>
         </ModalScreen>
       ) : null}
-      <Button onClick={() => showModalProdutos(true)}>
+      <Button onClick={() => handleShowProducts()}>
         <Icone src="/produtos.png" alt="" />
         <Titulo>Produtos</Titulo>
       </Button>
-      <Button onClick={() => showModalMercadorias(true)}>
+      <Button onClick={() => handleShowGoods()}>
         <Icone src="/mercadorias.png" alt="" />
         <Titulo>Mercadorias</Titulo>
       </Button>
-      <Button onClick={() => showModalDespesas(true)}>
+      <Button onClick={() => handleShowExpenses()}>
         <Icone src="/despesas.png" alt="" />
         <Titulo>Despesas</Titulo>
       </Button>

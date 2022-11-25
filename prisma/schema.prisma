@@ -70,6 +70,7 @@ model Product {
   unit       String?
   limit      Int?
   stock      Int?
+  active     Boolean      @default(true)
   userId     String
   user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   ProductIn  ProductIn[]
@@ -78,7 +79,8 @@ model Product {
 
 model Expenses {
   id          String        @id @default(cuid())
-  name        String        
+  name        String
+  active      Boolean       @default(true)
   userId      String
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   ExpensesRec ExpensesRec[]
@@ -87,6 +89,7 @@ model Expenses {
 model ProductSales {
   id       String     @id @default(cuid())
   name     String    
+  active   Boolean    @default(true)
   userId   String
   user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   SalesRec SalesRec[]

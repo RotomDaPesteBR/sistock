@@ -24,9 +24,17 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
   @media (max-width: 800px) {
     padding-bottom: 1rem;
+  }
+`;
+const Subtitle = styled.h1`
+  padding-bottom: 2rem;
+  font-size: 1rem;
+  @media (max-width: 800px) {
+    padding-bottom: 1rem;
+    font-size: 0.75rem;
   }
 `;
 
@@ -63,6 +71,7 @@ export default function Alerts() {
   return (
     <Container>
       <Title>Alertas</Title>
+      <Subtitle>Produtos abaixo do limite minimo</Subtitle>
       <AlertsContainer>{alertsProducts}</AlertsContainer>
     </Container>
   );
