@@ -210,6 +210,17 @@ const LimitInfo = styled.div`
   margin-right: 0.5rem;
 `;
 
+const SaveButton = styled.button`
+  padding: 1rem;
+  width: 100%;
+  max-width: 35rem;
+  margin: 0.25rem;
+  border-radius: 10px;
+  background: red;
+  border: 0;
+  color: white;
+`;
+
 export default function Produto(
   { product, insertModal, withdrawModal, getProducts },
   ...props
@@ -320,9 +331,12 @@ export default function Produto(
                 <Button type="button" onClick={() => showModalDelete(false)}>
                   Cancelar
                 </Button>
-                <Button type="button" onClick={() => deleteProduct(product.id)}>
+                <SaveButton
+                  type="button"
+                  onClick={() => deleteProduct(product.id)}
+                >
                   Deletar
-                </Button>
+                </SaveButton>
               </ButtonsDelete>
             </Form>
           </Modal>

@@ -15,11 +15,19 @@ const ContainerDashboard = styled.div`
   }
 `;
 
+const Space = styled.div`
+  padding: 27.5px;
+  @media (max-width: 800px) {
+    padding: 0;
+  }
+`;
+
 export default function Dashboard() {
   return (
     <ContainerDashboard>
       <Graphics />
       <Alerts />
+      <Space />
     </ContainerDashboard>
   );
 }

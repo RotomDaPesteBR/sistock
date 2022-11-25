@@ -23,6 +23,13 @@ const Configuration = styled.div`
   }
 `;
 
+const Space = styled.div`
+  padding: 0;
+  @media (max-width: 800px) {
+    padding: 10px;
+  }
+`;
+
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -637,6 +644,7 @@ export default function Configuracao() {
       <Button type="button" onClick={() => handleClick()}>
         Salvar
       </Button> */}
+      <Space />
     </Configuration>
   );
 }

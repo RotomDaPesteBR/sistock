@@ -1,13 +1,16 @@
 import axios from 'axios';
+import ptBR from 'date-fns/locale/pt-BR';
 import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import styled from 'styled-components';
 import Notifier, { notify } from '../Notifier/notifier';
 import Venda from './Good/good';
 
 import 'react-datepicker/dist/react-datepicker.css';
+
+registerLocale('pt-BR', ptBR);
 
 const Lista = styled.div`
   display: flex;
@@ -104,6 +107,17 @@ const Button = styled.button`
   border-radius: 10px;
   border: 1px solid;
   border-color: ${({ theme }) => theme.border};
+`;
+
+const SaveButton = styled.button`
+  padding: 1rem;
+  width: 100%;
+  max-width: 35rem;
+  margin: 0.25rem;
+  border-radius: 10px;
+  background: ${({ theme }) => theme.primary};
+  border: 0;
+  color: white;
 `;
 
 export default function Goods(props) {
@@ -218,6 +232,7 @@ export default function Goods(props) {
                   selected={date}
                   onChange={e => setDate(e)}
                   dateFormat="dd/MM/yyyy"
+                  locale="pt-BR"
                 />
                 <Buttons>
                   <Button
@@ -227,7 +242,7 @@ export default function Goods(props) {
                   >
                     Cancelar
                   </Button>
-                  <Button
+                  <SaveButton
                     type="button"
                     id="confirmar"
                     onClick={() =>
@@ -235,7 +250,7 @@ export default function Goods(props) {
                     }
                   >
                     Vender
-                  </Button>
+                  </SaveButton>
                 </Buttons>
               </Form>
             </Modal>
