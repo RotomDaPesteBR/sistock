@@ -415,11 +415,11 @@ export default createGlobalStyle`
   }
 
   .status-vinculado {
-    background-color: #009900;
+    background-color: #009900 !important;
   }
 
   .status-desvinculado {
-    background-color: #ff0000;
+    background-color: #ff0000 !important;
   }
 
   .loginLabel {
