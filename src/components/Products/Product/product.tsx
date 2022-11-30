@@ -344,7 +344,7 @@ export default function Produto(
       ) : null}
       <div>
         <Label className={selected} onClick={() => handleClick()}>
-          <div>{`${product.name || ''} ${product.brand || ''}`}</div>
+          <div>{`${product.name || ''} ${product.unit || '' }`}</div>
           <div id="product-control" className={disponibilidade}>
             <Disponíveis>{`${
               product.stock ?? (product.stock || 0)
@@ -360,9 +360,7 @@ export default function Produto(
             {!edit ? (
               <Info>
                 <InfoLine>
-                  <div style={{ lineHeight: '2rem' }}>{`Unidade: ${
-                    product.unit || ''
-                  }`}</div>
+                  <div style={{ lineHeight: '2rem' }}>{`Marca: ${product.brand || ''}`}</div>
                   <EditLine>
                     <LimitInfo
                       style={{ lineHeight: '2rem' }}

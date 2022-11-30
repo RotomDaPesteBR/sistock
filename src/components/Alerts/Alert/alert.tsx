@@ -33,7 +33,7 @@ export default function Alert({ product }) {
     <Link href="/estoque">
       <Item>
         <Label>
-          <div>{`${product.name || ''} ${product.brand || ''}`}</div>
+          <div>{`${product.name || ''} ${product.brand || ''} ${product.unit || '' }`}</div>
           <Stock>{`${product.stock || 0} Disponíveis`}</Stock>
         </Label>
       </Item>
