@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
-import RecoverButton from './RecoverButton/RequestButton';
+import RecoverButton from './RecoverButton/ResetButton';
 import RecoverInput from './RecoverInput/RecoverInput';
 
 const RecoverDiv = styled.div`
@@ -48,6 +48,7 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.text};
   padding: 1rem;
   font-size: 3rem;
+  text-align: center;
 `;
 
 export default function Recover() {
@@ -58,7 +59,6 @@ export default function Recover() {
   const { token } = router.query;
 
   async function handleRecover() {
-    console.log(token);
     if (senha !== '' && confirmSenha !== '') {
       if (senha === confirmSenha) {
         const dados = {
@@ -66,7 +66,7 @@ export default function Recover() {
           token
         };
         const promise = await axios
-          .post('api/db/auth/recover', { data: { ...dados } })
+          .post('/api/db/auth/recover', { data: { ...dados } })
           .then(response => response.data)
           .catch(error => error.response);
         console.log(promise);

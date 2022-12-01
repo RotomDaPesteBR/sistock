@@ -58,7 +58,7 @@ export default async function handler(
                 <img src="https://www.sistock.com.br/logo.png" alt="Sistock" style="height: 100%">
               </div>
             </header>
-            <div style="width: 100%; height: 30rem; padding-top: 2rem; text-align: center;">
+            <div style="width: 100%; height: 10rem; padding-top: 2rem; text-align: center;">
               <p>Redefinição de senha</p>
               <div>Clique no link abaixo para redefinir sua senha</div>
               <br>
