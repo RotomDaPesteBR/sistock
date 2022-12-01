@@ -41,6 +41,7 @@ const Subtitle = styled.h1`
 const AlertsContainer = styled.div`
   width: 100%;
   height: 100%;
+  min-height: 8rem;
   max-height: 20rem;
   overflow: auto;
 `;
