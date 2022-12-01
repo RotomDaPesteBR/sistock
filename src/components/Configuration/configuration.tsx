@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { darken } from 'polished';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Configuration = styled.div`
   display: flex;
@@ -260,6 +261,10 @@ const Button = styled.button`
   border-color: ${({ theme }) => theme.border};
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
 export default function Configuracao() {
   // const [user, setUser] = useState('');
   const [nome, setNome] = useState('');
@@ -297,29 +302,59 @@ export default function Configuracao() {
   }
 
   async function saveName(dados, user) {
-    await axios
-      .post('api/db/configuration/name', { data: { ...dados, user: user.id } })
-      .then(response => response.data)
-      .catch(error => error.response);
-    Router.reload();
+    if (nomeInput !== '' && senhaInput !== '') {
+      const promise = await axios
+        .post('api/db/configuration/name', {
+          data: { ...dados, user: user.id }
+        })
+        .then(response => response.data)
+        .catch(error => error.response);
+      if (promise.status !== 500) {
+        Router.reload();
+      } else {
+        toast(<ToastContent>Senha incorreta, tente novamente</ToastContent>);
+      }
+    } else {
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
+    }
   }
 
   async function saveEmail(dados, user) {
-    await axios
-      .post('api/db/configuration/email', { data: { ...dados, user: user.id } })
-      .then(response => response.data)
-      .catch(error => error.response);
-    Router.reload();
+    if (nomeInput !== '' && senhaInput !== '') {
+      const promise = await axios
+        .post('api/db/configuration/email', {
+          data: { ...dados, user: user.id }
+        })
+        .then(response => response.data)
+        .catch(error => error.response);
+
+      if (promise.status !== 500) {
+        Router.reload();
+      } else {
+        toast(<ToastContent>Senha incorreta, tente novamente</ToastContent>);
+      }
+    } else {
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
+    }
   }
 
   async function saveEstablishmentName(dados, user) {
-    await axios
-      .post('api/db/configuration/establishmentName', {
-        data: { ...dados, user: user.id }
-      })
-      .then(response => response.data)
-      .catch(error => error.response);
-    Router.reload();
+    if (nomeInput !== '' && senhaInput !== '') {
+      const promise = await axios
+        .post('api/db/configuration/establishmentName', {
+          data: { ...dados, user: user.id }
+        })
+        .then(response => response.data)
+        .catch(error => error.response);
+
+      if (promise.status !== 500) {
+        Router.reload();
+      } else {
+        toast(<ToastContent>Senha incorreta, tente novamente</ToastContent>);
+      }
+    } else {
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
+    }
   }
 
   async function getUser(usuario) {
@@ -420,6 +455,7 @@ export default function Configuracao() {
 
   return (
     <Configuration>
+      <Toaster />
       {nomeModal ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>
