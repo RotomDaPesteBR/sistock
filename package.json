@@ -23,6 +23,7 @@
     "next": "^12.3.1",
     "next-auth": "^4.12.0",
     "next-images": "^1.8.4",
+    "nodemailer": "^6.8.0",
     "polished": "^4.2.2",
     "prisma-erd-generator": "^1.2.0",
     "react": "18.2.0",

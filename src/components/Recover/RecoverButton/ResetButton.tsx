@@ -16,5 +16,5 @@ const Button = styled.button`
 `;
 
 export default function SignUpButton(props) {
-  return <Button {...props}>Cadastrar</Button>;
+  return <Button {...props}>Redefinir</Button>;
 }

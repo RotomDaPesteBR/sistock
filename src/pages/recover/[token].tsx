@@ -1,13 +1,14 @@
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import Recover from '../components/Recover/recoverRequest';
+import { useRouter } from 'next/router';
+import Recover from '../../components/Recover/recover';
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (session) {
+  if (!session) {
     return {
       redirect: {
-        destination: '/dashboard',
+        destination: '/login',
         permanent: false
       }
     };
@@ -18,20 +19,29 @@ export async function getServerSideProps(context) {
     }
   };
 }
-
 export default function Home() {
+  const router = useRouter();
+  const { token } = router.query;
+
   return (
     <div>
       <Head>
         <title>Sistock</title>
-        <meta name="description" content="Recupere sua senha" />
+        <meta name="description" content="" />
       </Head>
-
+      <header>
+        <p />
+      </header>
       <main>
-        <div className="loginContainer">
-          <Recover />
+        <div className="container" id="content">
+          <Recover token={token} />
         </div>
       </main>
+      <footer>
+        <div>
+          <p />
+        </div>
+      </footer>
     </div>
   );
 }

@@ -53,6 +53,7 @@ model User {
   SalesRec       SalesRec[]
   ProductIn      ProductIn[]
   ProductOut     ProductOut[]
+  RecoverToken   RecoverToken[]
 }
 
 model VerificationToken {
@@ -61,6 +62,15 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model RecoverToken {
+  id         String   @id @default(cuid())
+  token      String   @unique
+  expires    DateTime
+  active     Boolean  @default(true)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Product {
