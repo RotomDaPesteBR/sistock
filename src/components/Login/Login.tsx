@@ -2,11 +2,12 @@ import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
-import Notifier, { notify } from '../Notifier/loginNotifier';
 import LoginButton from './LoginButton/LoginButton';
 import LoginMethodsButton from './LoginButton/LoginMethodsButton';
 import LoginInput from './LoginInput/LoginInput';
+import PasswordInput from './LoginInput/PasswordInput';
 
 const LoginDiv = styled.div`
   background: ${({ theme }) => theme.backgroundLogin};
@@ -54,19 +55,39 @@ const LoginMethods = styled.div`
   }
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
+const TogglePassword = styled.button`
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: #ffffff;
+  border: 0;
+  @media (max-width: 500px) {
+    right: 0.75rem;
+  }
+`;
+
+const PasswordContainer = styled.div`
+  position: relative;
+  @media (max-width: 500px) {
+    width: 80%;
+  }
+`;
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-
-  const [notifierRef, setNotifierRef] = useState({
-    animation: undefined,
-    expire: undefined
-  });
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   async function handleLogin() {
     if (email !== '' && senha !== '') {
       const res = await signIn('credentials', {
-        callbackUrl: 'https://sistock.vercel.app/',
+        callbackUrl: 'https://sistock.com.br/',
         // eslint-disable-next-line object-shorthand
         email: email.toLowerCase(),
         password: senha,
@@ -75,26 +96,25 @@ export default function Login() {
       if (res.ok) {
         Router.push('/dashboard');
       } else {
-        const ref = notify(
-          'Verifique se o email ou senha foram digitados corretamente',
-          5000,
-          notifierRef
+        toast(
+          <ToastContent>
+            Verifique se o email ou senha foram digitados corretamente
+          </ToastContent>
         );
-        setNotifierRef(ref);
       }
     } else {
-      const ref = notify('Informe email e senha', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Informe email e senha</ToastContent>);
     }
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    handleLogin();
   }
 
   return (
     <LoginDiv>
-      <Notifier />
+      <Toaster />
       <LoginForm onSubmit={e => handleSubmit(e)}>
         <img className="logo" src="/logo.png" alt="" />
         <LoginInput
@@ -105,18 +125,29 @@ export default function Login() {
           onChange={e => setEmail(e.target.value)}
           type="email"
         />
-        <LoginInput
-          id="password"
-          name="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={e => setSenha(e.target.value)}
-          type="password"
-        />
+        <PasswordContainer>
+          <PasswordInput
+            id="password"
+            name="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={e => setSenha(e.target.value)}
+            type={passwordVisible ? 'text' : 'password'}
+          />
+          <TogglePassword
+            type="button"
+            onClick={() => setPasswordVisible(!passwordVisible)}
+          >
+            <img
+              src={passwordVisible ? '/view.png' : '/hide.png'}
+              alt="Password visibility toggle"
+            />
+          </TogglePassword>
+        </PasswordContainer>
         <Link href="/recover">
           <div className="loginLabel">Esqueceu a senha?</div>
         </Link>
-        <LoginButton onClick={() => handleLogin()} type="submit" />
+        <LoginButton type="submit" />
         <Link href="/signup">
           <div className="loginLabel">Cadastre-se</div>
         </Link>
@@ -125,14 +156,14 @@ export default function Login() {
             method="Google"
             onClick={() =>
               signIn('google', {
-                callbackUrl: 'https://sistock.vercel.app'
+                callbackUrl: 'https://sistock.com.br'
               })
             }
           />
           <LoginMethodsButton
             method="Facebook"
             onClick={() =>
-              signIn('facebook', { callbackUrl: 'https://sistock.vercel.app' })
+              signIn('facebook', { callbackUrl: 'https://sistock.com.br' })
             }
           />
         </LoginMethods>

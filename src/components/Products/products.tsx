@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import styled from 'styled-components';
-import Notifier, { notify } from '../Notifier/notifier';
+import toast, { Toaster } from 'react-hot-toast';
 import Produto from './Product/product';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -132,6 +132,10 @@ const SaveButton = styled.button`
   color: white;
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
 export default function Produtos(props) {
   const [products, setProducts] = useState('');
   const [insert, showInsert] = useState(false);
@@ -141,11 +145,6 @@ export default function Produtos(props) {
   const [value, setValue] = useState(undefined);
   const [motivo, setMotivo] = useState('');
   const [date, setDate] = useState(new Date());
-
-  const [notifierRef, setNotifierRef] = useState({
-    animation: undefined,
-    expire: undefined
-  });
 
   const session = useSession();
 
@@ -219,14 +218,13 @@ export default function Produtos(props) {
         .then(response => response.data)
         .catch(error => error.response);
       getProducts(session.data.user);
-      const ref = notify('Adicionado com sucesso', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Adicionado com sucesso</ToastContent>)
       setQuantity(undefined);
       setValue(undefined);
       setDate(new Date());
+      showInsert(false);
     } else {
-      const ref = notify('Preencha todos os campos', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
     }
   }
 
@@ -247,15 +245,14 @@ export default function Produtos(props) {
         .post('api/db/product/withdraw', { data: dados })
         .then(response => response.data)
         .catch(error => error.response);
-      const ref = notify('Removido com sucesso', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Removido com sucesso</ToastContent>)
       getProducts(session.data.user);
       setQuantity(undefined);
       setMotivo('');
       setDate(new Date());
+      showWithdraw(false);
     } else {
-      const ref = notify('Preencha todos os campos', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
     }
   }
 
@@ -276,7 +273,7 @@ export default function Produtos(props) {
 
   return (
     <>
-      <Notifier />
+      <Toaster />
       <Lista {...props}>
         {insert ? (
           <ModalScreen onClick={() => handleClickScreen()}>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { darken, lighten } from 'polished';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Item = styled.div`
   margin: 0.25rem;
@@ -221,6 +222,10 @@ const SaveButton = styled.button`
   color: white;
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
 export default function Produto(
   { product, insertModal, withdrawModal, getProducts },
   ...props
@@ -290,6 +295,7 @@ export default function Produto(
       .post('api/db/product/delete', { data: id })
       .then(response => response.data)
       .catch(error => error.response);
+    toast(<ToastContent>Produto excluido com sucesso</ToastContent>);
     getProducts();
     disponivel();
   }
@@ -322,6 +328,7 @@ export default function Produto(
 
   return (
     <Item {...props}>
+      <Toaster />
       {modalDelete ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <Modal onClick={e => handleClickModal(e)}>

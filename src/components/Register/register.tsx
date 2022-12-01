@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import Notifier, { notify } from '../Notifier/notifier';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Buttons = styled.div`
   display: flex;
@@ -126,6 +126,10 @@ const ModalButton = styled.button`
   border-color: ${({ theme }) => theme.border};
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
 export default function Cadastrar() {
   const [modalDespesas, showModalDespesas] = useState(false);
   const [modalProdutos, showModalProdutos] = useState(false);
@@ -153,12 +157,12 @@ export default function Cadastrar() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise) {
-      const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Cadastrado com sucesso</ToastContent>)
       setNomeProduto('');
       setMarcaProduto('');
       setUnidade('');
       setLimiteProduto(undefined);
+      showModalProdutos(false);
     }
   }
 
@@ -168,9 +172,9 @@ export default function Cadastrar() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise) {
-      const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Cadastrado com sucesso</ToastContent>)
       setNomeMercadoria('');
+      showModalMercadorias(false);
     }
   }
 
@@ -180,9 +184,9 @@ export default function Cadastrar() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise) {
-      const ref = notify('Cadastrado com sucesso', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Cadastrado com sucesso</ToastContent>)
       setNomeDespesa('');
+      showModalDespesas(false);
     }
   }
 
@@ -201,8 +205,7 @@ export default function Cadastrar() {
       };
       registerProduct(dados, session.data.user);
     } else {
-      const ref = notify('Preencha todos os campos', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Preencha todos os campos</ToastContent>)
     }
   }
 
@@ -213,8 +216,7 @@ export default function Cadastrar() {
       };
       registerGood(dados, session.data.user);
     } else {
-      const ref = notify('Preencha todos os campos', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Preencha todos os campos</ToastContent>)
     }
   }
 
@@ -225,8 +227,7 @@ export default function Cadastrar() {
       };
       registerExpense(dados, session.data.user);
     } else {
-      const ref = notify('Preencha todos os campos', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Preencha todos os campos</ToastContent>)
     }
   }
 
@@ -260,7 +261,7 @@ export default function Cadastrar() {
 
   return (
     <Buttons>
-      <Notifier />
+      <Toaster />
       {modalProdutos ? (
         <ModalScreen onClick={() => handleClickScreen()}>
           <ProductModal onClick={e => handleClickModal(e)}>

@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import styled from 'styled-components';
-import Notifier, { notify } from '../Notifier/notifier';
+import toast, { Toaster } from 'react-hot-toast';
 import Venda from './Good/good';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -120,6 +120,10 @@ const SaveButton = styled.button`
   color: white;
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
 export default function Goods(props) {
   const [goods, setGoods] = useState('');
   const [insert, showInsert] = useState(false);
@@ -190,14 +194,13 @@ export default function Goods(props) {
         .then(response => response.data)
         .catch(error => error.response);
       getGoods(session.data.user);
-      const ref = notify('Venda registrada com sucesso', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Venda registrada com sucesso</ToastContent>);
       setValue(undefined);
       setQuantity(undefined);
       setDate(new Date());
+      showInsert(false);
     } else {
-      const ref = notify('Preencha todos os campos', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
     }
   }
 
@@ -207,7 +210,7 @@ export default function Goods(props) {
 
   return (
     <>
-      <Notifier />
+      <Toaster />
       <Lista {...props}>
         {insert ? (
           <ModalScreen onClick={() => handleClickScreen()}>

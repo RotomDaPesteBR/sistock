@@ -3,9 +3,10 @@ import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
-import Notifier, { notify } from '../Notifier/loginNotifier';
 import SignUpButton from './SignUpButton/SignUpButton';
+import PasswordInput from './SignUpInput/PasswordInput';
 import SignUpInput from './SignUpInput/SignUpInput';
 
 const SignUpDiv = styled.div`
@@ -63,16 +64,36 @@ const Title = styled.h1`
   font-size: 3rem;
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
+const TogglePassword = styled.button`
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: #ffffff;
+  border: 0;
+  @media (max-width: 500px) {
+    right: 0.75rem;
+  }
+`;
+
+const PasswordContainer = styled.div`
+  position: relative;
+  @media (max-width: 500px) {
+    width: 80%;
+  }
+`;
+
 export default function SignUp() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [nomeEstabelecimento, setNomeEstabelecimento] = useState('');
-
-  const [notifierRef, setNotifierRef] = useState({
-    animation: undefined,
-    expire: undefined
-  });
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   async function handleSignUp() {
     if (
@@ -106,16 +127,14 @@ export default function SignUp() {
           Router.push('/login');
         }
       } else {
-        const ref = notify(
-          'Verifique se todos os campos foram digitados corretamente',
-          5000,
-          notifierRef
+        toast(
+          <ToastContent>
+            Verifique se todos os campos foram digitados corretamente
+          </ToastContent>
         );
-        setNotifierRef(ref);
       }
     } else {
-      const ref = notify('Informe email e senha', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Informe email e senha</ToastContent>);
     }
   }
 
@@ -125,7 +144,7 @@ export default function SignUp() {
 
   return (
     <>
-      <Notifier />
+      <Toaster />
       <SignUpDiv>
         <Link href="/login">
           <Back>
@@ -150,14 +169,25 @@ export default function SignUp() {
             onChange={e => setEmail(e.target.value)}
             type="email"
           />
-          <SignUpInput
-            id="password"
-            name="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={e => setSenha(e.target.value)}
-            type="password"
-          />
+          <PasswordContainer>
+            <PasswordInput
+              id="password"
+              name="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={e => setSenha(e.target.value)}
+              type={passwordVisible ? 'text' : 'password'}
+            />
+            <TogglePassword
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            >
+              <img
+                src={passwordVisible ? '/view.png' : '/hide.png'}
+                alt="Password visibility toggle"
+              />
+            </TogglePassword>
+          </PasswordContainer>
           <SignUpInput
             id="restaurantName"
             name="restaurantName"

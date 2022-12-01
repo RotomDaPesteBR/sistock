@@ -4,6 +4,7 @@ import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 import RecoverButton from './RecoverButton/ResetButton';
+import PasswordInput from './RecoverInput/PasswordInput';
 import RecoverInput from './RecoverInput/RecoverInput';
 
 const RecoverDiv = styled.div`
@@ -51,9 +52,35 @@ const Title = styled.h1`
   text-align: center;
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
+const TogglePassword = styled.button`
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: #ffffff;
+  border: 0;
+  @media (max-width: 500px) {
+    right: 0.75rem;
+  }
+`;
+
+const PasswordContainer = styled.div`
+  position: relative;
+  @media (max-width: 500px) {
+    width: 80%;
+  }
+`;
+
 export default function Recover() {
   const [senha, setSenha] = useState('');
   const [confirmSenha, setConfirmSenha] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const router = useRouter();
   const { token } = router.query;
@@ -69,12 +96,16 @@ export default function Recover() {
           .post('/api/db/auth/recover', { data: { ...dados } })
           .then(response => response.data)
           .catch(error => error.response);
-        console.log(promise);
+        if (promise.status !== 500) {
+          toast(<ToastContent>Senha redefinida com sucesso</ToastContent>);
+        } else {
+          toast(<ToastContent>Erro, tente novamente mais tarde</ToastContent>);
+        }
       } else {
-        toast('As senhas não coincidem');
+        toast(<ToastContent>As senhas não coincidem</ToastContent>);
       }
     } else {
-      toast('Os campos não podem estar vazios');
+      toast(<ToastContent>Os campos não podem estar vazios</ToastContent>);
     }
   }
 
@@ -88,22 +119,44 @@ export default function Recover() {
       <Toaster />
       <RecoverForm onSubmit={e => handleSubmit(e)}>
         <Title>Redefinir senha</Title>
-        <RecoverInput
-          id="password"
-          name="password"
-          placeholder="Nova senha"
-          value={senha}
-          onChange={e => setSenha(e.target.value)}
-          type="password"
-        />
-        <RecoverInput
-          id="password"
-          name="password"
-          placeholder="Confirmar senha"
-          value={confirmSenha}
-          onChange={e => setConfirmSenha(e.target.value)}
-          type="password"
-        />
+        <PasswordContainer>
+          <PasswordInput
+            id="password"
+            name="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={e => setSenha(e.target.value)}
+            type={passwordVisible ? 'text' : 'password'}
+          />
+          <TogglePassword
+            type="button"
+            onClick={() => setPasswordVisible(!passwordVisible)}
+          >
+            <img
+              src={passwordVisible ? '/view.png' : '/hide.png'}
+              alt="Password visibility toggle"
+            />
+          </TogglePassword>
+        </PasswordContainer>
+        <PasswordContainer>
+          <PasswordInput
+            id="password"
+            name="password"
+            placeholder="Confirmar senha"
+            value={confirmSenha}
+            onChange={e => setConfirmSenha(e.target.value)}
+            type={confirmPasswordVisible ? 'text' : 'password'}
+          />
+          <TogglePassword
+            type="button"
+            onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+          >
+            <img
+              src={confirmPasswordVisible ? '/view.png' : '/hide.png'}
+              alt="Password visibility toggle"
+            />
+          </TogglePassword>
+        </PasswordContainer>
         <RecoverButton type="submit" />
       </RecoverForm>
     </RecoverDiv>

@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import styled from 'styled-components';
-import Notifier, { notify } from '../Notifier/notifier';
+import toast, { Toaster } from 'react-hot-toast';
 import Venda from './Expense/expense';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -120,17 +120,16 @@ const SaveButton = styled.button`
   color: white;
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
+
 export default function Expenses(props) {
   const [expenses, setExpenses] = useState('');
   const [insert, showInsert] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState([]);
   const [value, setValue] = useState(undefined);
   const [date, setDate] = useState(new Date());
-
-  const [notifierRef, setNotifierRef] = useState({
-    animation: undefined,
-    expire: undefined
-  });
 
   const session = useSession();
 
@@ -182,13 +181,12 @@ export default function Expenses(props) {
         .then(response => response.data)
         .catch(error => error.response);
       getExpenses(session.data.user);
-      const ref = notify('Despesa inserida com sucesso', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Despesa inserida com sucesso</ToastContent>);
       setValue(undefined);
       setDate(new Date());
+      showInsert(false);
     } else {
-      const ref = notify('Preencha todos os campos', 5000, notifierRef);
-      setNotifierRef(ref);
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
     }
   }
 
@@ -198,7 +196,7 @@ export default function Expenses(props) {
 
   return (
     <>
-      <Notifier />
+      <Toaster />
       <Lista {...props}>
         {insert ? (
           <ModalScreen onClick={() => handleClickScreen()}>
