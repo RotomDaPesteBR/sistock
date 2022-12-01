@@ -154,6 +154,7 @@ export default function Login() {
         <LoginMethods>
           <LoginMethodsButton
             method="Google"
+            type="button"
             onClick={() =>
               signIn('google', {
                 callbackUrl: 'https://sistock.com.br'
@@ -162,6 +163,7 @@ export default function Login() {
           />
           <LoginMethodsButton
             method="Facebook"
+            type="button"
             onClick={() =>
               signIn('facebook', { callbackUrl: 'https://sistock.com.br' })
             }
