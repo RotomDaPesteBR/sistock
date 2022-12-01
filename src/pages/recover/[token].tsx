@@ -1,28 +1,7 @@
-import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import Recover from '../../components/Recover/recover';
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false
-      }
-    };
-  }
-  return {
-    props: {
-      session
-    }
-  };
-}
 export default function Home() {
-  const router = useRouter();
-  const { token } = router.query;
-
   return (
     <div>
       <Head>
@@ -33,8 +12,8 @@ export default function Home() {
         <p />
       </header>
       <main>
-        <div className="container" id="content">
-          <Recover token={token} />
+        <div className="loginContainer">
+          <Recover />
         </div>
       </main>
       <footer>

@@ -1,11 +1,12 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
-import SignUpButton from './RecoverButton/RequestButton';
-import SignUpInput from './SignUpInput/SignUpInput';
+import RecoverButton from './RecoverButton/RequestButton';
+import RecoverInput from './RecoverInput/RecoverInput';
 
-const SignUpDiv = styled.div`
+const RecoverDiv = styled.div`
   background: ${({ theme }) => theme.backgroundLogin};
   color: ${({ theme }) => theme.text};
   display: flex;
@@ -33,7 +34,7 @@ const SignUpDiv = styled.div`
   }
 `;
 
-const SignUpForm = styled.form`
+const RecoverForm = styled.form`
   color: ${({ theme }) => theme.text};
   width: 100%;
   height: 100%;
@@ -49,9 +50,12 @@ const Title = styled.h1`
   font-size: 3rem;
 `;
 
-export default function Recover({ token }) {
+export default function Recover() {
   const [senha, setSenha] = useState('');
   const [confirmSenha, setConfirmSenha] = useState('');
+
+  const router = useRouter();
+  const { token } = router.query;
 
   async function handleRecover() {
     console.log(token);
@@ -80,11 +84,11 @@ export default function Recover({ token }) {
   }
 
   return (
-    <SignUpDiv>
+    <RecoverDiv>
       <Toaster />
-      <SignUpForm onSubmit={e => handleSubmit(e)}>
+      <RecoverForm onSubmit={e => handleSubmit(e)}>
         <Title>Redefinir senha</Title>
-        <SignUpInput
+        <RecoverInput
           id="password"
           name="password"
           placeholder="Nova senha"
@@ -92,7 +96,7 @@ export default function Recover({ token }) {
           onChange={e => setSenha(e.target.value)}
           type="password"
         />
-        <SignUpInput
+        <RecoverInput
           id="password"
           name="password"
           placeholder="Confirmar senha"
@@ -100,8 +104,8 @@ export default function Recover({ token }) {
           onChange={e => setConfirmSenha(e.target.value)}
           type="password"
         />
-        <SignUpButton type="submit" />
-      </SignUpForm>
-    </SignUpDiv>
+        <RecoverButton type="submit" />
+      </RecoverForm>
+    </RecoverDiv>
   );
 }

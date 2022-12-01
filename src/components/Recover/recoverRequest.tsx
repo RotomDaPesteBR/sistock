@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
-import SignUpButton from './RecoverButton/RequestButton';
-import SignUpInput from './SignUpInput/SignUpInput';
+import RecoverButton from './RecoverButton/RequestButton';
+import RecoverInput from './RecoverInput/RecoverInput';
 
-const SignUpDiv = styled.div`
+const RecoverDiv = styled.div`
   background: ${({ theme }) => theme.backgroundLogin};
   color: ${({ theme }) => theme.text};
   display: flex;
@@ -33,7 +33,7 @@ const SignUpDiv = styled.div`
   }
 `;
 
-const SignUpForm = styled.form`
+const RecoverForm = styled.form`
   color: ${({ theme }) => theme.text};
   width: 100%;
   height: 100%;
@@ -77,11 +77,11 @@ export default function Recover() {
   }
 
   return (
-    <SignUpDiv>
+    <RecoverDiv>
       <Toaster />
-      <SignUpForm onSubmit={e => handleSubmit(e)}>
+      <RecoverForm onSubmit={e => handleSubmit(e)}>
         <Title>Recuperar senha</Title>
-        <SignUpInput
+        <RecoverInput
           id="email"
           name="email"
           placeholder="Email"
@@ -89,8 +89,8 @@ export default function Recover() {
           onChange={e => setEmail(e.target.value)}
           type="email"
         />
-        <SignUpButton type="submit" />
-      </SignUpForm>
-    </SignUpDiv>
+        <RecoverButton type="submit" />
+      </RecoverForm>
+    </RecoverDiv>
   );
 }

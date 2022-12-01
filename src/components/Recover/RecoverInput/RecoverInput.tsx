@@ -16,6 +16,6 @@ const Input = styled.input`
   }
 `;
 
-export default function SignUpInput(props) {
+export default function RecoverInput(props) {
   return <Input {...props} />;
 }

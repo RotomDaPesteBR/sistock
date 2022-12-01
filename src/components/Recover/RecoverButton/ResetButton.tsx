@@ -15,6 +15,6 @@ const Button = styled.button`
   }
 `;
 
-export default function SignUpButton(props) {
+export default function RecoverButton(props) {
   return <Button {...props}>Redefinir</Button>;
 }
