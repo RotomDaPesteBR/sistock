@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Link from 'next/link';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
@@ -20,6 +21,7 @@ const RecoverDiv = styled.div`
   max-width: 40rem;
   max-height: 50rem;
   padding: 0 1rem;
+  position: relative;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   @media (max-width: 800px) {
     max-width: 30rem;
@@ -48,6 +50,16 @@ const Title = styled.h1`
   padding: 1rem;
   font-size: 3rem;
   text-align: center;
+`;
+
+const Back = styled.div`
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  height: 4rem;
+  width: 4rem;
+  flex-direction: row;
+  cursor: pointer;
 `;
 
 export default function Recover() {
@@ -80,6 +92,11 @@ export default function Recover() {
   return (
     <RecoverDiv>
       <Toaster />
+      <Link href="/login">
+        <Back>
+          <img src="/back.svg" alt="" />
+        </Back>
+      </Link>
       <RecoverForm onSubmit={e => handleSubmit(e)}>
         <Title>Recuperar senha</Title>
         <RecoverInput

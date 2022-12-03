@@ -1,11 +1,11 @@
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 import RecoverButton from './RecoverButton/ResetButton';
 import PasswordInput from './RecoverInput/PasswordInput';
-import RecoverInput from './RecoverInput/RecoverInput';
 
 const RecoverDiv = styled.div`
   background: ${({ theme }) => theme.backgroundLogin};
@@ -21,6 +21,7 @@ const RecoverDiv = styled.div`
   margin: 0;
   max-width: 40rem;
   max-height: 50rem;
+  position: relative;
   padding: 0 1rem;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   @media (max-width: 800px) {
@@ -76,6 +77,16 @@ const PasswordContainer = styled.div`
   }
 `;
 
+const Back = styled.div`
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  height: 4rem;
+  width: 4rem;
+  flex-direction: row;
+  cursor: pointer;
+`;
+
 export default function Recover() {
   const [senha, setSenha] = useState('');
   const [confirmSenha, setConfirmSenha] = useState('');
@@ -115,50 +126,57 @@ export default function Recover() {
   }
 
   return (
-    <RecoverDiv>
+    <>
       <Toaster />
-      <RecoverForm onSubmit={e => handleSubmit(e)}>
-        <Title>Redefinir senha</Title>
-        <PasswordContainer>
-          <PasswordInput
-            id="password"
-            name="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={e => setSenha(e.target.value)}
-            type={passwordVisible ? 'text' : 'password'}
-          />
-          <TogglePassword
-            type="button"
-            onClick={() => setPasswordVisible(!passwordVisible)}
-          >
-            <img
-              src={passwordVisible ? '/view.png' : '/hide.png'}
-              alt="Password visibility toggle"
+      <RecoverDiv>
+        <Link href="/login">
+          <Back>
+            <img src="/back.svg" alt="" />
+          </Back>
+        </Link>
+        <RecoverForm onSubmit={e => handleSubmit(e)}>
+          <Title>Redefinir senha</Title>
+          <PasswordContainer>
+            <PasswordInput
+              id="password"
+              name="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={e => setSenha(e.target.value)}
+              type={passwordVisible ? 'text' : 'password'}
             />
-          </TogglePassword>
-        </PasswordContainer>
-        <PasswordContainer>
-          <PasswordInput
-            id="password"
-            name="password"
-            placeholder="Confirmar senha"
-            value={confirmSenha}
-            onChange={e => setConfirmSenha(e.target.value)}
-            type={confirmPasswordVisible ? 'text' : 'password'}
-          />
-          <TogglePassword
-            type="button"
-            onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-          >
-            <img
-              src={confirmPasswordVisible ? '/view.png' : '/hide.png'}
-              alt="Password visibility toggle"
+            <TogglePassword
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            >
+              <img
+                src={passwordVisible ? '/view.png' : '/hide.png'}
+                alt="Password visibility toggle"
+              />
+            </TogglePassword>
+          </PasswordContainer>
+          <PasswordContainer>
+            <PasswordInput
+              id="password"
+              name="password"
+              placeholder="Confirmar senha"
+              value={confirmSenha}
+              onChange={e => setConfirmSenha(e.target.value)}
+              type={confirmPasswordVisible ? 'text' : 'password'}
             />
-          </TogglePassword>
-        </PasswordContainer>
-        <RecoverButton type="submit" />
-      </RecoverForm>
-    </RecoverDiv>
+            <TogglePassword
+              type="button"
+              onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+            >
+              <img
+                src={confirmPasswordVisible ? '/view.png' : '/hide.png'}
+                alt="Password visibility toggle"
+              />
+            </TogglePassword>
+          </PasswordContainer>
+          <RecoverButton type="submit" />
+        </RecoverForm>
+      </RecoverDiv>
+    </>
   );
 }
