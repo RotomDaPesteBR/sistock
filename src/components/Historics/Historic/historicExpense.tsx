@@ -39,8 +39,9 @@ export default function Historic({ historic, type, stripe }, ...props) {
               historic.expenses.brand || ''
             }`}</LabelItem>
             <LabelItem>{`R$${
-              historic.value ??
-              (historic.value.toFixed(2).replace(/\./, ',') || 0)
+              historic.value
+                ? Number(historic.value).toFixed(2).replace(/\./, ',')
+                : '0,00'
             }`}</LabelItem>
             <LabelItem>{`${
               historic.date.slice(0, 10).split('-').reverse().join('/') || ''

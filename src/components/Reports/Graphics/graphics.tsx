@@ -578,7 +578,11 @@ export default function graphics() {
                     {Object.values(relatorioInfo).map((e, i) => (
                       <InfoItem key={Object.keys(relatorioInfo)[i]}>
                         <div>{`${Object.keys(relatorioInfo)[i]}:`}</div>{' '}
-                        <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                        <div>{`R$${
+                          typeof e === 'number'
+                            ? Number(e).toFixed(2).replace(/\./, ',')
+                            : '0,00'
+                        }`}</div>
                       </InfoItem>
                     ))}
                   </InfoItems>
@@ -591,7 +595,11 @@ export default function graphics() {
                     {Object.values(produtosInfo).map((e, i) => (
                       <InfoItem key={Object.keys(produtosInfo)[i]}>
                         <div>{`${Object.keys(produtosInfo)[i]}:`}</div>{' '}
-                        <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                        <div>{`R$${
+                          typeof e === 'number'
+                            ? Number(e).toFixed(2).replace(/\./, ',')
+                            : '0,00'
+                        }`}</div>
                       </InfoItem>
                     ))}
                   </InfoItems>
@@ -604,7 +612,11 @@ export default function graphics() {
                     {Object.values(despesasInfo).map((e, i) => (
                       <InfoItem key={Object.keys(despesasInfo)[i]}>
                         <div>{`${Object.keys(despesasInfo)[i]}:`}</div>{' '}
-                        <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                        <div>{`R$${
+                          typeof e === 'number'
+                            ? Number(e).toFixed(2).replace(/\./, ',')
+                            : '0,00'
+                        }`}</div>
                       </InfoItem>
                     ))}
                   </InfoItems>
@@ -655,7 +667,11 @@ export default function graphics() {
                   {Object.values(faturamentoInfo).map((e, i) => (
                     <InfoItem key={Object.keys(faturamentoInfo)[i]}>
                       <div>{`${Object.keys(faturamentoInfo)[i]}:`}</div>{' '}
-                      <div>{`R$${e.toFixed(2).replace(/\./, ',')}`}</div>
+                      <div>{`R$${
+                        typeof e === 'number'
+                          ? Number(e).toFixed(2).replace(/\./, ',')
+                          : '0,00'
+                      }`}</div>
                     </InfoItem>
                   ))}
                 </InfoItems>
