@@ -105,7 +105,7 @@ export default async function handler(
                                           <tr>
                                             <td align="center">   
                                               <a href="https://sistock.com.br/recover/${token}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-                                                <div style="width: 50%; background: #1363DF; min-width: 270px; text-align: center; padding-top: 1rem; padding-bottom: 1rem; color: white; text-decoration: none; border-radius: 10px;">
+                                                <div style="width: 100%; background: #1363DF; max-width: 280px; text-align: center; padding-top: 1rem; padding-bottom: 1rem; color: white; text-decoration: none; border-radius: 10px;">
                                                   Redefinir senha
                                                 </div>
                                               </a>
@@ -114,7 +114,7 @@ export default async function handler(
                                         </table>
                                         <br />
                                         <div>Ou acesse o link abaixo</div>
-                                        <a href="https://sistock.com.br/recover/${token}">https://sistock.com.br/recover/${token}</a>
+                                        <a href="https://sistock.com.br/recover/${token}" style="word-break: break-all;">https://sistock.com.br/recover/${token}</a>
                                       </div>
                                     </td>
                                   </tr>

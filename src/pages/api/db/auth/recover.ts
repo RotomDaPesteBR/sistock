@@ -12,7 +12,7 @@ export default async function handler(
 
     const recoverToken = await prisma.RecoverToken.findUnique({
       where: { token },
-      select: { token: true, expires: true, userId: true }
+      select: { token: true, expires: true, active: true, userId: true }
     });
 
     const date = new Date();
@@ -22,7 +22,7 @@ export default async function handler(
 
     const valid = diff <= 2;
 
-    if (recoverToken && valid && password !== '') {
+    if (recoverToken && valid && password !== '' && !recoverToken.active) {
       const encrypted = await hash(password);
 
       const user = await prisma.User.update({
