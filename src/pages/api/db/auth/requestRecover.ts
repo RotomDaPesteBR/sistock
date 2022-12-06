@@ -101,11 +101,17 @@ export default async function handler(
                                         <h2>Redefinição de senha</h2>
                                         <div>Clique no botão para redefinir sua senha</div>
                                         <br />
-                                        <a href="https://sistock.com.br/recover/${token}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-                                          <div style="width: 50%; margin-left: 25%; background: #1363DF; text-align: center; padding-top: 1rem; padding-bottom: 1rem; color: white; text-decoration: none; border-radius: 10px;">
-                                            Redefinir senha
-                                          </div>
-                                        </a>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td align="center">   
+                                              <a href="https://sistock.com.br/recover/${token}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                                                <div style="width: 50%; background: #1363DF; min-width: 270px; text-align: center; padding-top: 1rem; padding-bottom: 1rem; color: white; text-decoration: none; border-radius: 10px;">
+                                                  Redefinir senha
+                                                </div>
+                                              </a>
+                                            </td>
+                                          </tr>
+                                        </table>
                                         <br />
                                         <div>Ou acesse o link abaixo</div>
                                         <a href="https://sistock.com.br/recover/${token}">https://sistock.com.br/recover/${token}</a>

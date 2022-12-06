@@ -62,6 +62,9 @@ const Back = styled.div`
   cursor: pointer;
 `;
 
+const ToastContent = styled.div`
+  text-align: center;
+`;
 export default function Recover() {
   const [email, setEmail] = useState('');
 
@@ -75,12 +78,14 @@ export default function Recover() {
         .then(response => response.data)
         .catch(error => error.response);
       if (promise.status !== 500) {
-        toast('Email de recuperação enviado com sucesso');
+        toast(
+          <ToastContent>Email de recuperação enviado com sucesso</ToastContent>
+        );
       } else {
-        toast('Conta não encontrada');
+        toast(<ToastContent>Conta não encontrada</ToastContent>);
       }
     } else {
-      toast('Os campos não podem estar vazios');
+      toast(<ToastContent>Os campos não podem estar vazios</ToastContent>);
     }
   }
 
