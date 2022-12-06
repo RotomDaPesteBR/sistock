@@ -218,7 +218,7 @@ export default function Produtos(props) {
         .then(response => response.data)
         .catch(error => error.response);
       getProducts(session.data.user);
-      toast(<ToastContent>Adicionado com sucesso</ToastContent>)
+      toast(<ToastContent>Adicionado com sucesso</ToastContent>);
       setQuantity(undefined);
       setValue(undefined);
       setDate(new Date());
@@ -245,7 +245,7 @@ export default function Produtos(props) {
         .post('api/db/product/withdraw', { data: dados })
         .then(response => response.data)
         .catch(error => error.response);
-      toast(<ToastContent>Removido com sucesso</ToastContent>)
+      toast(<ToastContent>Removido com sucesso</ToastContent>);
       getProducts(session.data.user);
       setQuantity(undefined);
       setMotivo('');

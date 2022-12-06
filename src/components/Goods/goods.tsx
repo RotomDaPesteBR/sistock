@@ -132,11 +132,6 @@ export default function Goods(props) {
   const [value, setValue] = useState(undefined);
   const [date, setDate] = useState(new Date());
 
-  const [notifierRef, setNotifierRef] = useState({
-    animation: undefined,
-    expire: undefined
-  });
-
   const session = useSession();
 
   function insertModal(good) {
