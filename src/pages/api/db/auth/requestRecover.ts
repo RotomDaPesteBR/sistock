@@ -59,7 +59,7 @@ export default async function handler(
                   <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;background:transparent" align="center" border="0">
                     <tbody>
                       <tr>
-                        <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:0px 0px;">
+                        <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
                           <div aria-labelledby="mj-column-per-100" class="m_6020279825772921234mj-column-per-100" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%">
                             <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                               <tbody>
@@ -102,7 +102,7 @@ export default async function handler(
                                         <div>Clique no botão para redefinir sua senha</div>
                                         <br />
                                         <a href="https://sistock.com.br/recover/${token}" target="_blank" rel="noopener noreferrer">
-                                          <div style="width: 50%; margin-left: 25%; background: #20aaff; text-align: center; padding-top: 1rem; padding-bottom: 1rem; color: white; text-decoration: none; border-radius: 10px;">
+                                          <div style="width: 50%; margin-left: 25%; background: #1363DF; text-align: center; padding-top: 1rem; padding-bottom: 1rem; color: white; text-decoration: none; border-radius: 10px;">
                                             Redefinir senha
                                           </div>
                                         </a>
