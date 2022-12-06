@@ -94,7 +94,7 @@ export default function Recover() {
       <Toaster />
       <Link href="/login">
         <Back>
-          <img src="/back.svg" alt="" />
+          <img src="/back.svg" alt="" draggable={false} />
         </Back>
       </Link>
       <RecoverForm onSubmit={e => handleSubmit(e)}>

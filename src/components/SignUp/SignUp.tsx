@@ -148,7 +148,7 @@ export default function SignUp() {
       <SignUpDiv>
         <Link href="/login">
           <Back>
-            <img src="/back.svg" alt="" />
+            <img src="/back.svg" alt="" draggable={false} />
           </Back>
         </Link>
         <SignUpForm onSubmit={e => handleSubmit(e)}>
@@ -185,6 +185,7 @@ export default function SignUp() {
               <img
                 src={passwordVisible ? '/view.png' : '/hide.png'}
                 alt="Password visibility toggle"
+                draggable={false}
               />
             </TogglePassword>
           </PasswordContainer>

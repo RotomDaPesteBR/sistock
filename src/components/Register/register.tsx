@@ -144,11 +144,6 @@ export default function Cadastrar() {
 
   const [nomeDespesa, setNomeDespesa] = useState('');
 
-  const [notifierRef, setNotifierRef] = useState({
-    animation: undefined,
-    expire: undefined
-  });
-
   const session = useSession();
 
   async function registerProduct(data, user) {
@@ -157,7 +152,7 @@ export default function Cadastrar() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise) {
-      toast(<ToastContent>Cadastrado com sucesso</ToastContent>)
+      toast(<ToastContent>Cadastrado com sucesso</ToastContent>);
       setNomeProduto('');
       setMarcaProduto('');
       setUnidade('');
@@ -172,7 +167,7 @@ export default function Cadastrar() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise) {
-      toast(<ToastContent>Cadastrado com sucesso</ToastContent>)
+      toast(<ToastContent>Cadastrado com sucesso</ToastContent>);
       setNomeMercadoria('');
       showModalMercadorias(false);
     }
@@ -184,7 +179,7 @@ export default function Cadastrar() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise) {
-      toast(<ToastContent>Cadastrado com sucesso</ToastContent>)
+      toast(<ToastContent>Cadastrado com sucesso</ToastContent>);
       setNomeDespesa('');
       showModalDespesas(false);
     }
@@ -205,7 +200,7 @@ export default function Cadastrar() {
       };
       registerProduct(dados, session.data.user);
     } else {
-      toast(<ToastContent>Preencha todos os campos</ToastContent>)
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
     }
   }
 
@@ -216,7 +211,7 @@ export default function Cadastrar() {
       };
       registerGood(dados, session.data.user);
     } else {
-      toast(<ToastContent>Preencha todos os campos</ToastContent>)
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
     }
   }
 
@@ -227,7 +222,7 @@ export default function Cadastrar() {
       };
       registerExpense(dados, session.data.user);
     } else {
-      toast(<ToastContent>Preencha todos os campos</ToastContent>)
+      toast(<ToastContent>Preencha todos os campos</ToastContent>);
     }
   }
 
@@ -376,15 +371,15 @@ export default function Cadastrar() {
         </ModalScreen>
       ) : null}
       <Button onClick={() => handleShowProducts()}>
-        <Icone src="/produtos.png" alt="" />
+        <Icone src="/produtos.png" alt="" draggable={false} />
         <Titulo>Produtos</Titulo>
       </Button>
       <Button onClick={() => handleShowGoods()}>
-        <Icone src="/mercadorias.png" alt="" />
+        <Icone src="/mercadorias.png" alt="" draggable={false} />
         <Titulo>Mercadorias</Titulo>
       </Button>
       <Button onClick={() => handleShowExpenses()}>
-        <Icone src="/despesas.png" alt="" />
+        <Icone src="/despesas.png" alt="" draggable={false} />
         <Titulo>Despesas</Titulo>
       </Button>
     </Buttons>

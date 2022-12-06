@@ -35,7 +35,7 @@ export default function LoginMethodsButton(props) {
 
   return (
     <Button {...props}>
-      <Image src={imageUrl} alt="" />
+      <Image src={imageUrl} alt="" draggable={false} />
     </Button>
   );
 }

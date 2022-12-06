@@ -116,7 +116,7 @@ export default function Login() {
     <LoginDiv>
       <Toaster />
       <LoginForm onSubmit={e => handleSubmit(e)}>
-        <img className="logo" src="/logo.png" alt="" />
+        <img className="logo" src="/logo.png" alt="" draggable={false} />
         <LoginInput
           id="email"
           name="email"
@@ -141,6 +141,7 @@ export default function Login() {
             <img
               src={passwordVisible ? '/view.png' : '/hide.png'}
               alt="Password visibility toggle"
+              draggable={false}
             />
           </TogglePassword>
         </PasswordContainer>

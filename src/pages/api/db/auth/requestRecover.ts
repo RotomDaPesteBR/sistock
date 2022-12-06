@@ -43,8 +43,8 @@ export default async function handler(
           requireTLS: true,
           port: 465,
           auth: {
-            user: 'sistockdev@sistock.com.br',
-            pass: 'SistockDEV01-'
+            user: process.env.GODADDY_USER,
+            pass: process.env.GODADDY_PASSWORD
           }
         });
 

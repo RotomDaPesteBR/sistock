@@ -131,7 +131,7 @@ export default function Recover() {
       <RecoverDiv>
         <Link href="/login">
           <Back>
-            <img src="/back.svg" alt="" />
+            <img src="/back.svg" alt="" draggable={false} />
           </Back>
         </Link>
         <RecoverForm onSubmit={e => handleSubmit(e)}>
@@ -152,6 +152,7 @@ export default function Recover() {
               <img
                 src={passwordVisible ? '/view.png' : '/hide.png'}
                 alt="Password visibility toggle"
+                draggable={false}
               />
             </TogglePassword>
           </PasswordContainer>
@@ -171,6 +172,7 @@ export default function Recover() {
               <img
                 src={confirmPasswordVisible ? '/view.png' : '/hide.png'}
                 alt="Password visibility toggle"
+                draggable={false}
               />
             </TogglePassword>
           </PasswordContainer>
