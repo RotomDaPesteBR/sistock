@@ -33,7 +33,8 @@ export default async function handler(
           id: account.id,
           name: account.name,
           email: account.email,
-          image: account.image
+          image: account.image,
+          establishment: account.establishmentName
         };
         res.status(200).json(user);
       } else {
