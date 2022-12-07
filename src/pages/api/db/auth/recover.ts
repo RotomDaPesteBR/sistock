@@ -22,7 +22,7 @@ export default async function handler(
 
     const valid = diff <= 2;
 
-    if (recoverToken && valid && password !== '' && !recoverToken.active) {
+    if (recoverToken && valid && password !== '' && recoverToken.active) {
       const encrypted = await hash(password);
 
       const user = await prisma.User.update({
