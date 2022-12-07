@@ -21,7 +21,8 @@ export default async function handler(
           name: true,
           email: true,
           password: true,
-          image: true
+          image: true,
+          establishmentName: true
         }
       });
       if (
