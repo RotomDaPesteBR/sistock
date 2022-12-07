@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   try {
     const { data } = req.body;
-    const products = await prisma.ExpensesRec.findMany({
+    const expenses = await prisma.ExpensesRec.findMany({
       where: { userId: data },
       select: {
         id: true,
@@ -21,7 +21,7 @@ export default async function handler(
         date: 'desc'
       }
     });
-    res.status(200).json(products);
+    res.status(200).json(expenses);
   } catch (err) {
     res.status(500).json({ error: 'failed to load data' });
   }

@@ -42,12 +42,66 @@ export async function getServerSideProps(context) {
     }
   });
 
+  const productsExpenses = await prisma.ProductIn.findMany({
+    where: { userId: id },
+    select: {
+      id: true,
+      date: true,
+      value: true,
+      quantity: true,
+      productId: true,
+      userId: true,
+      product: { select: { name: true, brand: true } }
+    },
+    orderBy: {
+      date: 'desc'
+    }
+  });
+
+  const goods = await prisma.SalesRec.findMany({
+    where: { userId: id },
+    select: {
+      id: true,
+      date: true,
+      value: true,
+      quantity: true,
+      prodsaleId: true,
+      userId: true,
+      prodsale: { select: { name: true } }
+    },
+    orderBy: {
+      date: 'desc'
+    }
+  });
+
+  const expenses = await prisma.ExpensesRec.findMany({
+    where: { userId: id },
+    select: {
+      id: true,
+      date: true,
+      value: true,
+      expensesId: true,
+      userId: true,
+      expenses: { select: { name: true } }
+    },
+    orderBy: {
+      date: 'desc'
+    }
+  });
+
   if (products) {
     return {
       props: {
         session,
         name: { ...establishment },
-        initial: { products: { ...products }, goods: {}, expenses: {} }
+        initial: {
+          products: { ...products },
+          reports: {
+            products: JSON.parse(JSON.stringify(productsExpenses)),
+            goods: JSON.parse(JSON.stringify(goods)),
+            expenses: JSON.parse(JSON.stringify(expenses))
+          }
+        }
       }
     };
   }

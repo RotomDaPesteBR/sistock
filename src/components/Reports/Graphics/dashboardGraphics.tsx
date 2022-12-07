@@ -85,7 +85,7 @@ const Faturamento = styled(Bar)`
   width: 100%;
 `;
 
-export default function graphics(props?) {
+export default function graphics() {
   const [activeGraphic, toggleActiveGraphic] = useState(true);
   const [showRelatorio, activateRelatorio] = useState('active');
   const [showFaturamento, activateFaturamento] = useState('');

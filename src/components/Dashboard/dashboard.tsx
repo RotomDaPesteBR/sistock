@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import _ from 'lodash';
 import Alerts from '../Alerts/alerts';
 import Graphics from '../Reports/Graphics/dashboardGraphics';
 
@@ -25,11 +24,11 @@ const Space = styled.div`
 
 export default function Dashboard(props) {
   const { initial } = props;
-  const { products, goods, expenses } = initial;
+  const { products } = initial;
 
   return (
     <ContainerDashboard>
-      <Graphics initial={{ products, goods, expenses }} />
+      <Graphics />
       <Alerts initial={products} />
       <Space />
     </ContainerDashboard>
