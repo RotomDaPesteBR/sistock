@@ -22,6 +22,11 @@ export async function getServerSideProps(context) {
 
   const id = getUserId(session.user);
 
+  const establishment = await prisma.User.findUnique({
+    where: { id },
+    select: { establishmentName: true }
+  });
+
   const products = await prisma.Product.findMany({
     where: { userId: id },
     select: {
@@ -42,6 +47,7 @@ export async function getServerSideProps(context) {
     return {
       props: {
         session,
+        name: { ...establishment },
         products: { ...products }
       }
     };
@@ -49,13 +55,14 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      session
+      session,
+      name: { ...establishment }
     }
   };
 }
 
 export default function Home(props) {
-  const { products } = props;
+  const { products, name } = props;
 
   const actives = _.filter(products, ['active', true]);
 
@@ -66,7 +73,7 @@ export default function Home(props) {
         <meta name="description" content="" />
       </Head>
       <header>
-        <Navbar />
+        <Navbar name={name} />
       </header>
       <main>
         <div className="container" id="products-container">

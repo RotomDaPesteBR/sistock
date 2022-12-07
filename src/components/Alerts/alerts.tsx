@@ -46,8 +46,17 @@ const AlertsContainer = styled.div`
   overflow: auto;
 `;
 
-export default function Alerts() {
-  const [alertsProducts, setAlertsProducts] = useState('');
+export default function Alerts(props?) {
+  const { initial } = props;
+
+  const [alertsProducts, setAlertsProducts] = useState(() => {
+    const actives = _.filter(initial, ['active', true]);
+    const products = _.filter(actives, p => p.stock < p.limit);
+    const result = products.map(product => (
+      <Alert key={product.id} product={product} />
+    ));
+    return result;
+  });
 
   const session = useSession();
 
@@ -57,7 +66,8 @@ export default function Alerts() {
       .then(response => response.data)
       .catch(error => error.response);
     if (promise?.status !== 500) {
-      const products = _.filter(promise, p => p.stock < p.limit);
+      const actives = _.filter(promise, ['active', true]);
+      const products = _.filter(actives, p => p.stock < p.limit);
       const result = products.map(product => (
         <Alert key={product.id} product={product} />
       ));

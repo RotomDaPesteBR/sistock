@@ -124,23 +124,38 @@ const ToastContent = styled.div`
   text-align: center;
 `;
 
-export default function Expenses(props) {
-  const [expenses, setExpenses] = useState('');
+export default function Expenses(props?) {
+  const { initial } = props;
+
+  type InsertModal = (expense: any) => any;
+  type GetExpenses = (user: any) => any;
+
+  const session = useSession();
+  const [expenses, setExpenses] = useState(() =>
+    initial.map(expense => (
+      <Venda
+        key={expense.id}
+        expense={expense}
+        insertModal={() => InsertModal(expense)}
+        getExpenses={() => GetExpenses(session.data.user)}
+      />
+    ))
+  );
   const [insert, showInsert] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState([]);
   const [value, setValue] = useState(undefined);
   const [date, setDate] = useState(new Date());
 
-  const session = useSession();
-
-  function insertModal(expense) {
+  // eslint-disable-next-line no-redeclare, @typescript-eslint/no-redeclare
+  const InsertModal: InsertModal = function insertModal(expense) {
     showInsert(true);
     setValue(undefined);
     setDate(new Date());
     setSelectedExpense(expense);
-  }
+  };
 
-  async function getExpenses(user) {
+  // eslint-disable-next-line no-redeclare, @typescript-eslint/no-redeclare
+  const GetExpenses: GetExpenses = async function getExpenses(user) {
     const promise = await axios
       .post('api/db/expenses', { data: user.id })
       .then(response => response.data)
@@ -151,13 +166,13 @@ export default function Expenses(props) {
         <Venda
           key={expense.id}
           expense={expense}
-          insertModal={() => insertModal(expense)}
-          getExpenses={() => getExpenses(session.data.user)}
+          insertModal={() => InsertModal(expense)}
+          getExpenses={() => GetExpenses(session.data.user)}
         />
       ));
       setExpenses(result);
     }
-  }
+  };
 
   function handleClickScreen() {
     showInsert(false);
@@ -180,7 +195,7 @@ export default function Expenses(props) {
         .post('api/db/expense/insert', { data: dados })
         .then(response => response.data)
         .catch(error => error.response);
-      getExpenses(session.data.user);
+      GetExpenses(session.data.user);
       toast(<ToastContent>Despesa inserida com sucesso</ToastContent>);
       setValue(undefined);
       setDate(new Date());
@@ -191,13 +206,13 @@ export default function Expenses(props) {
   }
 
   useEffect(() => {
-    getExpenses(session.data.user);
+    GetExpenses(session.data.user);
   }, []);
 
   return (
     <>
       <Toaster />
-      <Lista {...props}>
+      <Lista>
         {insert ? (
           <ModalScreen onClick={() => handleClickScreen()}>
             <Modal onClick={e => handleClickModal(e)}>

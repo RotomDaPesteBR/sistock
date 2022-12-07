@@ -36,12 +36,14 @@ const EstablishmentName = styled.h3`
   cursor: pointer;
 `;
 
-export default function Navbar() {
+export default function Navbar(props?) {
+  const { name } = props;
+
   const [showSidebar, setShowSidebar] = useState(false);
   const [timer, setTimer] = useState(undefined);
   const [screenFade, setScreenFade] = useState('screenFadeIn');
   const [sidebarFade, setSidebarFade] = useState('sidebarFadeIn');
-  const [establishment, setEstablishment] = useState('');
+  const [establishment, setEstablishment] = useState(name?.establishmentName);
   const session = useSession();
 
   async function getEstablishment(user) {

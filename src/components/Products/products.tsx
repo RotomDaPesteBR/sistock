@@ -136,15 +136,17 @@ const ToastContent = styled.div`
   text-align: center;
 `;
 
-export default function Produtos({ initial }) {
+export default function Produtos(props?) {
+  const { initial } = props;
+
   type InsertModal = (product: any) => any;
   type WithdrawModal = (product: any) => any;
   type GetProducts = (user: any) => any;
 
   const session = useSession();
 
-  const [products, setProducts] = useState(() => {
-    const result = initial.map(product => (
+  const [products, setProducts] = useState(() =>
+    initial.map(product => (
       <Produto
         key={product.id}
         product={product}
@@ -152,9 +154,8 @@ export default function Produtos({ initial }) {
         withdrawModal={() => WithdrawModal(product)}
         getProducts={() => GetProducts(session.data.user)}
       />
-    ));
-    return result;
-  });
+    ))
+  );
   const [insert, showInsert] = useState(false);
   const [withdraw, showWithdraw] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState([]);

@@ -124,25 +124,40 @@ const ToastContent = styled.div`
   text-align: center;
 `;
 
-export default function Goods(props) {
-  const [goods, setGoods] = useState('');
+export default function Goods(props?) {
+  const { initial } = props;
+
+  type InsertModal = (good: any) => any;
+  type GetGoods = (user: any) => any;
+
+  const session = useSession();
+  const [goods, setGoods] = useState(() =>
+    initial.map(good => (
+      <Venda
+        key={good.id}
+        good={good}
+        insertModal={() => InsertModal(good)}
+        getGoods={() => GetGoods(session.data.user)}
+      />
+    ))
+  );
   const [insert, showInsert] = useState(false);
   const [selectedGood, setSelectedGood] = useState([]);
   const [quantity, setQuantity] = useState(undefined);
   const [value, setValue] = useState(undefined);
   const [date, setDate] = useState(new Date());
 
-  const session = useSession();
-
-  function insertModal(good) {
+  // eslint-disable-next-line no-redeclare, @typescript-eslint/no-redeclare
+  const InsertModal: InsertModal = function insertModal(good) {
     showInsert(true);
     setQuantity(undefined);
     setValue(undefined);
     setDate(new Date());
     setSelectedGood(good);
-  }
+  };
 
-  async function getGoods(user) {
+  // eslint-disable-next-line no-redeclare, @typescript-eslint/no-redeclare
+  const GetGoods: GetGoods = async function getGoods(user) {
     const promise = await axios
       .post('api/db/goods', { data: user.id })
       .then(response => response.data)
@@ -153,13 +168,13 @@ export default function Goods(props) {
         <Venda
           key={good.id}
           good={good}
-          insertModal={() => insertModal(good)}
-          getGoods={() => getGoods(session.data.user)}
+          insertModal={() => InsertModal(good)}
+          getGoods={() => GetGoods(session.data.user)}
         />
       ));
       setGoods(result);
     }
-  }
+  };
 
   function handleClickScreen() {
     showInsert(false);
@@ -188,7 +203,7 @@ export default function Goods(props) {
         .post('api/db/good/insert', { data: dados })
         .then(response => response.data)
         .catch(error => error.response);
-      getGoods(session.data.user);
+      GetGoods(session.data.user);
       toast(<ToastContent>Venda registrada com sucesso</ToastContent>);
       setValue(undefined);
       setQuantity(undefined);
@@ -200,13 +215,13 @@ export default function Goods(props) {
   }
 
   useEffect(() => {
-    getGoods(session.data.user);
+    GetGoods(session.data.user);
   }, []);
 
   return (
     <>
       <Toaster />
-      <Lista {...props}>
+      <Lista>
         {insert ? (
           <ModalScreen onClick={() => handleClickScreen()}>
             <Modal onClick={e => handleClickModal(e)}>
