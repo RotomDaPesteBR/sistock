@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
+import styled from 'styled-components';
 import Produto from './Product/product';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -136,8 +136,25 @@ const ToastContent = styled.div`
   text-align: center;
 `;
 
-export default function Produtos(props) {
-  const [products, setProducts] = useState('');
+export default function Produtos({ initial }) {
+  type InsertModal = (product: any) => any;
+  type WithdrawModal = (product: any) => any;
+  type GetProducts = (user: any) => any;
+
+  const session = useSession();
+
+  const [products, setProducts] = useState(() => {
+    const result = initial.map(product => (
+      <Produto
+        key={product.id}
+        product={product}
+        insertModal={() => InsertModal(product)}
+        withdrawModal={() => WithdrawModal(product)}
+        getProducts={() => GetProducts(session.data.user)}
+      />
+    ));
+    return result;
+  });
   const [insert, showInsert] = useState(false);
   const [withdraw, showWithdraw] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState([]);
@@ -146,27 +163,28 @@ export default function Produtos(props) {
   const [motivo, setMotivo] = useState('');
   const [date, setDate] = useState(new Date());
 
-  const session = useSession();
-
-  function insertModal(product) {
+  // eslint-disable-next-line no-redeclare, @typescript-eslint/no-redeclare
+  const InsertModal: InsertModal = function insertModal(product) {
     showInsert(true);
     showWithdraw(false);
     setQuantity(undefined);
     setValue(undefined);
     setMotivo('');
     setSelectedProduct(product);
-  }
+  };
 
-  function withdrawModal(product) {
+  // eslint-disable-next-line no-redeclare, @typescript-eslint/no-redeclare
+  const WithdrawModal: WithdrawModal = function withdrawModal(product) {
     showInsert(false);
     showWithdraw(true);
     setQuantity(undefined);
     setValue(undefined);
     setMotivo('');
     setSelectedProduct(product);
-  }
+  };
 
-  async function getProducts(user) {
+  // eslint-disable-next-line no-redeclare, @typescript-eslint/no-redeclare
+  const GetProducts: GetProducts = async function getProducts(user) {
     const promise = await axios
       .post('api/db/products', { data: user.id })
       .then(response => response.data)
@@ -177,14 +195,14 @@ export default function Produtos(props) {
         <Produto
           key={product.id}
           product={product}
-          insertModal={() => insertModal(product)}
-          withdrawModal={() => withdrawModal(product)}
-          getProducts={() => getProducts(session.data.user)}
+          insertModal={() => InsertModal(product)}
+          withdrawModal={() => WithdrawModal(product)}
+          getProducts={() => GetProducts(session.data.user)}
         />
       ));
       setProducts(result);
     }
-  }
+  };
 
   function handleClickScreen() {
     showInsert(false);
@@ -217,7 +235,7 @@ export default function Produtos(props) {
         .post('api/db/product/insert', { data: dados })
         .then(response => response.data)
         .catch(error => error.response);
-      getProducts(session.data.user);
+      GetProducts(session.data.user);
       toast(<ToastContent>Adicionado com sucesso</ToastContent>);
       setQuantity(undefined);
       setValue(undefined);
@@ -246,7 +264,7 @@ export default function Produtos(props) {
         .then(response => response.data)
         .catch(error => error.response);
       toast(<ToastContent>Removido com sucesso</ToastContent>);
-      getProducts(session.data.user);
+      GetProducts(session.data.user);
       setQuantity(undefined);
       setMotivo('');
       setDate(new Date());
@@ -268,13 +286,13 @@ export default function Produtos(props) {
   }
 
   useEffect(() => {
-    getProducts(session.data.user);
+    GetProducts(session.data.user);
   }, []);
 
   return (
     <>
       <Toaster />
-      <Lista {...props}>
+      <Lista>
         {insert ? (
           <ModalScreen onClick={() => handleClickScreen()}>
             <Modal onClick={e => handleClickModal(e)}>
@@ -343,7 +361,7 @@ export default function Produtos(props) {
                   value={motivo}
                   onChange={e => setMotivo(e.target.value)}
                 >
-                  <option value="" label="Motivo" selected disabled hidden />
+                  <option value="" label="Motivo" disabled hidden />
                   <option value="Uso">Uso</option>
                   <option value="Perda">Perda</option>
                 </Select>

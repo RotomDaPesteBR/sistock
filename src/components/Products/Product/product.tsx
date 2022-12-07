@@ -2,8 +2,8 @@
 import axios from 'axios';
 import { darken, lighten } from 'polished';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
+import styled from 'styled-components';
 
 const Item = styled.div`
   margin: 0.25rem;
@@ -351,7 +351,7 @@ export default function Produto(
       ) : null}
       <div>
         <Label className={selected} onClick={() => handleClick()}>
-          <div>{`${product.name || ''} ${product.unit || '' }`}</div>
+          <div>{`${product.name || ''} ${product.unit || ''}`}</div>
           <div id="product-control" className={disponibilidade}>
             <Disponíveis>{`${
               product.stock ?? (product.stock || 0)
@@ -367,7 +367,9 @@ export default function Produto(
             {!edit ? (
               <Info>
                 <InfoLine>
-                  <div style={{ lineHeight: '2rem' }}>{`Marca: ${product.brand || ''}`}</div>
+                  <div style={{ lineHeight: '2rem' }}>{`Marca: ${
+                    product.brand || ''
+                  }`}</div>
                   <EditLine>
                     <LimitInfo
                       style={{ lineHeight: '2rem' }}
