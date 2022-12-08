@@ -46,8 +46,6 @@ export default function Navbar(props?) {
   const [establishment, setEstablishment] = useState(name?.establishmentName);
   const session = useSession();
 
-  console.log(session);
-
   async function getEstablishment(user) {
     const promise = await axios
       .post('api/db/establishment', { data: user.id })
