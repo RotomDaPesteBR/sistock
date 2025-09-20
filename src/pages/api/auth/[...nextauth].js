@@ -15,7 +15,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         const res = await fetch(
-          'https://www.sistock.com.br/api/db/auth/login',
+          'https://sistock.vercel.app/api/db/auth/login',
           {
             method: 'POST',
             body: JSON.stringify(credentials),
