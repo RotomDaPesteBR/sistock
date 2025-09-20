@@ -69,8 +69,8 @@ export default async function handler(
                                       <tbody>
                                         <tr>
                                             <td style="width:138px">
-                                              <a href="https://www.sistock.com.br/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.sistock.com.br/">
-                                                <img alt="" title="" src="https://www.sistock.com.br/logoalt.png" style="height: 10rem;" class="CToWUd" data-bit="iit">
+                                              <a href="https://sistock.vercel.app/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://sistock.vercel.app/">
+                                                <img alt="" title="" src="https://sistock.vercel.app/logoalt.png" style="height: 10rem;" class="CToWUd" data-bit="iit">
                                               </a>
                                             </td>
                                           </tr>
@@ -103,8 +103,8 @@ export default async function handler(
                                         <br />
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                           <tr>
-                                            <td align="center">   
-                                              <a href="https://sistock.com.br/recover/${token}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                                            <td align="center">
+                                              <a href="https://sistock.vercel.app/recover/${token}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
                                                 <div style="width: 100%; background: #1363DF; max-width: 280px; text-align: center; padding-top: 1rem; padding-bottom: 1rem; color: white; text-decoration: none; border-radius: 10px;">
                                                   Redefinir senha
                                                 </div>
@@ -114,7 +114,7 @@ export default async function handler(
                                         </table>
                                         <br />
                                         <div>Ou acesse o link abaixo</div>
-                                        <a href="https://sistock.com.br/recover/${token}" style="word-break: break-all;">https://sistock.com.br/recover/${token}</a>
+                                        <a href="https://sistock.vercel.app/recover/${token}" style="word-break: break-all;">https://sistock.vercel.app/recover/${token}</a>
                                       </div>
                                     </td>
                                   </tr>
@@ -140,8 +140,8 @@ export default async function handler(
                                     <div style="color:#99aab5;font-family:Whitney,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;font-size:12px;line-height:24px;text-align:center">
                                       Enviado por <span class="il">Sistock</span>
                                       <!-- •
-                                      <a href="https://www.sistock.com.br/" style="color:#1eb0f4;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://click.discord.com/ls/click?upn%3DqDOo8cnwIoKzt0aLL1cBeHN2Bg5UBi6nJegCqE7rzswec30BdfDZLIuq6fJ2wlEZEaIJ_pcYWH95Laj4Y5v-2F8vUG-2Fe4e89SFDc-2FEE1RfqvcOcKO9Opph3XRsjCLnTni-2FW5OwPtxJxkKdgxS6oc5TCp6u9mlmk6IFqUzn3fSaV6OmqA97lIygvH6YFGL0AQkc57e-2FyGk4rUFI-2B4f2HM-2Fm7jcgjHJyXy15V2wO4iWdJfmb1RJtQWdiJDRPCBsytGmuSb1gxpZW3K4AqdJwDMCPCPR0fWh0hXL8Ui4f6vBiyl0EgR-2Fe7Nsjb87XoSY16ijNaweFOi0x2aPEIaz-2BjsQGyRH5wCw-3D-3D&amp;source=gmail&amp;ust=1670411708784000&amp;usg=AOvVaw2CSolh0R6mWiXoIC4PdzHi">Confira nosso blog</a>
-                                      • <a href="https://www.sistock.com.br/" style="color:#1eb0f4;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://click.discord.com/ls/click?upn%3DqDOo8cnwIoKzt0aLL1cBeHLasbud5D3vi74o1Q-2B2VLcLLCDOodJpEqop-2Fc-2F5Wr6ZYzP7_pcYWH95Laj4Y5v-2F8vUG-2Fe4e89SFDc-2FEE1RfqvcOcKO9Opph3XRsjCLnTni-2FW5OwPtxJxkKdgxS6oc5TCp6u9mn5Wyl310p1mQJc2FJcxvu4KkRz3EfmMJ-2FQeOPNSnEgvOn6YCsGhlHkgH-2Fen8roQgNI1DCdNrEyGyoZ5p8mGpy-2Fob9CQOA0xeJtiCfhDaq14jQloQbBl3AkuPFhdHT5BqB-2BEh5-2BZfEWLhscWIh-2B9AGUso-2FFA65NesH19f8Wai6oUf0fcqupHeiohMIOQtBsWaA-3D-3D&amp;source=gmail&amp;ust=1670411708784000&amp;usg=AOvVaw33-JR3R7oZgL0Pr6N4nrTU">@<span class="il">discord</span></a>
+                                      <a href="https://sistock.vercel.app/" style="color:#1eb0f4;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://click.discord.com/ls/click?upn%3DqDOo8cnwIoKzt0aLL1cBeHN2Bg5UBi6nJegCqE7rzswec30BdfDZLIuq6fJ2wlEZEaIJ_pcYWH95Laj4Y5v-2F8vUG-2Fe4e89SFDc-2FEE1RfqvcOcKO9Opph3XRsjCLnTni-2FW5OwPtxJxkKdgxS6oc5TCp6u9mlmk6IFqUzn3fSaV6OmqA97lIygvH6YFGL0AQkc57e-2FyGk4rUFI-2B4f2HM-2Fm7jcgjHJyXy15V2wO4iWdJfmb1RJtQWdiJDRPCBsytGmuSb1gxpZW3K4AqdJwDMCPCPR0fWh0hXL8Ui4f6vBiyl0EgR-2Fe7Nsjb87XoSY16ijNaweFOi0x2aPEIaz-2BjsQGyRH5wCw-3D-3D&amp;source=gmail&amp;ust=1670411708784000&amp;usg=AOvVaw2CSolh0R6mWiXoIC4PdzHi">Confira nosso blog</a>
+                                      • <a href="https://sistock.vercel.app/" style="color:#1eb0f4;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://click.discord.com/ls/click?upn%3DqDOo8cnwIoKzt0aLL1cBeHLasbud5D3vi74o1Q-2B2VLcLLCDOodJpEqop-2Fc-2F5Wr6ZYzP7_pcYWH95Laj4Y5v-2F8vUG-2Fe4e89SFDc-2FEE1RfqvcOcKO9Opph3XRsjCLnTni-2FW5OwPtxJxkKdgxS6oc5TCp6u9mn5Wyl310p1mQJc2FJcxvu4KkRz3EfmMJ-2FQeOPNSnEgvOn6YCsGhlHkgH-2Fen8roQgNI1DCdNrEyGyoZ5p8mGpy-2Fob9CQOA0xeJtiCfhDaq14jQloQbBl3AkuPFhdHT5BqB-2BEh5-2BZfEWLhscWIh-2B9AGUso-2FFA65NesH19f8Wai6oUf0fcqupHeiohMIOQtBsWaA-3D-3D&amp;source=gmail&amp;ust=1670411708784000&amp;usg=AOvVaw33-JR3R7oZgL0Pr6N4nrTU">@<span class="il">discord</span></a>
                                     </div></td></tr><tr><td style="word-break:break-word;font-size:0px;padding:0px" align="center"><div style="color:#99aab5;font-family:Whitney,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;font-size:12px;line-height:24px;text-align:center">
                                       444 De Haro Street, Suite 200, San Francisco, CA 94107-->
                                     </div>

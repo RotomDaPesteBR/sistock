@@ -87,7 +87,7 @@ export default function Login() {
   async function handleLogin() {
     if (email !== '' && senha !== '') {
       const res = await signIn('credentials', {
-        callbackUrl: 'https://sistock.com.br/',
+        callbackUrl: 'https://sistock.vercel.app/',
         // eslint-disable-next-line object-shorthand
         email: email.toLowerCase(),
         password: senha,
@@ -158,7 +158,7 @@ export default function Login() {
             type="button"
             onClick={() =>
               signIn('google', {
-                callbackUrl: 'https://sistock.com.br'
+                callbackUrl: 'https://sistock.vercel.app'
               })
             }
           />
@@ -166,7 +166,7 @@ export default function Login() {
             method="Facebook"
             type="button"
             onClick={() =>
-              signIn('facebook', { callbackUrl: 'https://sistock.com.br' })
+              signIn('facebook', { callbackUrl: 'https://sistock.vercel.app' })
             }
           />
         </LoginMethods>

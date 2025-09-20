@@ -51,13 +51,16 @@ export default class MyDocument extends Document {
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <link rel="icon" href="/box.png" />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://sistock.com.br/" />
+          <meta property="og:url" content="https://sistock.vercel.app/" />
           <meta property="og:title" content="Sistock" />
           <meta
             property="og:description"
             content="Sistema de gerenciamento de estoque"
           />
-          <meta property="og:image" content="https://sistock.com.br/box.png" />
+          <meta
+            property="og:image"
+            content="https://sistock.vercel.app/box.png"
+          />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
@@ -78,17 +81,26 @@ export default class MyDocument extends Document {
           <meta name="msapplication-tap-highlight" content="no" />
           <meta name="theme-color" content="#fafafa" />
 
-          <link rel="apple-touch-icon" href="https://sistock.com.br/box.png" />
-          <link rel="shortcut icon" href="https://sistock.com.br/box.png" />
+          <link
+            rel="apple-touch-icon"
+            href="https://sistock.vercel.app/box.png"
+          />
+          <link rel="shortcut icon" href="https://sistock.vercel.app/box.png" />
 
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:url" content="https://sistock.com.br/box.png" />
+          <meta
+            name="twitter:url"
+            content="https://sistock.vercel.app/box.png"
+          />
           <meta name="twitter:title" content="Sistock" />
           <meta
             name="twitter:description"
             content="Sitema de gerenciamento de estoque"
           />
-          <meta name="twitter:image" content="https://sistock.com.br/box.png" />
+          <meta
+            name="twitter:image"
+            content="https://sistock.vercel.app/box.png"
+          />
           <meta name="twitter:creator" content="@rotomdapestebr" />
         </Head>
         <body>
